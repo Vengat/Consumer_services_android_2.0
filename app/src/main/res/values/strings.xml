@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">Consumer_services_android_2.0</string>
+    <string name="title_job_detail">Job Detail</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="pref_user_mode">User Mode</string>
+    <string name="pref_summary_user_mode">I am a Service Provider</string>
+    <string name="pref_title_user_mode">Service Provider</string>
+
+    <string name="pref_user_details">User Details</string>
+    <string name="pref_user_name">Name</string>
+    <string name="pref_user_name_summary">Enter Name</string>
+    <string name="pref_user_phone">Phone</string>
+    <string name="pref_user_phone_summary">Enter Phone Number</string>
+    <string name="pref_user_pincode">Pincode</string>
+    <string name="pref_user_pincode_summary">Enter Pincode</string>
+
+    <string name="customer_phone_number">Enter phone number</string>
+    <string name="customer_name">Customer Name</string>
+    <string name="username">Name please</string>
+    <string name="pincode">Pincode</string>
+    <string name="job_description">Job description</string>
+    <string name="cancel_job_button">Cancel Job </string>
+    <string name="assign_job_button">Assign</string>
+
+    <string name="job_id">Job Id</string>
+    <string name="job_type">Job Type</string>
+    <string name="job_status">Job Status</string>
+    <string name="service_provider_name">Service provider</string>
+    <string name="service_provider_phone">Service provider phone</string>
+    <string name="date_initiated">Start Date</string>
+    <string name="date_completed">Done Date</string>
+
+
+    <!-- Background color and style -->
+    <color name="white">#F9FBFC</color>
+
+
+</resources>

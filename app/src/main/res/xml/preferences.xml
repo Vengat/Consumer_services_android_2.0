@@ -1,0 +1,30 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/pref_user_mode"
+        android:key="pref_key_mode_settings">
+        <CheckBoxPreference
+            android:key="pref_key_service_provider_mode"
+            android:summary="@string/pref_summary_user_mode"
+            android:title="@string/pref_title_user_mode"
+            android:defaultValue="false"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_user_details"
+        android:key="pref_key_user_details">
+        <EditTextPreference
+            android:title="@string/pref_user_name"
+            android:summary="@string/pref_user_name_summary"
+            android:key="pref_key_user_name"/>
+
+        <EditTextPreference
+            android:title="@string/pref_user_phone"
+            android:summary="@string/pref_user_phone_summary"
+            android:key="pref_key_user_phone"/>
+
+        <EditTextPreference
+            android:title="@string/pref_user_pincode"
+            android:summary="@string/pref_user_pincode_summary"
+            android:key="pref_key_user_pincode"/>
+    </PreferenceCategory>
+</PreferenceScreen>
