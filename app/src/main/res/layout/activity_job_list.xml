@@ -1,22 +1,48 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp" android:baselineAligned="false"
+    android:layout_height="wrap_content" android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp" android:baselineAligned="false" android:background="#FFFFFF"
     android:divider="?android:attr/dividerHorizontal" android:orientation="horizontal"
-    android:showDividers="middle" tools:context=".JobListActivity">
+    android:showDividers="middle" android:id="@+id/job_list_container" tools:context=".JobListActivity">
 
-    <fragment android:name="com.example.vengatr.consumer_services_android_20.UserDetailsFragment"
+    <!--android:background="@drawable/mint_green_paper"-->
+
+    <!--<fragment android:name="com.example.vengatr.consumer_services_android_20.UserDetailsFragment"
         android:id="@+id/user_details_fragment"
         android:layout_weight="2"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout="@layout/fragment_user_detail" />
+        tools:layout="@layout/fragment_user_detail" />-->
 
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    <!--<fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools" android:id="@+id/job_list"
         android:name="com.example.vengatr.consumer_services_android_20.JobListFragment"
         android:layout_width="match_parent" android:layout_height="match_parent"
-        android:layout_marginLeft="16dp" android:layout_marginRight="16dp"
+        android:layout_marginLeft="4dp" android:layout_marginRight="4dp"
+        android:layout_marginTop="16dp" android:layout_marginBottom="16dp"
         tools:context=".JobListActivity" tools:layout="@android:layout/list_content" />
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:id="@+id/sp_job_list"
+        android:name="com.example.vengatr.consumer_services_android_20.ServiceProviderJobsPerspectiveFragment"
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        android:layout_marginLeft="4dp" android:layout_marginRight="4dp"
+        android:layout_marginTop="16dp" android:layout_marginBottom="16dp"
+        tools:context=".JobListActivity" tools:layout="@android:layout/list_content" /> -->
+
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="61dp"
+        android:text="Post Job"
+        android:textColor="@color/white"
+        android:background="@color/teal"
+        android:textSize="15dp"
+        android:textStyle="normal"
+        android:typeface="serif"
+        android:gravity="center|center"
+        android:layout_gravity="right|bottom"
+        android:id="@+id/post_job_button" />
 
 </FrameLayout>

@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp" android:baselineAligned="false"
+    android:layout_marginRight="16dp" android:baselineAligned="false" android:background="#FFFFFF"
     android:divider="?android:attr/dividerHorizontal" android:orientation="horizontal"
     android:showDividers="middle" tools:context=".JobListActivity">
 
@@ -11,19 +11,32 @@
     
     -->
 
-    <fragment android:name="com.example.vengatr.consumer_services_android_20.UserDetailsFragment"
+    <!--<fragment android:name="com.example.vengatr.consumer_services_android_20.UserDetailsFragment"
         android:id="@+id/user_details_fragment"
         android:layout_weight="2"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        tools:layout="@layout/fragment_user_detail" />
+        tools:layout="@layout/fragment_user_detail" />-->
 
-    <fragment android:id="@+id/job_list"
+   <!-- <fragment android:id="@+id/job_list"
         android:name="com.example.vengatr.consumer_services_android_20.JobListFragment"
         android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
-        tools:layout="@android:layout/list_content" />
+        tools:layout="@android:layout/list_content" />-->
 
     <FrameLayout android:id="@+id/job_detail_container" android:layout_width="0dp"
         android:layout_height="match_parent" android:layout_weight="3" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="61dp"
+        android:text="Post Job"
+        android:textColor="@color/white"
+        android:background="@color/teal"
+        android:textSize="15dp"
+        android:textStyle="normal"
+        android:typeface="serif"
+        android:gravity="center|center"
+        android:layout_gravity="right|bottom"
+        android:id="@+id/post_job_button" />
 
 </LinearLayout>

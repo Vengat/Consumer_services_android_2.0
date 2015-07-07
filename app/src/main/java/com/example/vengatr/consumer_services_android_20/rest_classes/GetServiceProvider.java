@@ -34,7 +34,15 @@ public class GetServiceProvider {
             stringBuffer.append(line);
         }
         String jsonResponse = stringBuffer.toString();
-        ServiceProvider sp = objectMapper.readValue(jsonResponse, ServiceProvider.class);
+        System.out.println("********************************************************");
+        System.out.println(jsonResponse);
+        System.out.println("********************************************************");
+        ServiceProvider sp;
+        try {
+            sp = objectMapper.readValue(jsonResponse, ServiceProvider.class);
+        } catch(Exception e) {
+            sp = null;
+        }
         return sp;
     }
 

@@ -4,6 +4,7 @@
     android:orientation="vertical"
     android:weightSum="1"
     android:clickable="true"
+    android:id="@+id/user_details_fragment"
     android:padding="@dimen/abc_action_bar_content_inset_material">
 
 

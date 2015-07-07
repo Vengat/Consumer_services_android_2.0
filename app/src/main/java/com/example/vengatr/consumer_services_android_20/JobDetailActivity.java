@@ -1,6 +1,7 @@
 package com.example.vengatr.consumer_services_android_20;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.NavUtils;
@@ -16,13 +17,20 @@ import android.view.MenuItem;
  * This activity is mostly just a 'shell' activity containing nothing
  * more than a {@link JobDetailFragment}.
  */
-public class JobDetailActivity extends ActionBarActivity {
+public class JobDetailActivity extends ActionBarActivity implements JobDetailFragment.CancelJobListener, SPJobDetailFragment.OnAssignOrCloseJobListener {
+
+    private String userType, userName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_detail);
 
+        Intent intent = getIntent();
+        userName = intent.getStringExtra("Name");
+        userType = intent.getStringExtra("User_Type");
+        System.out.println("OK lets see what the user type is "+userType);
         // Show the Up button in the action bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -35,18 +43,44 @@ public class JobDetailActivity extends ActionBarActivity {
         //
         // http://developer.android.com/guide/components/fragments.html
         //
+
+        if (savedInstanceState == null) {
+            if (userType.equalsIgnoreCase("customer")) {
+                // Create the detail fragment and add it to the activity
+                // using a fragment transaction.
+                Bundle arguments = new Bundle();
+                arguments.putLong(JobDetailFragment.ARG_ITEM_ID,
+                        getIntent().getLongExtra(JobDetailFragment.ARG_ITEM_ID, 0));
+                JobDetailFragment fragment = new JobDetailFragment();
+                fragment.setArguments(arguments);
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.job_detail_container, fragment)
+                        .commit();
+            } else {
+                Bundle arguments = new Bundle();
+                arguments.putLong(SPJobDetailFragment.ARG_ITEM_ID,
+                        getIntent().getLongExtra(SPJobDetailFragment.ARG_ITEM_ID, 0));
+                SPJobDetailFragment fragment = new SPJobDetailFragment();
+                fragment.setArguments(arguments);
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.job_detail_container, fragment)
+                        .commit();
+            }
+        }
+
+        /*
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(JobDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(JobDetailFragment.ARG_ITEM_ID));
+            arguments.putLong(JobDetailFragment.ARG_ITEM_ID,
+                    getIntent().getLongExtra(JobDetailFragment.ARG_ITEM_ID, 0));
             JobDetailFragment fragment = new JobDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.job_detail_container, fragment)
                     .commit();
-        }
+        }*/
     }
 
     @Override
@@ -65,4 +99,19 @@ public class JobDetailActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void jobListPageTransition() {
+        Intent intent = new Intent(this, JobListActivity.class);
+        startActivity(intent);
+    }
 }
+/*
+        Intent intent = new Intent(this, JobListActivity.class);
+        intent.putExtra("prefs", mSharedPreferences.getString(PREFS, ""));
+        intent.putExtra(USER_MOBILE_NUMBER,  mSharedPreferences.getString(PHONE, ""));
+        intent.putExtra(USER_NAME, mSharedPreferences.getString(NAME, ""));
+        intent.putExtra(USER_PINCODE, mSharedPreferences.getString(PINCODE, ""));
+        intent.putExtra(USER_TYPE, mSharedPreferences.getString(USER_T, ""));
+        startActivity(intent);
+ */

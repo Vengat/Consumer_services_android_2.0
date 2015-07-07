@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:id="@+id/post_job_page"
+    android:background="@color/white"
+    android:layout_height="match_parent">
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/job_types_spinner"
+        android:entries="@array/job_types"
+        android:prompt="@string/jobtypes_prompt"/>
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/editTextDescription" />
+
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Post Job"
+        android:textColor="@color/white"
+        android:background="@color/teal"
+        android:textSize="15dp"
+        android:textStyle="normal"
+        android:typeface="serif"
+        android:id="@+id/postJobButton" />
+
+
+</LinearLayout>

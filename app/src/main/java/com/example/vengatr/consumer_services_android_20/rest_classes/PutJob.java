@@ -74,4 +74,32 @@ public class PutJob {
         Job j = objectMapper.readValue(jsonResponse, Job.class);
         return j;
     }
+
+    public Job closeJob(long jobId) throws IOException {
+        StringBuffer stringBuffer = new StringBuffer();
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        HttpClient client = new DefaultHttpClient();
+        String close_job_url = "http://localhost:8080/serviceProviders/closeJob/jobId/"+jobId;
+        //String close_job_url = "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/serviceProviders/closeJob/jobId/"+jobId;
+        HttpPut request = new HttpPut(close_job_url);
+
+        request.setHeader("Accept", "application/json");
+        request.setHeader("Content-type", "application/json");
+
+        HttpResponse response = client.execute(request);
+
+        BufferedReader rd = new BufferedReader
+                (new InputStreamReader(response.getEntity().getContent()));
+
+        String line = "";
+        while ((line = rd.readLine()) != null) {
+            stringBuffer.append(line);
+        }
+        String jsonResponse = stringBuffer.toString();
+        System.out.println("Hello this is you json response "+jsonResponse);
+        Job j = objectMapper.readValue(jsonResponse, Job.class);
+        return j;
+    }
+
 }

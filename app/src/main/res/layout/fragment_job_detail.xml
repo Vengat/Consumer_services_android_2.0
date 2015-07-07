@@ -1,8 +1,209 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    tools:context=".JobDetailFragment"
+    android:background="@color/white"
+    android:layout_height="match_parent"
+    android:id="@+id/job_detail_page"
+    android:clickable="false">
+<!--android:background="@drawable/white_linen_paper_texture"-->
+<!--<TextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:id="@+id/job_detail"
     style="?android:attr/textAppearanceLarge" android:layout_width="match_parent"
     android:layout_height="match_parent" android:padding="16dp" android:textIsSelectable="true"
     tools:context=".JobDetailFragment"
-    android:clickable="false" />
+    android:clickable="false" />-->
+
+    <!--"@drawable/white_linen_paper_texture"-->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/jobId"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:textColor="@color/teal"
+        android:gravity="top|left"
+        android:layout_gravity="top|left"
+        android:layout_margin="5dp"
+        android:layout_marginBottom="2dp"
+        android:background="@color/white"
+        android:textSize="15dp"
+        android:textStyle="normal"
+        android:typeface="serif"
+        android:text="@string/job_id" />
+
+    <TextView
+        android:id="@+id/jobType"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:textColor="@color/teal"
+        android:gravity="top|left"
+        android:layout_gravity="top|left"
+        android:layout_margin="5dp"
+        android:layout_marginBottom="2dp"
+        android:background="@color/white"
+        android:textSize="15dp"
+        android:textStyle="normal"
+        android:typeface="serif"
+        android:text="@string/job_type" />
+
+    <TextView
+        android:id="@+id/jobStatus"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:textColor="@color/teal"
+        android:gravity="top|left"
+        android:layout_gravity="top|left"
+        android:layout_margin="5dp"
+        android:layout_marginBottom="2dp"
+        android:background="@color/white"
+        android:textSize="15dp"
+        android:textStyle="normal"
+        android:typeface="serif"
+        android:text="@string/job_status" />
+
+    <TextView
+        android:id="@+id/customerName"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:textColor="@color/teal"
+        android:gravity="top|left"
+        android:layout_gravity="top|left"
+        android:layout_margin="5dp"
+        android:layout_marginBottom="2dp"
+        android:background="@color/white"
+        android:textSize="15dp"
+        android:textStyle="normal"
+        android:typeface="serif"
+        android:text="@string/customer_name" />
+
+    <TextView
+        android:id="@+id/customerMobileNumber"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:textColor="@color/teal"
+        android:gravity="top|left"
+        android:layout_gravity="top|left"
+        android:layout_margin="5dp"
+        android:layout_marginBottom="2dp"
+        android:background="@color/white"
+        android:textSize="15dp"
+        android:textStyle="normal"
+        android:typeface="serif"
+        android:text="@string/customer_phone_number" />
+
+    <TextView
+        android:id="@+id/serviceproviderName"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:textColor="@color/teal"
+        android:gravity="top|left"
+        android:layout_gravity="top|left"
+        android:layout_margin="5dp"
+        android:layout_marginBottom="2dp"
+        android:background="@color/white"
+        android:textSize="15dp"
+        android:textStyle="normal"
+        android:typeface="serif"
+        android:text="@string/service_provider_name" />
+
+    <TextView
+        android:id="@+id/serviceProviderMobileNumber"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:textColor="@color/teal"
+        android:gravity="top|left"
+        android:layout_gravity="top|left"
+        android:layout_margin="5dp"
+        android:layout_marginBottom="2dp"
+        android:background="@color/white"
+        android:textSize="15dp"
+        android:textStyle="normal"
+        android:typeface="serif"
+        android:text="@string/service_provider_phone" />
+
+    <TextView
+        android:id="@+id/pincode"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:textColor="@color/teal"
+        android:gravity="top|left"
+        android:layout_gravity="top|left"
+        android:layout_margin="5dp"
+        android:layout_marginBottom="2dp"
+        android:background="@color/white"
+        android:textSize="15dp"
+        android:textStyle="normal"
+        android:typeface="serif"
+        android:text="@string/pincode" />
+
+    <TextView
+        android:id="@+id/dateinitiated"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:textColor="@color/teal"
+        android:gravity="top|left"
+        android:layout_gravity="top|left"
+        android:layout_margin="5dp"
+        android:layout_marginBottom="2dp"
+        android:background="@color/white"
+        android:textSize="15dp"
+        android:textStyle="normal"
+        android:typeface="serif"
+        android:text="@string/date_initiated" />
+
+    <TextView
+        android:id="@+id/dateDone"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:textColor="@color/teal"
+        android:gravity="top|left"
+        android:layout_gravity="top|left"
+        android:layout_margin="5dp"
+        android:layout_marginBottom="2dp"
+        android:background="@color/white"
+        android:textSize="15dp"
+        android:textStyle="normal"
+        android:typeface="serif"
+        android:text="@string/date_completed" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:textColor="@color/teal"
+        android:gravity="top|left"
+        android:layout_gravity="top|left"
+        android:layout_margin="5dp"
+        android:layout_marginBottom="2dp"
+        android:background="@color/white"
+        android:textSize="15dp"
+        android:textStyle="normal"
+        android:typeface="serif"
+        android:text="@string/job_description" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:textColor="@color/white"
+        android:background="@color/teal"
+        android:textSize="15dp"
+        android:textStyle="normal"
+        android:typeface="serif"
+        android:gravity="center|center"
+        android:layout_gravity="bottom|right"
+        android:id="@+id/cancel_button" />
+
+    </LinearLayout>
 
 
+
+
+
+</FrameLayout>

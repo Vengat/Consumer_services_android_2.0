@@ -42,6 +42,7 @@ public class JobListContent {
     }
 
     private static void addItem(Job item) {
+        if (JOB_ITEM_MAP.get(item.getId()) != null) return;
         ITEMS.add(item);
         JOB_ITEM_MAP.put(item.getId(), item);
     }

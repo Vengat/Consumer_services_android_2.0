@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Consumer_services_android_2.0</string>
+    <string name="app_name">Omlee :)</string>
     <string name="title_job_detail">Job Detail</string>
 
 <!-- TODO: Remove or change this placeholder text -->
@@ -32,10 +32,20 @@
     <string name="service_provider_phone">Service provider phone</string>
     <string name="date_initiated">Start Date</string>
     <string name="date_completed">Done Date</string>
+    <string name="user_name">Service User</string>
+    <string name="user_phone">User Phone</string>
+
+    <string name="jobtypes_prompt">Choose a Job type</string>
+    <string-array name="job_types">
+        <item>PLUMBING</item>
+        <item>ELECTRICAL</item>
+    </string-array>
 
 
     <!-- Background color and style -->
-    <color name="white">#F9FBFC</color>
+    <color name="white">#FFFFFF</color>
+    <color name="teal">#008080</color>
+    <color name="grey">#686868</color>
 
 
 </resources>

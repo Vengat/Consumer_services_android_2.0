@@ -3,36 +3,32 @@ package com.example.vengatr.consumer_services_android_20;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.vengatr.consumer_services_android_20.dummy.JobListContent;
 import com.example.vengatr.consumer_services_android_20.model.Job;
 import com.example.vengatr.consumer_services_android_20.rest_classes.GetJob;
-import com.example.vengatr.consumer_services_android_20.util.CustomerJobAdapter;
 import com.example.vengatr.consumer_services_android_20.util.JobAdapter;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A list fragment representing a list of Jobs. This fragment
- * also supports tablet devices by allowing list items to be given an
- * 'activated' state upon selection. This helps indicate which item is
- * currently being viewed in a {@link JobDetailFragment}.
- * <p/>
- * Activities containing this fragment MUST implement the {@link Callbacks}
- * interface.
- */
-public class JobListFragment extends ListFragment {
+
+
+public class ServiceProviderJobsPerspectiveFragment extends ListFragment {
+    // private static String QUERY_URL_GET_MATCHING_JOBS_BY_MOBILE_NUMBER = "http://10.0.2.2:8080/serviceProviders/openAssignJobs/mobileNumber/";
+    protected String url =  "http://10.0.2.2:8080/serviceProviders/openAssignJobs/mobileNumber/";
+
 
     /**
      * The serialization (saved instance state) Bundle key representing the
@@ -53,13 +49,14 @@ public class JobListFragment extends ListFragment {
 
     private List<Job> jobs;
 
-    protected String url ="http://10.0.2.2:8080/customers/jobs/mobileNumber/";
 
     ProgressDialog progressDialog;
 
     protected SharedPreferences mSharedPreferences;
 
     protected String mobileNumber;
+
+    private String userType;
 
 
     /**
@@ -88,7 +85,7 @@ public class JobListFragment extends ListFragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public JobListFragment() {
+    public ServiceProviderJobsPerspectiveFragment() {
     }
 
 
@@ -96,35 +93,21 @@ public class JobListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mSharedPreferences = getActivity().getSharedPreferences("prefs",getActivity().MODE_PRIVATE);
+        mSharedPreferences = getActivity().getSharedPreferences("prefs", getActivity().MODE_PRIVATE);
         /////mSharedPreferences.edit().clear().commit();
         mobileNumber = mSharedPreferences.getString("phoneKey", "");
+        userType = mSharedPreferences.getString("userTypeKey", "");
 
         // TODO: replace with a real list adapter.
 
     }
 
 
-
     @Override
     public void onResume() {
         super.onResume();
-
-        /*
-        setListAdapter(new ArrayAdapter<Job>(
-                getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                //R.layout.custom_job_list,
-                android.R.id.text1,
-                JobListContent.ITEMS));*/
-
         setListAdapter(new JobAdapter(getActivity(), (ArrayList<Job>) JobListContent.ITEMS));
         getJobs(url+mobileNumber);
-
-        /*
-        JobAdapter jobAdapter = new JobAdapter(getActivity(), (ArrayList<Job>) JobListContent.ITEMS);
-        ListView listView = (ListView) getView().findViewById(R.id.jobs);
-        listView.setAdapter(jobAdapter);*/
     }
 
 
@@ -220,7 +203,8 @@ public class JobListFragment extends ListFragment {
 
         @Override
         protected void onPostExecute(List<Job> jobs) {
-            Toast.makeText(getActivity(), "JobListFragment Data Sent!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "SP Jobs perspective Data Sent!", Toast.LENGTH_LONG).show();
+            if (jobs == null) return;
             new JobListContent().setJobs(jobs);
 
             /*
@@ -231,7 +215,7 @@ public class JobListFragment extends ListFragment {
                     android.R.id.text1,
                     JobListContent.ITEMS));*/
 
-            setListAdapter(new CustomerJobAdapter(getActivity(), (ArrayList<Job>) JobListContent.ITEMS));
+            setListAdapter(new JobAdapter(getActivity(), (ArrayList<Job>) JobListContent.ITEMS));
         }
     }
 }
