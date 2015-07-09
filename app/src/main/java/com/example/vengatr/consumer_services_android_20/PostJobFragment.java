@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,12 +44,15 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
 
     private ProgressDialog progressDialog;
 
-    private static final String QUERY_URL_POST_PUT_JOB = "http://10.0.2.2:8080/jobs";
+    //ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com
+    private static final String QUERY_URL_POST_PUT_JOB = "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/jobs";
+    //private static final String QUERY_URL_POST_PUT_JOB = "http://10.0.2.2:8080/jobs";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        System.out.println("***In post job fragment***");
         View view = inflater.inflate(R.layout.post_job_fragment, container, false);
         jobDescriptionEditText = (EditText) view.findViewById(R.id.editTextDescription);
         //jobTypeSelector = (Spinner) view.findViewById(R.id.job_types_spinner);
@@ -74,8 +78,25 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
                 R.array.job_types, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         jobTypeSelector.setAdapter(adapter);
-        jobTypeSelector.setOnItemSelectedListener(new JobTypeOnItemSelectedListener());
-        jobTypeSpinnerSelectionValue = jobTypeSelector.getSelectedItem().toString();
+        //jobTypeSelector.setOnItemSelectedListener(new JobTypeOnItemSelectedListener());
+        jobTypeSelector.setOnItemSelectedListener(new JobTypeOnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                       int arg2, long arg3)
+            {
+                Toast.makeText(getActivity(), jobTypeSelector.getSelectedItem().toString(),
+                        Toast.LENGTH_LONG).show();
+                jobTypeSpinnerSelectionValue = jobTypeSelector.getSelectedItem().toString();
+
+            }
+            public void onNothingSelected(AdapterView<?> arg0)
+            {
+                // TODO Auto-generated method stub
+            }
+
+
+                                                  });
+        //jobTypeSpinnerSelectionValue = jobTypeSelector.getSelectedItem().toString();
+        System.out.println("**************"+jobTypeSpinnerSelectionValue);
     }
 
     @Override
@@ -101,7 +122,7 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
             //job.setJobType(JobType.PLUMBING);
             job.setJobStatus(JobStatus.OPEN);
             job.setCustomerName(userName);
-            job.setCustomerMobileNumber(Long.parseLong(mobileNumber, 10));
+            job.setCustomerMobileNumber(Long.parseLong(mobileNumber));
             job.setPincode(pincode);
             job.setDescription(jobDescriptionEditText.getText().toString());
 

@@ -1,14 +1,18 @@
 package com.example.vengatr.consumer_services_android_20;
 
+import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.vengatr.consumer_services_android_20.listener.PostActionJobListPageTransitionListener;
@@ -32,12 +36,13 @@ import com.example.vengatr.consumer_services_android_20.listener.PostActionJobLi
  *
  */
 public class JobListActivity extends FragmentActivity //FragmentActivity ActionBarActivity
-        implements JobListFragment.Callbacks,  ServiceProviderJobsPerspectiveFragment.Callbacks, PostActionJobListPageTransitionListener, View.OnClickListener, PostJobFragment.OnPostJobCompletionListener {
+        implements JobListFragment.Callbacks,  ServiceProviderJobsPerspectiveFragment.Callbacks, PostActionJobListPageTransitionListener, View.OnClickListener, PostJobFragment.OnPostJobCompletionListener, JobListFragment.NoJobsListenerPostExecuteJobListFragment {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
      */
+
     private boolean mTwoPane;
 
     private String mobileNumber, pincode, userName, userType;
@@ -46,6 +51,8 @@ public class JobListActivity extends FragmentActivity //FragmentActivity ActionB
 
     private Button postJobButton;
 
+    SharedPreferences mSharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,15 +60,36 @@ public class JobListActivity extends FragmentActivity //FragmentActivity ActionB
 
 
 
-        Intent intent = getIntent();
+        /*Intent intent = getIntent();
         mobileNumber = intent.getStringExtra(MainActivity.USER_MOBILE_NUMBER);
         userName = intent.getStringExtra(MainActivity.USER_NAME);
         pincode = intent.getStringExtra(MainActivity.USER_PINCODE);
-        userType = intent.getStringExtra(MainActivity.USER_TYPE);
+        userType = intent.getStringExtra(MainActivity.USER_TYPE);*/
+
+        createJobListView();
+        postJobButton = (Button) findViewById(R.id.post_job_button);
+        postJobButton.setOnClickListener(this);
+        // TODO: If exposing deep links into your app, handle intents here.
+    }
+
+    private void createJobListView() {
+        mSharedPreferences = getSharedPreferences("prefs", MODE_PRIVATE);
+        mobileNumber = mSharedPreferences.getString("phoneKey", "");
+        userName = mSharedPreferences.getString("nameKey", "");
+        pincode = mSharedPreferences.getString("pincodeKey", "");
+        userType = mSharedPreferences.getString("userTypeKey", "");
+
+        EmptyFragment emptyJobListFragment = new EmptyFragment();
+        emptyJobListFragment.setArguments(getIntent().getExtras());
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.job_list_container, emptyJobListFragment).commit();
 
         if (userType.equalsIgnoreCase("customer")) {
             JobListFragment jobListFragment = new JobListFragment();
             jobListFragment.setArguments(getIntent().getExtras());
+
+            getSupportFragmentManager().beginTransaction()
+                    .hide(emptyJobListFragment).commit();
 
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.job_list_container, jobListFragment).commit();
@@ -70,6 +98,9 @@ public class JobListActivity extends FragmentActivity //FragmentActivity ActionB
         } else {
             ServiceProviderJobsPerspectiveFragment serviceProviderJobsPerspectiveFragment = new ServiceProviderJobsPerspectiveFragment();
             serviceProviderJobsPerspectiveFragment.setArguments(getIntent().getExtras());
+
+            getSupportFragmentManager().beginTransaction()
+                    .hide(emptyJobListFragment).commit();
 
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.job_list_container, serviceProviderJobsPerspectiveFragment).commit();
@@ -85,8 +116,8 @@ public class JobListActivity extends FragmentActivity //FragmentActivity ActionB
 
             if (userType.equalsIgnoreCase("customer")) {
                 ((JobListFragment) getSupportFragmentManager()
-                                .findFragmentById(R.id.job_detail_container))
-                                .setActivateOnItemClick(true);
+                        .findFragmentById(R.id.job_detail_container))
+                        .setActivateOnItemClick(true);
 
             } else {
                 ((ServiceProviderJobsPerspectiveFragment) getSupportFragmentManager()
@@ -96,11 +127,8 @@ public class JobListActivity extends FragmentActivity //FragmentActivity ActionB
 
         }
 
-        postJobButton = (Button) findViewById(R.id.post_job_button);
-        postJobButton.setOnClickListener(this);
-
-        // TODO: If exposing deep links into your app, handle intents here.
     }
+
 
 
     /**
@@ -183,13 +211,31 @@ public class JobListActivity extends FragmentActivity //FragmentActivity ActionB
     public void onClick(View v) {
         postJobFragment = new PostJobFragment();
         postJobFragment.setArguments(getIntent().getExtras());
-
+        System.out.println("Clicked post job");
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.job_list_container, postJobFragment).commit();
     }
 
     @Override
     public void onPostJobCompletion() {
-        getSupportFragmentManager().beginTransaction().remove(postJobFragment).commit();
+        getSupportFragmentManager().beginTransaction().hide(postJobFragment).commit();
+        //finish();
+        //startActivity(getIntent());
+        createJobListView();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        createJobListView();
+    }
+
+    @Override
+    public void showPostJobFragment() {
+        postJobFragment = new PostJobFragment();
+        postJobFragment.setArguments(getIntent().getExtras());
+
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.job_list_container, postJobFragment).commit();
     }
 }

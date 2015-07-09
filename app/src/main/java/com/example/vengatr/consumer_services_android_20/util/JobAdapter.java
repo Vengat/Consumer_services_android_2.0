@@ -18,13 +18,17 @@ import com.example.vengatr.consumer_services_android_20.model.JobType;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by vengat.r on 7/2/2015.
  */
 public class JobAdapter extends ArrayAdapter<Job> {
+    //List<Job> jobs;
+
     public JobAdapter(Context context, ArrayList<Job> jobs) {
         super(context, 0, jobs);
+        //this.jobs = jobs;
     }
 
     @Override
@@ -87,6 +91,12 @@ public class JobAdapter extends ArrayAdapter<Job> {
         // Return the completed view to render on screen
         return convertView;
     }
+
+    /*public void updateData(ArrayList<Job> j) {
+        // update the adapter's dataset
+        jobs = j;
+        notifyDataSetChanged();
+    }*/
 
     private static class ViewHolder {
         TextView jobIdTextView;

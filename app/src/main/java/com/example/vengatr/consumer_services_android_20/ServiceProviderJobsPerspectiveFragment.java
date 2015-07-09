@@ -27,7 +27,11 @@ import java.util.List;
 
 public class ServiceProviderJobsPerspectiveFragment extends ListFragment {
     // private static String QUERY_URL_GET_MATCHING_JOBS_BY_MOBILE_NUMBER = "http://10.0.2.2:8080/serviceProviders/openAssignJobs/mobileNumber/";
-    protected String url =  "http://10.0.2.2:8080/serviceProviders/openAssignJobs/mobileNumber/";
+    //ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com
+
+    //protected String url =  "http://10.0.2.2:8080/serviceProviders/openAssignJobs/mobileNumber/";
+
+    protected String url =  "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com/serviceProviders/openAssignJobs/mobileNumber/";
 
 
     /**

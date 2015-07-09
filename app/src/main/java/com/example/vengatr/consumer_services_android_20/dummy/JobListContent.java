@@ -41,8 +41,49 @@ public class JobListContent {
         }
     }
 
+    public void removeJob(Job item) {
+        if (JOB_ITEM_MAP.get(item.getId()) != null) {
+            JOB_ITEM_MAP.put(item.getId(), null);
+            int i = 0;
+            for(Job j:ITEMS) {
+                if (j.getId() == item.getId()) {
+                    ITEMS.remove(i);
+                    break;
+                }
+                i = i + 1;
+            }
+        }
+    }
+
+    public void updateJob(Job item) {
+        if (JOB_ITEM_MAP.get(item.getId()) != null) {
+            JOB_ITEM_MAP.put(item.getId(), item);
+            int i = 0;
+            for(Job j:ITEMS) {
+                if (j.getId() == item.getId()) {
+                    ITEMS.remove(i);
+                    ITEMS.add(item);
+                    break;
+                }
+                i = i + 1;
+            }
+        }
+    }
+
     private static void addItem(Job item) {
-        if (JOB_ITEM_MAP.get(item.getId()) != null) return;
+        if (JOB_ITEM_MAP.get(item.getId()) != null) {
+            JOB_ITEM_MAP.put(item.getId(), item);
+            int i = 0;
+            for(Job j:ITEMS) {
+                if (j.getId() == item.getId()) {
+                    ITEMS.remove(i);
+                    ITEMS.add(item);
+                    break;
+                }
+                i = i + 1;
+            }
+            return;
+        }
         ITEMS.add(item);
         JOB_ITEM_MAP.put(item.getId(), item);
     }

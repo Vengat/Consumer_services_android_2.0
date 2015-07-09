@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.vengatr.consumer_services_android_20.dummy.JobListContent;
 import com.example.vengatr.consumer_services_android_20.model.Job;
+import com.example.vengatr.consumer_services_android_20.notifier.NoJobsNotifierPostExecuteJobListFragment;
 import com.example.vengatr.consumer_services_android_20.rest_classes.GetJob;
 import com.example.vengatr.consumer_services_android_20.util.CustomerJobAdapter;
 import com.example.vengatr.consumer_services_android_20.util.JobAdapter;
@@ -53,7 +54,9 @@ public class JobListFragment extends ListFragment {
 
     private List<Job> jobs;
 
-    protected String url ="http://10.0.2.2:8080/customers/jobs/mobileNumber/";
+    //protected String url ="http://10.0.2.2:8080/customers/jobs/mobileNumber/";
+
+    protected String url ="http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/customers/jobs/mobileNumber/";
 
     ProgressDialog progressDialog;
 
@@ -221,7 +224,9 @@ public class JobListFragment extends ListFragment {
         @Override
         protected void onPostExecute(List<Job> jobs) {
             Toast.makeText(getActivity(), "JobListFragment Data Sent!", Toast.LENGTH_LONG).show();
-            new JobListContent().setJobs(jobs);
+
+            if (jobs != null) {
+                new JobListContent().setJobs(jobs);
 
             /*
             setListAdapter(new ArrayAdapter<Job>(
@@ -231,7 +236,16 @@ public class JobListFragment extends ListFragment {
                     android.R.id.text1,
                     JobListContent.ITEMS));*/
 
-            setListAdapter(new CustomerJobAdapter(getActivity(), (ArrayList<Job>) JobListContent.ITEMS));
+                setListAdapter(new CustomerJobAdapter(getActivity(), (ArrayList<Job>) JobListContent.ITEMS));
+            } else {
+                System.out.println("No-jobs notifier notified");
+                new NoJobsNotifierPostExecuteJobListFragment((JobListActivity) getActivity());
+            }
+
         }
+    }
+
+    public interface NoJobsListenerPostExecuteJobListFragment {
+        void showPostJobFragment();
     }
 }

@@ -143,5 +143,7 @@ public class UserDetailsFragment extends DialogFragment implements View.OnClickL
         }
     }
 
-
+    public interface UserDetailsNotFilledListener {
+        void showDialog();
+    }
 }

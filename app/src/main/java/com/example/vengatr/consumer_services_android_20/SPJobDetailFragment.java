@@ -45,6 +45,9 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
 
     private GetServiceProviderAsyncHttpTask getServiceProviderAsyncHttpTask;
     private AssignJobAsyncHttpTask assignJobAsyncHttpTask;
+    private CloseJobAsyncHttpTask closeJobAsyncHttpTask;
+
+    private long jobId;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -64,6 +67,7 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
             mItem = JobListContent.JOB_ITEM_MAP.get(getArguments().getLong(ARG_ITEM_ID));
+            jobId = mItem.getId();
         }
         getServiceProviderAsyncHttpTask = new GetServiceProviderAsyncHttpTask();
         getServiceProviderAsyncHttpTask.execute(mobileNumber);
@@ -103,11 +107,14 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
         if (v.getId() == R.id.assign_button) {
             assignJobAsyncHttpTask = new AssignJobAsyncHttpTask();
             if(getServiceProviderAsyncHttpTask .getStatus() == AsyncTask.Status.FINISHED) {
-                assignJobAsyncHttpTask.execute(ARG_ITEM_ID);
+                assignJobAsyncHttpTask.execute(String.valueOf(jobId));
             }
             System.out.println("Assigned");
         } else if (v.getId() == R.id.close_button) {
-
+            closeJobAsyncHttpTask = new CloseJobAsyncHttpTask();
+            if(getServiceProviderAsyncHttpTask .getStatus() == AsyncTask.Status.FINISHED) {
+                closeJobAsyncHttpTask.execute(String.valueOf(jobId));
+            }
         }
 
     }
@@ -141,7 +148,7 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
             Job job = null;
             try {
                 if (currentServiceProvider == null) System.out.println("&&&&&&Current Service Provider is null");
-                job = new PutJob().assignJob(Long.parseLong(ARG_ITEM_ID), currentServiceProvider);
+                job = new PutJob().assignJob(Long.parseLong(params[0]), currentServiceProvider);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -151,6 +158,7 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
         @Override
         protected void onPostExecute(Job job) {
             Toast.makeText(getActivity(), "Job Assigned", Toast.LENGTH_LONG).show();
+            new JobListContent().updateJob(job);
             new OnAssignOrCloseJobListenerNotifier((JobDetailActivity) getActivity());
         }
     }
@@ -162,7 +170,7 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
             Job job = null;
             try {
                 if (currentServiceProvider == null) System.out.println("&&&&&&Current Service Provider is null");
-                job = new PutJob().assignJob(Long.parseLong(ARG_ITEM_ID), currentServiceProvider);
+                job = new PutJob().closeJob(Long.parseLong(params[0]));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -172,6 +180,7 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
         @Override
         protected void onPostExecute(Job job) {
             Toast.makeText(getActivity(), "Job Assigned", Toast.LENGTH_LONG).show();
+            new JobListContent().removeJob(job);
             new OnAssignOrCloseJobListenerNotifier((JobDetailActivity) getActivity());
         }
     }

@@ -106,12 +106,3 @@ public class JobDetailActivity extends ActionBarActivity implements JobDetailFra
         startActivity(intent);
     }
 }
-/*
-        Intent intent = new Intent(this, JobListActivity.class);
-        intent.putExtra("prefs", mSharedPreferences.getString(PREFS, ""));
-        intent.putExtra(USER_MOBILE_NUMBER,  mSharedPreferences.getString(PHONE, ""));
-        intent.putExtra(USER_NAME, mSharedPreferences.getString(NAME, ""));
-        intent.putExtra(USER_PINCODE, mSharedPreferences.getString(PINCODE, ""));
-        intent.putExtra(USER_TYPE, mSharedPreferences.getString(USER_T, ""));
-        startActivity(intent);
- */

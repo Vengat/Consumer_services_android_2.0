@@ -38,7 +38,7 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
      * The dummy content this fragment is presenting.
      */
     private Job mItem;
-
+    private long jobId;
     View rootView1;
 
     /**
@@ -57,6 +57,7 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
             mItem = JobListContent.JOB_ITEM_MAP.get(getArguments().getLong(ARG_ITEM_ID));
+            jobId = mItem.getId();
         }
     }
 
@@ -89,7 +90,7 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        new CancelJobAsyncHttpTask().execute(ARG_ITEM_ID);
+        new CancelJobAsyncHttpTask().execute(String.valueOf(jobId));
     }
 
     private class CancelJobAsyncHttpTask extends AsyncTask<String, Void, Job> {
@@ -98,24 +99,26 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
         protected Job doInBackground(String... urls) {
             GetJob getJob = new GetJob();
             Job job = null;
+            Job cancelledJob = null;
             try {
-                job =  getJob.getJobById(Long.parseLong(ARG_ITEM_ID));
+                job =  getJob.getJobById(jobId);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             try {
-                new PutJob().cancelJob(job);
+                cancelledJob = new PutJob ().cancelJob(job);
             } catch (IOException e) {
                 e.printStackTrace();
             }
             Log.d("*******Job customer name" + job.getCustomerName(), "");
-            return job;
+            return cancelledJob;
         }
 
         @Override
         protected void onPostExecute(Job job) {
             Toast.makeText(getActivity(), "Job cancelled!", Toast.LENGTH_LONG).show();
             Log.d("*******Job customer name" + job.getCustomerName(), "");
+            new JobListContent().removeJob(job);
             new CancelJobListenerNotifier((JobDetailActivity) getActivity());
         }
     }

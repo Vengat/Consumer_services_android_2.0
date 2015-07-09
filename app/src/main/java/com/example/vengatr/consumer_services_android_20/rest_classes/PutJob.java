@@ -28,8 +28,8 @@ public class PutJob {
         StringBuffer stringBuffer = new StringBuffer();
         ObjectMapper objectMapper = new ObjectMapper();
         HttpClient client = new DefaultHttpClient();
-        String cancel_job_url = "http://10.0.2.2:8080/customers/cancelJob/jobId/"+job.getId()+"/mobileNumber/"+job.getCustomerMobileNumber();
-        //String cancel_job_url = "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/customers/cancelJob/jobId/"+job.getId()+"/mobileNumber/"+job.getCustomerMobileNumber();
+        //String cancel_job_url = "http://10.0.2.2:8080/customers/cancelJob/jobId/"+job.getId()+"/mobileNumber/"+job.getCustomerMobileNumber();
+        String cancel_job_url = "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/customers/cancelJob/jobId/"+job.getId()+"/mobileNumber/"+job.getCustomerMobileNumber();
         HttpPut request = new HttpPut(cancel_job_url);
         HttpResponse response = client.execute(request);
 
@@ -42,6 +42,11 @@ public class PutJob {
         }
         String jsonResponse = stringBuffer.toString();
         Job j = objectMapper.readValue(jsonResponse, Job.class);
+        System.out.println("****************************");
+        System.out.println("*                          *");
+        System.out.println(jsonResponse);
+        System.out.println("*                          *");
+        System.out.println("****************************");
         return j;
     }
 
@@ -53,8 +58,8 @@ public class PutJob {
         String spJson = ow.writeValueAsString(sp);
         System.out.println("Hello your json object "+spJson);
         HttpClient client = new DefaultHttpClient();
-        String assign_job_url = "http://localhost:8080/serviceProviders/assignJob/jobId/"+jobId;
-        //String assign_job_url = "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/serviceProviders/assignJob/jobId/"+jobId;
+        //String assign_job_url = "http://localhost:8080/serviceProviders/assignJob/jobId/"+jobId;
+        String assign_job_url = "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/serviceProviders/assignJob/jobId/"+jobId;
         HttpPut request = new HttpPut(assign_job_url);
         request.setEntity(new StringEntity(spJson));
         request.setHeader("Accept", "application/json");
@@ -80,8 +85,8 @@ public class PutJob {
         ObjectMapper objectMapper = new ObjectMapper();
 
         HttpClient client = new DefaultHttpClient();
-        String close_job_url = "http://localhost:8080/serviceProviders/closeJob/jobId/"+jobId;
-        //String close_job_url = "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/serviceProviders/closeJob/jobId/"+jobId;
+        //String close_job_url = "http://localhost:8080/serviceProviders/closeJob/jobId/"+jobId;
+        String close_job_url = "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/serviceProviders/closeJob/jobId/"+jobId;
         HttpPut request = new HttpPut(close_job_url);
 
         request.setHeader("Accept", "application/json");

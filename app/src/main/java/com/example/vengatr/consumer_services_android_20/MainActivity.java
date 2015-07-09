@@ -13,7 +13,7 @@ import android.widget.Toast;
 /**
  * Created by vengat.r on 7/6/2015.
  */
-public class MainActivity extends ActionBarActivity implements UserDetailsFragment.EditUserDetailsDialogListener, UserDetailsFragment.OnSharedPreferencesSetListener {
+public class MainActivity extends ActionBarActivity implements UserDetailsFragment.EditUserDetailsDialogListener, UserDetailsFragment.OnSharedPreferencesSetListener, UserDetailsFragment.UserDetailsNotFilledListener {
 
     public final static String USER_MOBILE_NUMBER = "com.example.vengat.r.consumer_services_android_20.MOBILE_NUMBER";
     public final static String USER_PINCODE = "com.example.vengat.r.consumer_services_android_20.PINCODE";
@@ -82,5 +82,8 @@ public class MainActivity extends ActionBarActivity implements UserDetailsFragme
     }
 
 
-
+    @Override
+    public void showDialog() {
+        showEditDialog();
+    }
 }

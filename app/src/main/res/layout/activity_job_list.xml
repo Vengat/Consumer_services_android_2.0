@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="wrap_content" android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp" android:baselineAligned="false" android:background="#FFFFFF"
-    android:divider="?android:attr/dividerHorizontal" android:orientation="horizontal"
+    android:divider="?android:attr/dividerVertical" android:orientation="vertical"
     android:showDividers="middle" android:id="@+id/job_list_container" tools:context=".JobListActivity">
 
     <!--android:background="@drawable/mint_green_paper"-->
@@ -30,11 +30,33 @@
         android:layout_marginTop="16dp" android:layout_marginBottom="16dp"
         tools:context=".JobListActivity" tools:layout="@android:layout/list_content" /> -->
 
+    <!--<RelativeLayout android:layout_width="fill_parent"
+        android:layout_height="fill_parent" android:gravity="bottom" android:layout_gravity="bottom">
 
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Post Job"
+            android:textColor="@color/white"
+            android:background="@color/teal"
+            android:textSize="15dp"
+            android:textStyle="normal"
+            android:typeface="serif"
+            android:gravity="center|center"
+            android:layout_gravity="bottom"
+            android:id="@+id/post_job_button" />
+
+    </RelativeLayout>-->
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/post_job_image"
+        android:layout_gravity="center_horizontal|top" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="61dp"
+        android:layout_width="100dp"
+        android:layout_height="25dp"
         android:text="Post Job"
         android:textColor="@color/white"
         android:background="@color/teal"
@@ -42,7 +64,9 @@
         android:textStyle="normal"
         android:typeface="serif"
         android:gravity="center|center"
-        android:layout_gravity="right|bottom"
+        android:layout_gravity="bottom|right"
         android:id="@+id/post_job_button" />
+
+
 
 </FrameLayout>

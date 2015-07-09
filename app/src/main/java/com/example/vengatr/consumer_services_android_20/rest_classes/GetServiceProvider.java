@@ -17,7 +17,10 @@ import java.io.InputStreamReader;
  */
 public class GetServiceProvider {
 
-    private static final String QUERY_SP_BY_MOBILE = "http://10.0.2.2:8080/serviceProviders/mobileNumber/";
+    //ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080
+    //private static final String QUERY_SP_BY_MOBILE = "http://10.0.2.2:8080/serviceProviders/mobileNumber/";
+
+    private static final String QUERY_SP_BY_MOBILE = "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/serviceProviders/mobileNumber/";
 
     public ServiceProvider getServiceProvider(long mobileNumber) throws IOException {
         StringBuffer stringBuffer = new StringBuffer();
