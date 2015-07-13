@@ -68,6 +68,8 @@ public class JobListActivity extends FragmentActivity //FragmentActivity ActionB
 
         createJobListView();
         postJobButton = (Button) findViewById(R.id.post_job_button);
+        postJobButton.setClickable(true);
+        postJobButton.setVisibility(View.VISIBLE);
         postJobButton.setOnClickListener(this);
         // TODO: If exposing deep links into your app, handle intents here.
     }
@@ -209,6 +211,18 @@ public class JobListActivity extends FragmentActivity //FragmentActivity ActionB
 
     @Override
     public void onClick(View v) {
+        Toast.makeText(this, "Job is being posted", Toast.LENGTH_SHORT).show();
+        postJobButton.setVisibility(View.GONE);
+        postJobFragment = new PostJobFragment();
+        postJobFragment.setArguments(getIntent().getExtras());
+        System.out.println("Clicked post job");
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.job_list_container, postJobFragment).commit();
+    }
+
+    public void onClickPostButton(View v) {
+        Toast.makeText(this, "Job is being posted", Toast.LENGTH_SHORT).show();
+        postJobButton.setVisibility(View.GONE);
         postJobFragment = new PostJobFragment();
         postJobFragment.setArguments(getIntent().getExtras());
         System.out.println("Clicked post job");
@@ -218,20 +232,28 @@ public class JobListActivity extends FragmentActivity //FragmentActivity ActionB
 
     @Override
     public void onPostJobCompletion() {
+        System.out.println("I am at onPostJobCompletion");
+        postJobFragment = new PostJobFragment();
         getSupportFragmentManager().beginTransaction().hide(postJobFragment).commit();
         //finish();
         //startActivity(getIntent());
         createJobListView();
+        postJobButton.setVisibility(View.VISIBLE);
+        postJobButton.setOnClickListener(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        System.out.println("I am at onResume");
         createJobListView();
+        postJobButton.setVisibility(View.VISIBLE);
+        postJobButton.setOnClickListener(this);
     }
 
     @Override
     public void showPostJobFragment() {
+        System.out.println("I am at showPostJobFragment");
         postJobFragment = new PostJobFragment();
         postJobFragment.setArguments(getIntent().getExtras());
 

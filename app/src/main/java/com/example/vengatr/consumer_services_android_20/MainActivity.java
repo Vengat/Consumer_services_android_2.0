@@ -4,16 +4,18 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 /**
  * Created by vengat.r on 7/6/2015.
  */
-public class MainActivity extends ActionBarActivity implements UserDetailsFragment.EditUserDetailsDialogListener, UserDetailsFragment.OnSharedPreferencesSetListener, UserDetailsFragment.UserDetailsNotFilledListener {
+public class MainActivity extends FragmentActivity implements UserDetailsFragment.EditUserDetailsDialogListener, UserDetailsFragment.OnSharedPreferencesSetListener, UserDetailsFragment.UserDetailsNotFilledListener {
 
     public final static String USER_MOBILE_NUMBER = "com.example.vengat.r.consumer_services_android_20.MOBILE_NUMBER";
     public final static String USER_PINCODE = "com.example.vengat.r.consumer_services_android_20.PINCODE";
@@ -39,7 +41,7 @@ public class MainActivity extends ActionBarActivity implements UserDetailsFragme
 
         //backgroundImage.setImageResource(R.drawable.loader);
         mSharedPreferences = getSharedPreferences(PREFS, MODE_PRIVATE);
-        mSharedPreferences.edit().clear().commit();
+        //mSharedPreferences.edit().clear().commit();
         mobileNumber = mSharedPreferences.getString(PHONE, "");
         //mobileNumber="9986020496";
         name = mSharedPreferences.getString(NAME, "");
@@ -86,4 +88,11 @@ public class MainActivity extends ActionBarActivity implements UserDetailsFragme
     public void showDialog() {
         showEditDialog();
     }
+
+    /*
+    @Override
+    public void onResume() {
+        super.onResume();
+        jobListPageTransition();
+    }*/
 }

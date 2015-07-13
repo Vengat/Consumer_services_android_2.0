@@ -79,7 +79,7 @@ public class PostJob {
             if(inputStream != null)
                 result = convertInputStreamToString(inputStream);
             else
-                result = "Did not work!";
+                result = null;
 
         } catch (Exception e) {
             Log.d("InputStream", e.getLocalizedMessage());

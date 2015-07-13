@@ -1,6 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="wrap_content" android:layout_marginLeft="16dp"
+    android:layout_height="match_parent" android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp" android:baselineAligned="false" android:background="#FFFFFF"
     android:divider="?android:attr/dividerVertical" android:orientation="vertical"
     android:showDividers="middle" android:id="@+id/job_list_container" tools:context=".JobListActivity">
@@ -50,21 +50,21 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/post_job_image"
-        android:layout_gravity="center_horizontal|top" />
+        android:layout_gravity="center|top" />
 
     <Button
-        android:layout_width="100dp"
-        android:layout_height="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:text="Post Job"
         android:textColor="@color/white"
         android:background="@color/teal"
-        android:textSize="15dp"
+        android:textSize="15sp"
         android:textStyle="normal"
         android:typeface="serif"
         android:gravity="center|center"
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="bottom|end"
         android:id="@+id/post_job_button" />
 
 

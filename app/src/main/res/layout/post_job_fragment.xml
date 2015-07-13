@@ -1,16 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:id="@+id/post_job_page"
     android:background="@color/white"
-    android:layout_height="match_parent">
+    android:layout_gravity="bottom"
+    android:weightSum="1">
+
+    <!--<ImageView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:id="@+id/post_job_image"
+        android:src="@drawable/take_order"
+        android:layout_gravity="top" />-->
 
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/job_types_spinner"
         android:entries="@array/job_types"
-        android:prompt="@string/jobtypes_prompt"/>
+        android:layout_gravity="bottom"
+        android:prompt="@string/jobtypes_prompt" />
 
 
     <EditText
@@ -18,17 +28,16 @@
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         android:ems="10"
-        android:id="@+id/editTextDescription" />
-
-
+        android:id="@+id/editTextDescription"
+        android:layout_weight="0.24" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
         android:text="Post Job"
         android:textColor="@color/white"
         android:background="@color/teal"
-        android:textSize="15dp"
+        android:textSize="15sp"
         android:textStyle="normal"
         android:typeface="serif"
         android:id="@+id/postJobButton" />

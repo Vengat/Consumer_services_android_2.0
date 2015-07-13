@@ -26,9 +26,15 @@
     <FrameLayout android:id="@+id/job_detail_container" android:layout_width="0dp"
         android:layout_height="match_parent" android:layout_weight="3" />
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/post_job_image"
+        android:layout_gravity="center|top" />
+
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="61dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:text="Post Job"
         android:textColor="@color/white"
         android:background="@color/teal"
@@ -36,7 +42,8 @@
         android:textStyle="normal"
         android:typeface="serif"
         android:gravity="center|center"
-        android:layout_gravity="right|bottom"
+        android:layout_gravity="bottom|end"
         android:id="@+id/post_job_button" />
+
 
 </LinearLayout>
