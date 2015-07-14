@@ -18,8 +18,10 @@ import com.example.vengatr.consumer_services_android_20.model.JobType;
 import com.example.vengatr.consumer_services_android_20.notifier.CancelJobListenerNotifier;
 import com.example.vengatr.consumer_services_android_20.rest_classes.GetJob;
 import com.example.vengatr.consumer_services_android_20.rest_classes.PutJob;
+import com.example.vengatr.consumer_services_android_20.util.CustomerJobAdapter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * A fragment representing a single Job detail screen.
@@ -91,6 +93,7 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         new CancelJobAsyncHttpTask().execute(String.valueOf(jobId));
+        //new CancelJobListenerNotifier((JobDetailActivity) getActivity());
     }
 
     private class CancelJobAsyncHttpTask extends AsyncTask<String, Void, Job> {
@@ -126,5 +129,7 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
     public interface CancelJobListener {
         void jobListPageTransition();
     }
+
+
 
 }

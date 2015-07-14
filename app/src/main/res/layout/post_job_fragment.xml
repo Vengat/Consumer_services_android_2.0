@@ -7,28 +7,34 @@
     android:layout_gravity="bottom"
     android:weightSum="1">
 
-    <!--<ImageView
+    <!--android:src="@drawable/take_order"-->
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="50dp"
         android:id="@+id/post_job_image"
-        android:src="@drawable/take_order"
-        android:layout_gravity="top" />-->
+        android:layout_gravity="top" />
 
     <Spinner
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="75dp"
         android:id="@+id/job_types_spinner"
         android:entries="@array/job_types"
         android:layout_gravity="bottom"
+        android:background="@color/white"
         android:prompt="@string/jobtypes_prompt" />
 
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:inputType="textMultiLine"
         android:ems="10"
         android:id="@+id/editTextDescription"
+        android:background="@color/white"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:hint="@string/job_description"
         android:layout_weight="0.24" />
 
     <Button

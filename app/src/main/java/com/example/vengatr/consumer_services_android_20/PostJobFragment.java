@@ -2,6 +2,7 @@ package com.example.vengatr.consumer_services_android_20;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,12 +17,14 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.vengatr.consumer_services_android_20.dummy.JobListContent;
 import com.example.vengatr.consumer_services_android_20.listener.JobTypeOnItemSelectedListener;
 import com.example.vengatr.consumer_services_android_20.model.Job;
 import com.example.vengatr.consumer_services_android_20.model.JobStatus;
 import com.example.vengatr.consumer_services_android_20.model.JobType;
 import com.example.vengatr.consumer_services_android_20.notifier.OnPostJobCompletionNotifier;
 import com.example.vengatr.consumer_services_android_20.rest_classes.GetJob;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.json.JSONException;
 
@@ -48,6 +51,8 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
     private static final String QUERY_URL_POST_PUT_JOB = "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/jobs";
     //private static final String QUERY_URL_POST_PUT_JOB = "http://10.0.2.2:8080/jobs";
 
+    private SharedPreferences mSharedPreferences;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -55,16 +60,23 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
         System.out.println("***In post job fragment***");
         View view = inflater.inflate(R.layout.post_job_fragment, container, false);
         jobDescriptionEditText = (EditText) view.findViewById(R.id.editTextDescription);
+
         //jobTypeSelector = (Spinner) view.findViewById(R.id.job_types_spinner);
         createSpinner(view);
         postJobButton = (Button) view.findViewById(R.id.postJobButton);
         postJobButton.setOnClickListener(this);
 
+        /*
         Intent intent = getActivity().getIntent();
         mobileNumber = intent.getStringExtra(MainActivity.USER_MOBILE_NUMBER);
         userName = intent.getStringExtra(MainActivity.USER_NAME);
         pincode = intent.getStringExtra(MainActivity.USER_PINCODE);
-        userType = intent.getStringExtra(MainActivity.USER_TYPE);
+        userType = intent.getStringExtra(MainActivity.USER_TYPE);*/
+        mSharedPreferences = getActivity().getSharedPreferences("prefs", getActivity().MODE_PRIVATE);
+        mobileNumber = mSharedPreferences.getString("phoneKey", "");
+        userName = mSharedPreferences.getString("nameKey", "");
+        pincode = mSharedPreferences.getString("pincodeKey", "");
+        userType = mSharedPreferences.getString("userTypeKey", "");
 
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Posting your job");
@@ -142,6 +154,7 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
         protected void onPostExecute(String result) {
             Toast.makeText(getActivity(), "Job request sent!", Toast.LENGTH_LONG).show();
             new OnPostJobCompletionNotifier((JobListActivity) getActivity());
+            jobDescriptionEditText.setText("");
             progressDialog.dismiss();
         }
     }

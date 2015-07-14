@@ -2,6 +2,7 @@ package com.example.vengatr.consumer_services_android_20;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -31,7 +32,7 @@ public class ServiceProviderJobsPerspectiveFragment extends ListFragment {
 
     //protected String url =  "http://10.0.2.2:8080/serviceProviders/openAssignJobs/mobileNumber/";
 
-    protected String url =  "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com/serviceProviders/openAssignJobs/mobileNumber/";
+    protected String url =  "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/serviceProviders/openAssignJobs/mobileNumber/";
 
 
     /**
@@ -44,7 +45,7 @@ public class ServiceProviderJobsPerspectiveFragment extends ListFragment {
      * The fragment's current callback object, which is notified of list item
      * clicks.
      */
-    private Callbacks mCallbacks = sDummyCallbacks;
+    private SPCallbacks mCallbacks = sDummyCallbacks;
 
     /**
      * The current activated item position. Only used on tablets.
@@ -62,26 +63,28 @@ public class ServiceProviderJobsPerspectiveFragment extends ListFragment {
 
     private String userType;
 
+    private Context context;
+
 
     /**
      * A callback interface that all activities containing this fragment must
      * implement. This mechanism allows activities to be notified of item
      * selections.
      */
-    public interface Callbacks {
+    public interface SPCallbacks {
         /**
          * Callback for when an item has been selected.
          */
-        public void onItemSelected(long id);
+        public void onSPItemSelected(long id);
     }
 
     /**
-     * A dummy implementation of the {@link Callbacks} interface that does
+     * A dummy implementation of the {@link SPCallbacks} interface that does
      * nothing. Used only when this fragment is not attached to an activity.
      */
-    private static Callbacks sDummyCallbacks = new Callbacks() {
+    private static SPCallbacks sDummyCallbacks = new SPCallbacks() {
         @Override
-        public void onItemSelected(long id) {
+        public void onSPItemSelected(long id) {
         }
     };
 
@@ -98,7 +101,6 @@ public class ServiceProviderJobsPerspectiveFragment extends ListFragment {
         super.onCreate(savedInstanceState);
 
         mSharedPreferences = getActivity().getSharedPreferences("prefs", getActivity().MODE_PRIVATE);
-        /////mSharedPreferences.edit().clear().commit();
         mobileNumber = mSharedPreferences.getString("phoneKey", "");
         userType = mSharedPreferences.getString("userTypeKey", "");
 
@@ -110,6 +112,7 @@ public class ServiceProviderJobsPerspectiveFragment extends ListFragment {
     @Override
     public void onResume() {
         super.onResume();
+        System.out.println("I am onResume Service Provider Jobs Perspective");
         setListAdapter(new JobAdapter(getActivity(), (ArrayList<Job>) JobListContent.ITEMS));
         getJobs(url+mobileNumber);
     }
@@ -130,13 +133,14 @@ public class ServiceProviderJobsPerspectiveFragment extends ListFragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-
+        context = activity;
+        System.out.println("*********************************onAttach********************************");
         // Activities containing this fragment must implement its callbacks.
-        if (!(activity instanceof Callbacks)) {
+        if (!(activity instanceof SPCallbacks)) {
             throw new IllegalStateException("Activity must implement fragment's callbacks.");
         }
 
-        mCallbacks = (Callbacks) activity;
+        mCallbacks = (SPCallbacks) activity;
     }
 
     @Override
@@ -153,7 +157,7 @@ public class ServiceProviderJobsPerspectiveFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(JobListContent.ITEMS.get(position).getId());
+        mCallbacks.onSPItemSelected(JobListContent.ITEMS.get(position).getId());
     }
 
     @Override
@@ -207,8 +211,8 @@ public class ServiceProviderJobsPerspectiveFragment extends ListFragment {
 
         @Override
         protected void onPostExecute(List<Job> jobs) {
-            Toast.makeText(getActivity(), "SP Jobs perspective Data Sent!", Toast.LENGTH_LONG).show();
-            if (jobs == null) return;
+            Toast.makeText(context, "SP Jobs perspective Data Sent!", Toast.LENGTH_LONG).show();
+            if (jobs.isEmpty()) return;
             new JobListContent().setJobs(jobs);
 
             /*
@@ -219,7 +223,7 @@ public class ServiceProviderJobsPerspectiveFragment extends ListFragment {
                     android.R.id.text1,
                     JobListContent.ITEMS));*/
 
-            setListAdapter(new JobAdapter(getActivity(), (ArrayList<Job>) JobListContent.ITEMS));
+            setListAdapter(new JobAdapter(context, (ArrayList<Job>) JobListContent.ITEMS));
         }
     }
 }

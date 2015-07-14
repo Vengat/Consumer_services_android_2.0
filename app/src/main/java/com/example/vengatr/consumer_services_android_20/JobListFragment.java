@@ -2,10 +2,12 @@ package com.example.vengatr.consumer_services_android_20;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +37,8 @@ import java.util.List;
  */
 public class JobListFragment extends ListFragment {
 
+
+
     /**
      * The serialization (saved instance state) Bundle key representing the
      * activated item position. Only used on tablets.
@@ -63,6 +67,8 @@ public class JobListFragment extends ListFragment {
     protected SharedPreferences mSharedPreferences;
 
     protected String mobileNumber;
+
+    private Context context;
 
 
     /**
@@ -121,7 +127,7 @@ public class JobListFragment extends ListFragment {
                 android.R.id.text1,
                 JobListContent.ITEMS));*/
 
-        setListAdapter(new JobAdapter(getActivity(), (ArrayList<Job>) JobListContent.ITEMS));
+        setListAdapter(new CustomerJobAdapter(getActivity(), (ArrayList<Job>) JobListContent.ITEMS));
         getJobs(url+mobileNumber);
 
         /*
@@ -147,6 +153,8 @@ public class JobListFragment extends ListFragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
+        if (activity == null) Log.e("IS NULL", "NULLNULLNULLNULLNULLNULLNULLNULLNULLNULLNULL");
+        context = activity;
         // Activities containing this fragment must implement its callbacks.
         if (!(activity instanceof Callbacks)) {
             throw new IllegalStateException("Activity must implement fragment's callbacks.");
@@ -216,6 +224,7 @@ public class JobListFragment extends ListFragment {
             try {
                 jobs = getJob.getJobs(urls[0]);
             } catch (IOException e) {
+                jobs = null;
                 e.printStackTrace();
             }
             return jobs;
@@ -223,9 +232,11 @@ public class JobListFragment extends ListFragment {
 
         @Override
         protected void onPostExecute(List<Job> jobs) {
-            Toast.makeText(getActivity(), "JobListFragment Data Sent!", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "JobListFragment Data Sent!", Toast.LENGTH_LONG).show();
+            boolean displayJobs = false;
+            //ArrayList<Job> customerJobs = (ArrayList<Job>) jobs;
 
-            if (jobs != null) {
+            if (!jobs.isEmpty()) {
                 new JobListContent().setJobs(jobs);
 
             /*
@@ -236,10 +247,24 @@ public class JobListFragment extends ListFragment {
                     android.R.id.text1,
                     JobListContent.ITEMS));*/
 
-                setListAdapter(new CustomerJobAdapter(getActivity(), (ArrayList<Job>) JobListContent.ITEMS));
+                setListAdapter(new CustomerJobAdapter(context, (ArrayList<Job>) JobListContent.ITEMS));
+
+
+                for (Job job: JobListContent.ITEMS) {
+                    String jobStatus = job.getJobStatus().toString();
+                    if (jobStatus.equalsIgnoreCase("open") || jobStatus.equalsIgnoreCase("closed") || jobStatus.equalsIgnoreCase("assigned")) {
+                        displayJobs = true;
+                    }
+                }
+
+                if (!displayJobs) {
+                    System.out.println("No-jobs notifier notified haha");
+                    new NoJobsNotifierPostExecuteJobListFragment((JobListActivity) context);
+                }
+
             } else {
                 System.out.println("No-jobs notifier notified");
-                new NoJobsNotifierPostExecuteJobListFragment((JobListActivity) getActivity());
+                new NoJobsNotifierPostExecuteJobListFragment((JobListActivity) context);
             }
 
         }

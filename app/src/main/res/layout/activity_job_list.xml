@@ -57,7 +57,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Post Job"
+        android:text="Post New Job"
         android:textColor="@color/white"
         android:background="@color/teal"
         android:textSize="15sp"

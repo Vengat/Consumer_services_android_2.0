@@ -95,8 +95,11 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
             assign = (Button) rootView.findViewById(R.id.assign_button);
             assign.setOnClickListener(this);
 
-            close = (Button) rootView.findViewById(R.id.close_button);
-            close.setOnClickListener(this);
+            if (mItem.getJobStatus().toString().equalsIgnoreCase("assigned") && mItem.getServiceProviderMobileNumber() == Long.parseLong(mobileNumber)) {
+                close = (Button) rootView.findViewById(R.id.close_button);
+                close.setOnClickListener(this);
+            }
+
         }
 
         return rootView;
