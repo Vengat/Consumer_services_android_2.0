@@ -205,7 +205,7 @@ public class ServiceProviderJobsPerspectiveFragment extends ListFragment {
         @Override
         protected List<Job> doInBackground(String... urls) {
             List<Job> jobs = null;
-            GetJob getJob = new GetJob(getActivity());
+            GetJob getJob = new GetJob(context);
             try {
                 jobs = getJob.getJobs(urls[0]);
             } catch (IOException e) {

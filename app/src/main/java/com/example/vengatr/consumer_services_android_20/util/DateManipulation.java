@@ -120,16 +120,20 @@ public class DateManipulation {
 		if (isTodayDate(date)) {
 			DateFormat df = new SimpleDateFormat("HH", Locale.ENGLISH);
 			String time = df.format(new Date());
-            Log.i("", "Time in getApplicableDaySegment "+time);
+			Log.i("", "Todays date");
+            Log.i("", "Time in getApplicableDaySegmen---------------------------------------------------------t "+time);
 			//If the CURRENT time is 9-11 then except 9-11 segment all other greater segments are applicable
 			if (Long.parseLong(time) >= 9 && Long.parseLong(time) < 11) {
+                Log.i("", "^^^^^^^Customer is in the 9-11 slot^^^^^^^^");
 				return "at_morning";
 			} else if (Long.parseLong(time) >= 11 && Long.parseLong(time) < 1) {
+                Log.i("", "^^^^^^^Customer is in the 11-1 slot^^^^^^^^");
 				return "at_forenoon";
 			} else if (Long.parseLong(time) >= 1 && Long.parseLong(time) < 3) {
+                Log.i("", "^^^^^^^Customer is in the 1-3 slot^^^^^^^^");
 				return "at_afternoon";
 			} else {//if (Long.parseLong(time) >= 3 && Long.parseLong(time) < 9) {
-				Log.d("", "Day is over for services");
+				Log.d("", "^^^^^^^^^^^^^^Day is over for services^^^^^^^^^^^^^^^");
 				return "at_evening";
 			}
 		}

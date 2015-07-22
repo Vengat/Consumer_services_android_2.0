@@ -100,14 +100,14 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
         System.out.println("***In post job fragment***");
         View view = inflater.inflate(R.layout.post_job_fragment, container, false);
         fragmentView = view;
-        setCurrentDateOnEdit(view);
+        //setCurrentDateOnEdit(view);
         //setCurrentTimeOnView(view);
         dateValidityTextView = (TextView) view.findViewById(R.id.valid_job_text_view);
         jobDescriptionEditText = (EditText) view.findViewById(R.id.editTextDescription);
 
         //jobTypeSelector = (Spinner) view.findViewById(R.id.job_types_spinner);
-        createSpinnerJobType(view);
-        createSpinnerDaySegment(view);
+        //createSpinnerJobType(view);
+        //createSpinnerDaySegment(view);
         postJobButton = (Button) view.findViewById(R.id.postJobButton);
         postJobButton.setOnClickListener(this);
 
@@ -134,6 +134,9 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
+        createSpinnerJobType(fragmentView);
+        setCurrentDateOnEdit(fragmentView);
+        createSpinnerDaySegment(fragmentView);
     }
 
     @Override

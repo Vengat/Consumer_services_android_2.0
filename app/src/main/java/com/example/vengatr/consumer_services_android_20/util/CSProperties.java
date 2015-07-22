@@ -50,6 +50,7 @@ public class CSProperties {
 
     public String getDomain() {
         Log.i("", "properties.getProperty(\"local.domain\") "+getProperties().getProperty("local.domain"));
+        Log.i("", "getEnvironment()"+getEnvironment());
         return getEnvironment().equalsIgnoreCase("stage") ? getProperties().getProperty("stage.domain") : getProperties().getProperty("local.domain");
     }
 
