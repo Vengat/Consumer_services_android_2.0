@@ -10,6 +10,7 @@ package com.example.vengatr.consumer_services_android_20.model;
 public enum JobStatus {
 	OPEN("open"),
 	ASSIGNED("assigned"),
+    AGREED("agreed"),
     WIP("wip"),
     CANCELLED("cancelled"),
     CLOSED("closed");

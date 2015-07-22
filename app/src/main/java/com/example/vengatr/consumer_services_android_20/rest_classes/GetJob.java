@@ -1,10 +1,15 @@
 package com.example.vengatr.consumer_services_android_20.rest_classes;
 
+import android.util.Log;
+
 import com.example.vengatr.consumer_services_android_20.model.Job;
+import com.example.vengatr.consumer_services_android_20.util.CSConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -21,17 +26,17 @@ public class GetJob {
 
     //ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080
 
-   // private static final String QUERY_NEW_JOB_URL = "http://10.0.2.2:8080/jobs";
+    private static final String QUERY_NEW_JOB_URL = "http://10.0.2.2:8080/jobs";
 
-    private static final String QUERY_NEW_JOB_URL = "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/jobs";
+    //private static final String QUERY_NEW_JOB_URL = "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/jobs";
 
-    //private static final String QUERY_JOB_BY_ID = "http://10.0.2.2:8080/jobs/id/";//append the id
+    private static final String QUERY_JOB_BY_ID = "http://10.0.2.2:8080/jobs/id/";//append the id
 
-    private static final String QUERY_JOB_BY_ID = "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/jobs/id/";//append the id
+    //private static final String QUERY_JOB_BY_ID = "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/jobs/id/";//append the id
 
-   // private static final String QUERY_URL_GET_JOBS_BY_MOBILE_NUMBER = "http://10.0.2.2:8080/customers/jobs/mobileNumber/";
+    private static final String QUERY_URL_GET_JOBS_BY_MOBILE_NUMBER = "http://10.0.2.2:8080/customers/jobs/mobileNumber/";
 
-    private static final String QUERY_URL_GET_JOBS_BY_MOBILE_NUMBER = "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/customers/jobs/mobileNumber/";
+   // private static final String QUERY_URL_GET_JOBS_BY_MOBILE_NUMBER = "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/customers/jobs/mobileNumber/";
 
     private Job job;
 
@@ -56,7 +61,14 @@ public class GetJob {
         ObjectMapper objectMapper = new ObjectMapper();
         HttpClient client = new DefaultHttpClient();
         HttpGet request = new HttpGet(url);
-        HttpResponse response = client.execute(request);
+
+        HttpResponse response = null;
+        try {
+            response = client.execute(request);
+        } catch (ClientProtocolException cpe) {
+            Log.d("","Error occured while getting job list");
+        }
+
 
         BufferedReader rd = new BufferedReader
                 (new InputStreamReader(response.getEntity().getContent()));
@@ -77,7 +89,14 @@ public class GetJob {
         ObjectMapper objectMapper = new ObjectMapper();
         HttpClient client = new DefaultHttpClient();
         HttpGet request = new HttpGet(QUERY_NEW_JOB_URL);
-        HttpResponse response = client.execute(request);
+        //HttpResponse response = client.execute(request);
+
+        HttpResponse response = null;
+        try {
+            response = client.execute(request);
+        } catch (ClientProtocolException cpe) {
+            Log.d("","Error occured while getting new job");
+        }
 
         BufferedReader rd = new BufferedReader
                 (new InputStreamReader(response.getEntity().getContent()));
@@ -96,7 +115,14 @@ public class GetJob {
         ObjectMapper objectMapper = new ObjectMapper();
         HttpClient client = new DefaultHttpClient();
         HttpGet request = new HttpGet(QUERY_JOB_BY_ID+id);
-        HttpResponse response = client.execute(request);
+        //HttpResponse response = client.execute(request);
+
+        HttpResponse response = null;
+        try {
+            response = client.execute(request);
+        } catch (ClientProtocolException cpe) {
+            Log.d("","Error occured while getting job by id");
+        }
 
         BufferedReader rd = new BufferedReader
                 (new InputStreamReader(response.getEntity().getContent()));

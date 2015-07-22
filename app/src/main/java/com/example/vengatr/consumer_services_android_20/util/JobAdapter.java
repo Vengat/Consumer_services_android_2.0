@@ -81,11 +81,13 @@ public class JobAdapter extends ArrayAdapter<Job> {
 
 
         if(job.getJobStatus().toString().equalsIgnoreCase("open")) {
-            viewHolder.jobStatusImageView.setImageResource(R.drawable.yellow_traffic_light);
+            viewHolder.jobStatusImageView.setImageResource(R.drawable.lemon_yellow);
         } else if(job.getJobStatus().toString().equalsIgnoreCase("assigned")) {
-            viewHolder.jobStatusImageView.setImageResource(R.drawable.green_traffic_light);
+            viewHolder.jobStatusImageView.setImageResource(R.drawable.mint_green);
         } else if(job.getJobStatus().toString().equalsIgnoreCase("cancelled")) {
-            viewHolder.jobStatusImageView.setImageResource(R.drawable.red_traffic_light);
+            viewHolder.jobStatusImageView.setImageResource(R.drawable.bright_red);
+        }  else if(job.getJobStatus().toString().equalsIgnoreCase("agreed")) {
+            viewHolder.jobStatusImageView.setImageResource(R.drawable.deep_sky_blue);
         }
 
         // Return the completed view to render on screen

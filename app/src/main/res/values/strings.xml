@@ -28,12 +28,17 @@
     <string name="job_id">Job Id</string>
     <string name="job_type">Job Type</string>
     <string name="job_status">Job Status</string>
+    <string name="day_segment">Day Segment</string>
     <string name="service_provider_name">Service provider</string>
     <string name="service_provider_phone">Service provider phone</string>
     <string name="date_initiated">Start Date</string>
+    <string name="customer_preferred_date">Customer Preferred Date</string>
     <string name="date_completed">Done Date</string>
     <string name="user_name">Service User</string>
     <string name="user_phone">User Phone</string>
+    <string name="schedule_job_message">Schedule</string>
+
+    <string name="post_job_select_date">.</string>
 
     <string name="jobtypes_prompt">Choose a Job type</string>
     <string-array name="job_types">
@@ -41,11 +46,43 @@
         <item>ELECTRICAL</item>
     </string-array>
 
+    <string name="day_segment_prompt">Choose a time</string>
+
+
+
+    <string-array name="day_segments">
+        <item>9-11 AM</item>
+        <item>11-1 PM</item>
+        <item>1-3 PM</item>
+        <item>3-5 PM</item>
+    </string-array>
+
+    <string-array name="day_segments_morning_done">
+        <item>11-1 PM</item>
+        <item>1-3 PM</item>
+        <item>3-5 PM</item>
+    </string-array>
+
+    <string-array name="day_segments_forenoon_done">
+        <item>1-3 PM</item>
+        <item>3-5 PM</item>
+    </string-array>
+
+    <string-array name="day_segments_afternoon_done">
+        <item>3-5 PM</item>
+    </string-array>
+
+    <string-array name="day_segments_evening_done">
+        <item>Select next day</item>
+    </string-array>
+
 
     <!-- Background color and style -->
     <color name="white">#FFFFFF</color>
     <color name="teal">#008080</color>
     <color name="grey">#686868</color>
+    <color name="red">#FF0000</color>
+    <color name="cream">#FFFFCC</color>
 
 
 </resources>

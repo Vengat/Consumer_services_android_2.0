@@ -14,13 +14,13 @@
         android:id="@+id/post_job_image"
         android:layout_gravity="top" />
 
+
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:id="@+id/job_types_spinner"
         android:entries="@array/job_types"
         android:layout_gravity="bottom"
-        android:background="@color/white"
         android:prompt="@string/jobtypes_prompt" />
 
 
@@ -35,7 +35,73 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
         android:hint="@string/job_description"
-        android:layout_weight="0.24" />
+        android:layout_weight="0.24"
+        android:textColor="@color/teal"
+        android:layout_gravity="center"
+        android:gravity="center|left"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/schedule_heading"
+        android:layout_gravity="center"
+        android:ems="10"
+        android:textColor="@color/teal"
+        android:text="@string/schedule_job_message"
+        android:textSize="15dp"
+        android:textStyle="normal"
+        android:gravity="center|left"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/post_job_select_date"
+        android:id="@+id/valid_job_text_view"
+        android:layout_marginLeft="29dp"
+        android:layout_marginStart="29dp" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/calendar_area"
+        android:background="@color/white">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:ems="10"
+            android:id="@+id/set_job_date"
+            android:drawableEnd= "@drawable/down_arrow"
+            android:drawableRight= "@drawable/down_arrow"/>
+
+        <!--Disabling this time picker for now
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="time"
+            android:ems="10"
+            android:id="@+id/set_job_time"
+            android:layout_toRightOf="@+id/set_job_date"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:drawableEnd= "@drawable/down_arrow"
+            android:drawableRight= "@drawable/down_arrow"/>
+        -->
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/day_segment_values"
+            android:layout_toEndOf="@+id/set_job_date"
+            android:layout_toRightOf="@+id/set_job_date"
+            android:entries="@array/day_segments"
+            android:layout_gravity="bottom"
+            android:prompt="@string/day_segment_prompt"/>
+
+    </RelativeLayout>
+
 
     <Button
         android:layout_width="match_parent"

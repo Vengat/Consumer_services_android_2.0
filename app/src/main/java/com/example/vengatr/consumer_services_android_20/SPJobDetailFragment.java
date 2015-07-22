@@ -84,12 +84,14 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
             ((TextView) rootView.findViewById(R.id.jobId)).setText("Job Id : " + mItem.getId());
             ((TextView) rootView.findViewById(R.id.jobType)).setText("Job Type : " + mItem.getJobType().toString());
             ((TextView) rootView.findViewById(R.id.jobStatus)).setText("Job Status : " + mItem.getJobStatus().toString());
+            ((TextView) rootView.findViewById(R.id.daySegment)).setText("Job day segment : "+mItem.getDaySegment().getDaySegment());
             ((TextView) rootView.findViewById(R.id.customerName)).setText("Customer Name : "+mItem.getCustomerName());
             ((TextView) rootView.findViewById(R.id.customerMobileNumber)).setText("Customer Mobile : "+mItem.getCustomerMobileNumber());
             ((TextView) rootView.findViewById(R.id.serviceproviderName)).setText("Service Provider Name : "+mItem.getServiceProviderName());
             ((TextView) rootView.findViewById(R.id.serviceProviderMobileNumber)).setText("Service Provider Mobile : "+mItem.getServiceProviderMobileNumber());
             ((TextView) rootView.findViewById(R.id.pincode)).setText("Pincode : "+mItem.getPincode());
             ((TextView) rootView.findViewById(R.id.dateinitiated)).setText("Date Initiated : "+ mItem.getDateInitiated());
+            ((TextView) rootView.findViewById(R.id.customer_preferred_date)).setText("Preferred Date : "+ mItem.getDatePreferred());
             ((TextView) rootView.findViewById(R.id.dateDone)).setText("Date Done : "+mItem.getDateDone());
             ((TextView) rootView.findViewById(R.id.description)).setText(mItem.getDescription());
 
@@ -97,13 +99,13 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
             assign = (Button) rootView.findViewById(R.id.assign_button);
             assign.setOnClickListener(this);
 
-            if (mItem.getJobStatus().toString().equalsIgnoreCase("assigned")) {
+            if (mItem.getJobStatus().toString().equalsIgnoreCase("assigned") || mItem.getJobStatus().toString().equalsIgnoreCase("agreed")) {
                 assign.setEnabled(false);
                 assign.setVisibility(View.GONE);
                 assign.setOnClickListener(null);
             }
 
-            if (mItem.getJobStatus().toString().equalsIgnoreCase("assigned") && mItem.getServiceProviderMobileNumber() == Long.parseLong(mobileNumber)) {
+            if (mItem.getJobStatus().toString().equalsIgnoreCase("agreed") && mItem.getServiceProviderMobileNumber() == Long.parseLong(mobileNumber)) {
                 close = (Button) rootView.findViewById(R.id.close_button);
                 close.setOnClickListener(this);
             } else {

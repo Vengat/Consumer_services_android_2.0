@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,9 +31,9 @@ public class ServiceProviderJobsPerspectiveFragment extends ListFragment {
     // private static String QUERY_URL_GET_MATCHING_JOBS_BY_MOBILE_NUMBER = "http://10.0.2.2:8080/serviceProviders/openAssignJobs/mobileNumber/";
     //ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com
 
-    //protected String url =  "http://10.0.2.2:8080/serviceProviders/openAssignJobs/mobileNumber/";
+    protected String url =  "http://10.0.2.2:8080/serviceProviders/openAssignAgreedJobs/mobileNumber/";
 
-    protected String url =  "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/serviceProviders/openAssignJobs/mobileNumber/";
+    //protected String url =  "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/serviceProviders/openAssignAgreedJobs/mobileNumber/";
 
 
     /**
@@ -113,8 +114,10 @@ public class ServiceProviderJobsPerspectiveFragment extends ListFragment {
     public void onResume() {
         super.onResume();
         System.out.println("I am onResume Service Provider Jobs Perspective");
-        setListAdapter(new JobAdapter(getActivity(), (ArrayList<Job>) JobListContent.ITEMS));
-        getJobs(url+mobileNumber);
+        JobAdapter jobAdapter = new JobAdapter(getActivity(), (ArrayList<Job>) JobListContent.ITEMS);
+        setListAdapter(jobAdapter);
+        jobAdapter.notifyDataSetChanged();
+        getJobs(url + mobileNumber);
     }
 
 
@@ -212,7 +215,9 @@ public class ServiceProviderJobsPerspectiveFragment extends ListFragment {
         @Override
         protected void onPostExecute(List<Job> jobs) {
             Toast.makeText(context, "SP Jobs perspective Data Sent!", Toast.LENGTH_LONG).show();
+            if (jobs == null) return;
             if (jobs.isEmpty()) return;
+            Log.i("", "Job list for sp is not null not empty");
             new JobListContent().setJobs(jobs);
 
             /*
@@ -222,8 +227,9 @@ public class ServiceProviderJobsPerspectiveFragment extends ListFragment {
                     //R.layout.custom_job_list,
                     android.R.id.text1,
                     JobListContent.ITEMS));*/
-
-            setListAdapter(new JobAdapter(context, (ArrayList<Job>) JobListContent.ITEMS));
+            JobAdapter jobAdapter = new JobAdapter(context, (ArrayList<Job>) JobListContent.ITEMS);
+            setListAdapter(jobAdapter);
+            jobAdapter.notifyDataSetChanged();
         }
     }
 }

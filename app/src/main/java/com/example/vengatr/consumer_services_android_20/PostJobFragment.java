@@ -1,34 +1,51 @@
 package com.example.vengatr.consumer_services_android_20;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.vengatr.consumer_services_android_20.dummy.JobListContent;
+import com.example.vengatr.consumer_services_android_20.listener.DaySegmentOnItemSelectedListener;
 import com.example.vengatr.consumer_services_android_20.listener.JobTypeOnItemSelectedListener;
+import com.example.vengatr.consumer_services_android_20.model.DaySegment;
 import com.example.vengatr.consumer_services_android_20.model.Job;
 import com.example.vengatr.consumer_services_android_20.model.JobStatus;
 import com.example.vengatr.consumer_services_android_20.model.JobType;
 import com.example.vengatr.consumer_services_android_20.notifier.OnPostJobCompletionNotifier;
 import com.example.vengatr.consumer_services_android_20.rest_classes.GetJob;
+import com.example.vengatr.consumer_services_android_20.util.DateManipulation;
+import com.example.vengatr.consumer_services_android_20.util.DaySegmentMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
 
 import static com.example.vengatr.consumer_services_android_20.rest_classes.PostJob.POST;
 
@@ -37,34 +54,59 @@ import static com.example.vengatr.consumer_services_android_20.rest_classes.Post
  */
 public class PostJobFragment extends Fragment implements View.OnClickListener {
 
-    private EditText jobDescriptionEditText;
-    private Spinner jobTypeSelector;
+
+
+    private RelativeLayout calendarArea;
+    private EditText jobDescriptionEditText, postJobDateDisplayEditText, postJobTimeDisplayEditText;
+    private Spinner jobTypeSelector, daySegmentSelector;
     private Button postJobButton;
+    private DatePicker datePicker;
+    private DatePickerDialog datePickerDialog;
+    private TimePickerDialog timePickerDialog;
 
     private String jobTypeSpinnerSelectionValue = null;
+    private String daySegmentSpinnerSelectionValue = null;
 
     private String mobileNumber, userName, pincode, userType;
 
     private ProgressDialog progressDialog;
 
+    private TextView dateValidityTextView;
+
     //ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com
-    private static final String QUERY_URL_POST_PUT_JOB = "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/jobs";
-    //private static final String QUERY_URL_POST_PUT_JOB = "http://10.0.2.2:8080/jobs";
+    //private static final String QUERY_URL_POST_PUT_JOB = "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/jobs";
+    private static final String QUERY_URL_POST_PUT_JOB = "http://10.0.2.2:8080/jobs";
 
     private SharedPreferences mSharedPreferences;
 
+    private int year;
+    private int month;
+    private int day;
+    private int hour;
+    private int minute;
+    private DaySegment selectedDaySegment;
+    private Date preferredDate;
+    private Date jobPreferredDate = null;
+    private View fragmentView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         System.out.println("***In post job fragment***");
         View view = inflater.inflate(R.layout.post_job_fragment, container, false);
+        fragmentView = view;
+        setCurrentDateOnEdit(view);
+        //setCurrentTimeOnView(view);
+        dateValidityTextView = (TextView) view.findViewById(R.id.valid_job_text_view);
         jobDescriptionEditText = (EditText) view.findViewById(R.id.editTextDescription);
 
         //jobTypeSelector = (Spinner) view.findViewById(R.id.job_types_spinner);
-        createSpinner(view);
+        createSpinnerJobType(view);
+        createSpinnerDaySegment(view);
         postJobButton = (Button) view.findViewById(R.id.postJobButton);
         postJobButton.setOnClickListener(this);
+
+
 
         /*
         Intent intent = getActivity().getIntent();
@@ -84,7 +126,12 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
-    public void createSpinner(View v) {
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    public void createSpinnerJobType(View v) {
         jobTypeSelector = (Spinner) v.findViewById(R.id.job_types_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.job_types, android.R.layout.simple_spinner_item);
@@ -93,26 +140,187 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
         //jobTypeSelector.setOnItemSelectedListener(new JobTypeOnItemSelectedListener());
         jobTypeSelector.setOnItemSelectedListener(new JobTypeOnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> arg0, View arg1,
-                                       int arg2, long arg3)
-            {
+                                       int arg2, long arg3) {
                 Toast.makeText(getActivity(), jobTypeSelector.getSelectedItem().toString(),
                         Toast.LENGTH_LONG).show();
                 jobTypeSpinnerSelectionValue = jobTypeSelector.getSelectedItem().toString();
 
             }
-            public void onNothingSelected(AdapterView<?> arg0)
-            {
+
+            public void onNothingSelected(AdapterView<?> arg0) {
                 // TODO Auto-generated method stub
             }
 
 
-                                                  });
+        });
         //jobTypeSpinnerSelectionValue = jobTypeSelector.getSelectedItem().toString();
-        System.out.println("**************"+jobTypeSpinnerSelectionValue);
+        System.out.println("**************" + jobTypeSpinnerSelectionValue);
     }
 
+    public ArrayAdapter<CharSequence> createSpinnerValuesOfDay() {
+        ArrayAdapter<CharSequence> adapter = null;
+        String date = String.valueOf(year)+"-"+String.valueOf(month+1)+"-"+String.valueOf(day);
+        Log.i("", "Date selected is "+date);
+        Date jobPreferredDate = null;
+        try {
+            jobPreferredDate = DateManipulation.convertStringToDate(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        String applicableDaySegments = DateManipulation.getApplicableDaySegment(jobPreferredDate);
+
+        switch(applicableDaySegments) {
+            case "future_date":
+                adapter = ArrayAdapter.createFromResource(getActivity(),
+                        R.array.day_segments, android.R.layout.simple_spinner_item);
+                break;
+            case "at_morning":
+                adapter = ArrayAdapter.createFromResource(getActivity(),
+                        R.array.day_segments_morning_done, android.R.layout.simple_spinner_item);
+                break;
+            case "at_forenoon":
+                adapter = ArrayAdapter.createFromResource(getActivity(),
+                        R.array.day_segments_forenoon_done, android.R.layout.simple_spinner_item);
+                break;
+            case "at_afternoon":
+                adapter = ArrayAdapter.createFromResource(getActivity(),
+                        R.array.day_segments_afternoon_done, android.R.layout.simple_spinner_item);
+                break;
+            case "at_evening":
+                adapter = ArrayAdapter.createFromResource(getActivity(),
+                        R.array.day_segments_evening_done, android.R.layout.simple_spinner_item);
+                break;
+            default:
+                adapter = ArrayAdapter.createFromResource(getActivity(),
+                        R.array.day_segments, android.R.layout.simple_spinner_item);
+                break;
+        }
+        adapter.notifyDataSetChanged();
+        return adapter;
+    }
+
+    public void createSpinnerDaySegment(View v) {
+        calendarArea = (RelativeLayout) v.findViewById(R.id.calendar_area);
+        daySegmentSelector = (Spinner) v.findViewById(R.id.day_segment_values);
+
+       /* ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.day_segments, android.R.layout.simple_spinner_item);*/
+        ArrayAdapter<CharSequence> adapter = createSpinnerValuesOfDay();
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        daySegmentSelector.setAdapter(adapter);
+        daySegmentSpinnerSelectionValue = daySegmentSelector.getSelectedItem().toString();
+        daySegmentSelector.setOnItemSelectedListener(new DaySegmentOnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                       int arg2, long arg3) {
+                Toast.makeText(getActivity(), daySegmentSelector.getSelectedItem().toString(),
+                        Toast.LENGTH_LONG).show();
+                daySegmentSpinnerSelectionValue = daySegmentSelector.getSelectedItem().toString();
+
+            }
+
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+            }
+
+
+        });
+
+        System.out.println("**************" + daySegmentSpinnerSelectionValue);
+    }
+
+    public void setCurrentDateOnEdit(View v) {
+        postJobDateDisplayEditText = (EditText) v.findViewById(R.id.set_job_date);
+
+        final Calendar cal = Calendar.getInstance();
+        year = cal.get(Calendar.YEAR);
+        month = cal.get(Calendar.MONTH);
+        day = cal.get(Calendar.DAY_OF_MONTH);
+
+        // set current date into textview
+        postJobDateDisplayEditText.setText(new StringBuilder()
+                // Month is 0 based, just add 1
+                .append(month + 1).append("-").append(day).append("-")
+                .append(year).append(" "));
+
+        postJobDateDisplayEditText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int inType = postJobDateDisplayEditText.getInputType(); // backup the input type
+                postJobDateDisplayEditText.setInputType(InputType.TYPE_NULL); // disable soft input
+                postJobDateDisplayEditText.onTouchEvent(event); // call native handler
+                postJobDateDisplayEditText.setInputType(inType); // restore input type
+                return true; // consume touch even
+            }
+        });
+
+        postJobDateDisplayEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //bring up the date picker dialog from here
+                datePickerDialog = new DatePickerDialog(getActivity(), datePickerListener, year, month, day);
+                datePickerDialog.setTitle("Schedule Job, Please!");
+                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                datePickerDialog.show();
+            }
+        });
+
+    }
+
+    private DatePickerDialog.OnDateSetListener datePickerListener
+            = new DatePickerDialog.OnDateSetListener() {
+
+        // when dialog box is closed, below method will be called.
+        public void onDateSet(DatePicker view, int selectedYear,
+                              int selectedMonth, int selectedDay) {
+            year = selectedYear;
+            month = selectedMonth;
+            day = selectedDay;
+
+            // set selected date into textview
+            postJobDateDisplayEditText.setText(new StringBuilder().append(month + 1)
+                    .append("-").append(day).append("-").append(year)
+                    .append(" "));
+
+
+            // set selected date into datepicker also
+            //datePicker.init(year, month, day, null);
+            createSpinnerDaySegment(fragmentView);
+
+        }
+    };
+
+    /*********************************************************************************************************************/
+    /**                                                                                                                  */
+    /**Place holder for the time picker code...................Check at the end of the class.............................*/
+    /**                                                                                                                  */
+    /*********************************************************************************************************************/
     @Override
     public void onClick(View v) {
+        String date = String.valueOf(year)+"-"+String.valueOf(month+1)+"-"+String.valueOf(day);
+        Date jobPreferredDate = null;
+        try {
+                jobPreferredDate = DateManipulation.convertStringToDate(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        selectedDaySegment = DaySegmentMapper.getDaySegment(daySegmentSpinnerSelectionValue);
+
+        Log.d("", selectedDaySegment.toString());
+        if (selectedDaySegment == null) {
+            dateValidityTextView.setTextColor(Color.RED);
+            dateValidityTextView.setText("You have chosen either an invalid time of day. We operate between 9-5");
+            return;
+        }
+        if (!DateManipulation.isDateEligibleForPosting(jobPreferredDate, DaySegmentMapper.getDaySegment(daySegmentSpinnerSelectionValue))) {
+            dateValidityTextView.setTextColor(Color.RED);
+            dateValidityTextView.setText("You have chosen either an invalid date or time of day. We operate between 9-5");
+            return;
+        }
+        preferredDate = jobPreferredDate;
+
         progressDialog.show();
         new PostJobHttpAsyncTask().execute(QUERY_URL_POST_PUT_JOB);
     }
@@ -137,6 +345,10 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
             job.setCustomerMobileNumber(Long.parseLong(mobileNumber));
             job.setPincode(pincode);
             job.setDescription(jobDescriptionEditText.getText().toString());
+            Log.d("", selectedDaySegment.toString());
+            job.setDaySegment(selectedDaySegment);
+            job.setDatePreferred(preferredDate);
+            Log.d("", preferredDate.toString());
 
             String result = "";
 
@@ -166,3 +378,72 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
 
 
 }
+
+
+
+
+
+
+
+    /*
+
+        private static String pad(int c) {
+            if (c >= 10)
+                return String.valueOf(c);
+            else
+                return "0" + String.valueOf(c);
+        }
+
+
+        public void setCurrentTimeOnView(View v) {
+
+            postJobTimeDisplayEditText = (EditText) v.findViewById(R.id.set_job_time);
+
+            final Calendar c = Calendar.getInstance();
+            hour = c.get(Calendar.HOUR_OF_DAY);
+            minute = c.get(Calendar.MINUTE);
+
+            // set current time into textview
+            postJobTimeDisplayEditText.setText(
+                    new StringBuilder().append(pad(hour))
+                            .append(":").append(pad(minute)));
+
+            postJobTimeDisplayEditText.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    int inType = postJobTimeDisplayEditText.getInputType(); // backup the input type
+                    postJobTimeDisplayEditText.setInputType(InputType.TYPE_NULL); // disable soft input
+                    postJobTimeDisplayEditText.onTouchEvent(event); // call native handler
+                    postJobTimeDisplayEditText.setInputType(inType); // restore input type
+                    return true; // consume touch even
+                }
+            });
+
+            postJobTimeDisplayEditText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //bring up the date picker dialog from here
+                    timePickerDialog = new TimePickerDialog(getActivity(), timePickerListener, hour, minute, false);
+                    timePickerDialog.setTitle("Schedule Job, Please!");
+                    timePickerDialog.show();
+                }
+            });
+
+        }
+
+        private TimePickerDialog.OnTimeSetListener timePickerListener =
+                new TimePickerDialog.OnTimeSetListener() {
+                    public void onTimeSet(TimePicker view, int selectedHour,
+                                          int selectedMinute) {
+                        hour = selectedHour;
+                        minute = selectedMinute;
+
+                        // set current time into textview
+                        postJobTimeDisplayEditText.setText(new StringBuilder().append(pad(hour))
+                                .append(":").append(pad(minute)));
+
+                        // set current time into timepicker
+
+                    }
+                };
+                */

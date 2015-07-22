@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -121,13 +122,17 @@ public class UserDetailsFragment extends DialogFragment implements View.OnClickL
         @Override
         protected Boolean doInBackground(String... mobile) {
             GetServiceProvider getServiceProvider = new GetServiceProvider();
-            ServiceProvider serviceProvider = null;
+            //ServiceProvider serviceProvider = null;
+            boolean isServiceProvider = false;
             try {
-                serviceProvider = getServiceProvider.getServiceProvider(Long.parseLong(mobile[0]));
+                //serviceProvider = getServiceProvider.getServiceProvider(Long.parseLong(mobile[0]));
+                isServiceProvider = getServiceProvider.isServiceProvider(Long.parseLong(mobile[0]));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return serviceProvider != null;
+            //return serviceProvider != null;
+            Log.i("", "isServiceProvider************* "+isServiceProvider);
+            return isServiceProvider;
         }
 
         @Override

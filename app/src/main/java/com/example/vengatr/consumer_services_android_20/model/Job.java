@@ -21,6 +21,8 @@ public class Job implements Serializable {
 
     private JobStatus jobStatus;
 
+    private DaySegment daySegment;
+
 
     private String customerName;
 
@@ -45,15 +47,16 @@ public class Job implements Serializable {
 
     private Date dateInitiated;
 
-    private Date dateDone;
+    private Date datePreferred;
 
+    private Date dateDone;
 
     private String description;
 
     protected Job() {
     }
 
-    public Job(JobType jobType, JobStatus jobStatus, String customerName, String pincode, String description, long customerMobileNumber, long serviceProviderMobileNumber, String serviceProviderName, Date dateInitiated) {
+    public Job(JobType jobType, JobStatus jobStatus, String customerName, String pincode, String description, long customerMobileNumber, long serviceProviderMobileNumber, String serviceProviderName, Date datePreferred, DaySegment daySegment) {
         //this.id = id;
         this.jobType = jobType;
         this.customerName = customerName;
@@ -63,7 +66,9 @@ public class Job implements Serializable {
         this.customerMobileNumber = customerMobileNumber;
         this.serviceProviderMobileNumber = serviceProviderMobileNumber;
         this.serviceProviderName = serviceProviderName;
-        this.dateInitiated = dateInitiated;
+        this.dateInitiated = new Date();
+        this.datePreferred = datePreferred;
+        this.daySegment = daySegment;
     }
 
     public JobType getJobType() {
@@ -146,6 +151,21 @@ public class Job implements Serializable {
         this.customerMobileNumber = customerMobileNumber;
     }
 
+    public DaySegment getDaySegment() {
+        return daySegment;
+    }
+
+    public void setDaySegment(DaySegment daySegment) {
+        this.daySegment = daySegment;
+    }
+
+    public Date getDatePreferred() {
+        return datePreferred;
+    }
+
+    public void setDatePreferred(Date datePreferred) {
+        this.datePreferred = datePreferred;
+    }
 
 
 }

@@ -15,6 +15,7 @@ import com.example.vengatr.consumer_services_android_20.dummy.JobListContent;
 import com.example.vengatr.consumer_services_android_20.model.Job;
 import com.example.vengatr.consumer_services_android_20.model.JobStatus;
 import com.example.vengatr.consumer_services_android_20.model.JobType;
+import com.example.vengatr.consumer_services_android_20.notifier.AgreedJobNotifier;
 import com.example.vengatr.consumer_services_android_20.notifier.CancelJobListenerNotifier;
 import com.example.vengatr.consumer_services_android_20.rest_classes.GetJob;
 import com.example.vengatr.consumer_services_android_20.rest_classes.PutJob;
@@ -68,23 +69,47 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_job_detail, container, false);
         rootView1 = rootView;
-        Button cancel;
+        Button cancel, agree, unassign;
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
             System.out.println("****" + mItem.getId());
             ((TextView) rootView.findViewById(R.id.jobId)).setText("Job Id : " + mItem.getId());
-            ((TextView) rootView.findViewById(R.id.jobType)).setText("Job Type : "+mItem.getJobType().toString());
-            ((TextView) rootView.findViewById(R.id.jobStatus)).setText("Job Status : "+mItem.getJobStatus().toString());
-            ((TextView) rootView.findViewById(R.id.customerName)).setText("Customer Name : "+mItem.getCustomerName());
+            ((TextView) rootView.findViewById(R.id.jobType)).setText("Job Type : " + mItem.getJobType().toString());
+            ((TextView) rootView.findViewById(R.id.jobStatus)).setText("Job Status : " + mItem.getJobStatus().toString());
+            ((TextView) rootView.findViewById(R.id.daySegment)).setText("Job day segment : "+mItem.getDaySegment().getDaySegment());
+            ((TextView) rootView.findViewById(R.id.customerName)).setText("Customer Name : " + mItem.getCustomerName());
             ((TextView) rootView.findViewById(R.id.customerMobileNumber)).setText("Customer Mobile : "+mItem.getCustomerMobileNumber());
             ((TextView) rootView.findViewById(R.id.serviceproviderName)).setText("Service Provider Name : "+mItem.getServiceProviderName());
             ((TextView) rootView.findViewById(R.id.serviceProviderMobileNumber)).setText("Service Provider Mobile : "+mItem.getServiceProviderMobileNumber());
             ((TextView) rootView.findViewById(R.id.pincode)).setText("Pincode : "+mItem.getPincode());
             ((TextView) rootView.findViewById(R.id.dateinitiated)).setText("Date Initiated : "+ mItem.getDateInitiated());
+            ((TextView) rootView.findViewById(R.id.customer_preferred_date)).setText("Preferred Date : "+ mItem.getDatePreferred());
             ((TextView) rootView.findViewById(R.id.dateDone)).setText("Date Done : "+mItem.getDateDone());
             ((TextView) rootView.findViewById(R.id.description)).setText(mItem.getDescription());
             cancel = (Button) rootView.findViewById(R.id.cancel_button);
             cancel.setOnClickListener(this);
+
+            agree = (Button) rootView.findViewById(R.id.agree_button);
+            agree.setEnabled(false);
+            agree.setVisibility(View.GONE);
+            agree.setOnClickListener(null);
+
+
+            if (mItem.getJobStatus().toString().equalsIgnoreCase("assigned")) {
+                agree.setEnabled(true);
+                agree.setVisibility(View.VISIBLE);
+                agree.setOnClickListener(this);
+            }
+
+            unassign = (Button) rootView.findViewById(R.id.unassign_button);
+            unassign.setOnClickListener(this);
+            if (!mItem.getJobStatus().toString().equalsIgnoreCase("agreed") && !mItem.getJobStatus().toString().equalsIgnoreCase("assigned")) {
+                unassign.setEnabled(false);
+                unassign.setVisibility(View.GONE);
+                unassign.setOnClickListener(null);
+            }
+
+
         }
 
         return rootView;
@@ -92,8 +117,14 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        new CancelJobAsyncHttpTask().execute(String.valueOf(jobId));
-        //new CancelJobListenerNotifier((JobDetailActivity) getActivity());
+        if (v.getId() == R.id.cancel_button) {
+            new CancelJobAsyncHttpTask().execute(String.valueOf(jobId));
+            //new CancelJobListenerNotifier((JobDetailActivity) getActivity());
+        } else if (v.getId() == R.id.agree_button) {
+            new AgreedJobAsyncHttpTask().execute(String.valueOf(jobId));
+        } else if (v.getId() == R.id.unassign_button) {
+            new UnassignJobAsyncHttpTask().execute(String.valueOf(jobId));
+        }
     }
 
     private class CancelJobAsyncHttpTask extends AsyncTask<String, Void, Job> {
@@ -113,14 +144,12 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Log.d("*******Job customer name" + job.getCustomerName(), "");
             return cancelledJob;
         }
 
         @Override
         protected void onPostExecute(Job job) {
             Toast.makeText(getActivity(), "Job cancelled!", Toast.LENGTH_LONG).show();
-            Log.d("*******Job customer name" + job.getCustomerName(), "");
             new JobListContent().removeJob(job);
             new CancelJobListenerNotifier((JobDetailActivity) getActivity());
         }
@@ -131,5 +160,67 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
     }
 
 
+    private class AgreedJobAsyncHttpTask extends AsyncTask<String, Void, Job> {
 
+        @Override
+        protected Job doInBackground(String... urls) {
+            GetJob getJob = new GetJob();
+            Job job = null;
+            Job agreedJob = null;
+            try {
+                job =  getJob.getJobById(jobId);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                agreedJob = new PutJob ().agreeJob(job);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return agreedJob;
+        }
+
+        @Override
+        protected void onPostExecute(Job job) {
+            Toast.makeText(getActivity(), "Job agreed!", Toast.LENGTH_LONG).show();
+            new JobListContent().updateJob(job);
+            new AgreedJobNotifier((JobDetailActivity) getActivity());
+        }
+    }
+
+    public interface AgreedJobListener {
+        void jobListPageTransition();
+    }
+
+
+
+    private class UnassignJobAsyncHttpTask extends AsyncTask<String, Void, Job> {
+
+        @Override
+        protected Job doInBackground(String... urls) {
+            GetJob getJob = new GetJob();
+            Job job = null;
+            Job unassignedJob = null;
+            try {
+                job =  getJob.getJobById(jobId);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                unassignedJob = new PutJob ().unassignJob(job);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return unassignedJob;
+        }
+
+        @Override
+        protected void onPostExecute(Job job) {
+            Toast.makeText(getActivity(), "Job unassigned!", Toast.LENGTH_LONG).show();
+            new JobListContent().updateJob(job);
+            new AgreedJobNotifier((JobDetailActivity) getActivity());
+        }
+    }
 }

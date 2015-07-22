@@ -58,9 +58,9 @@ public class JobListFragment extends ListFragment {
 
     private List<Job> jobs;
 
-    //protected String url ="http://10.0.2.2:8080/customers/jobs/mobileNumber/";
+    protected String url ="http://10.0.2.2:8080/customers/jobs/mobileNumber/";
 
-    protected String url ="http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/customers/jobs/mobileNumber/";
+    //protected String url ="http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/customers/jobs/mobileNumber/";
 
     ProgressDialog progressDialog;
 
@@ -127,7 +127,9 @@ public class JobListFragment extends ListFragment {
                 android.R.id.text1,
                 JobListContent.ITEMS));*/
 
-        setListAdapter(new CustomerJobAdapter(getActivity(), (ArrayList<Job>) JobListContent.ITEMS));
+        CustomerJobAdapter customerJobAdapter = new CustomerJobAdapter(getActivity(), (ArrayList<Job>) JobListContent.ITEMS);
+        setListAdapter(customerJobAdapter);
+        customerJobAdapter.notifyDataSetChanged();
         getJobs(url+mobileNumber);
 
         /*
@@ -235,7 +237,7 @@ public class JobListFragment extends ListFragment {
             Toast.makeText(context, "JobListFragment Data Sent!", Toast.LENGTH_LONG).show();
             boolean displayJobs = false;
             //ArrayList<Job> customerJobs = (ArrayList<Job>) jobs;
-
+            if (jobs == null) return;
             if (!jobs.isEmpty()) {
                 new JobListContent().setJobs(jobs);
 
@@ -247,12 +249,14 @@ public class JobListFragment extends ListFragment {
                     android.R.id.text1,
                     JobListContent.ITEMS));*/
 
-                setListAdapter(new CustomerJobAdapter(context, (ArrayList<Job>) JobListContent.ITEMS));
-
+                CustomerJobAdapter customerJobAdapter = new CustomerJobAdapter(context, (ArrayList<Job>) JobListContent.ITEMS);
+                setListAdapter(customerJobAdapter);
+                customerJobAdapter.notifyDataSetChanged();
 
                 for (Job job: JobListContent.ITEMS) {
                     String jobStatus = job.getJobStatus().toString();
-                    if (jobStatus.equalsIgnoreCase("open") || jobStatus.equalsIgnoreCase("closed") || jobStatus.equalsIgnoreCase("assigned")) {
+                    Log.i("", "Job status to be displayed is "+jobStatus);
+                    if (jobStatus.equalsIgnoreCase("open") || jobStatus.equalsIgnoreCase("closed") || jobStatus.equalsIgnoreCase("assigned") || jobStatus.equalsIgnoreCase("agreed")) {
                         displayJobs = true;
                     }
                 }
