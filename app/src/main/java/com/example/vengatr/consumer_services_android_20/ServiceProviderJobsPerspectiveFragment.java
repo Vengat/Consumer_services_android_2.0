@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.vengatr.consumer_services_android_20.dummy.JobListContent;
 import com.example.vengatr.consumer_services_android_20.model.Job;
 import com.example.vengatr.consumer_services_android_20.rest_classes.GetJob;
+import com.example.vengatr.consumer_services_android_20.util.CSProperties;
 import com.example.vengatr.consumer_services_android_20.util.JobAdapter;
 
 import java.io.IOException;
@@ -31,7 +32,7 @@ public class ServiceProviderJobsPerspectiveFragment extends ListFragment {
     // private static String QUERY_URL_GET_MATCHING_JOBS_BY_MOBILE_NUMBER = "http://10.0.2.2:8080/serviceProviders/openAssignJobs/mobileNumber/";
     //ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com
 
-    protected String url =  "http://10.0.2.2:8080/serviceProviders/openAssignAgreedJobs/mobileNumber/";
+    protected String getJobsURL;// =  "http://10.0.2.2:8080/serviceProviders/openAssignAgreedJobs/mobileNumber/";
 
     //protected String url =  "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/serviceProviders/openAssignAgreedJobs/mobileNumber/";
 
@@ -117,7 +118,8 @@ public class ServiceProviderJobsPerspectiveFragment extends ListFragment {
         JobAdapter jobAdapter = new JobAdapter(getActivity(), (ArrayList<Job>) JobListContent.ITEMS);
         setListAdapter(jobAdapter);
         jobAdapter.notifyDataSetChanged();
-        getJobs(url + mobileNumber);
+        getJobsURL =  new CSProperties(context).getDomain()+"/serviceProviders/openAssignAgreedJobs/mobileNumber/";
+        getJobs(getJobsURL + mobileNumber);
     }
 
 
@@ -203,7 +205,7 @@ public class ServiceProviderJobsPerspectiveFragment extends ListFragment {
         @Override
         protected List<Job> doInBackground(String... urls) {
             List<Job> jobs = null;
-            GetJob getJob = new GetJob();
+            GetJob getJob = new GetJob(getActivity());
             try {
                 jobs = getJob.getJobs(urls[0]);
             } catch (IOException e) {

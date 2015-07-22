@@ -19,6 +19,7 @@ import com.example.vengatr.consumer_services_android_20.dummy.JobListContent;
 import com.example.vengatr.consumer_services_android_20.model.Job;
 import com.example.vengatr.consumer_services_android_20.notifier.NoJobsNotifierPostExecuteJobListFragment;
 import com.example.vengatr.consumer_services_android_20.rest_classes.GetJob;
+import com.example.vengatr.consumer_services_android_20.util.CSProperties;
 import com.example.vengatr.consumer_services_android_20.util.CustomerJobAdapter;
 import com.example.vengatr.consumer_services_android_20.util.JobAdapter;
 
@@ -58,7 +59,7 @@ public class JobListFragment extends ListFragment {
 
     private List<Job> jobs;
 
-    protected String url ="http://10.0.2.2:8080/customers/jobs/mobileNumber/";
+    private String getJobsURL; // ="http://10.0.2.2:8080/customers/jobs/mobileNumber/";
 
     //protected String url ="http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/customers/jobs/mobileNumber/";
 
@@ -127,10 +128,11 @@ public class JobListFragment extends ListFragment {
                 android.R.id.text1,
                 JobListContent.ITEMS));*/
 
+        getJobsURL= new CSProperties(context).getDomain()+"/customers/jobs/mobileNumber/";
         CustomerJobAdapter customerJobAdapter = new CustomerJobAdapter(getActivity(), (ArrayList<Job>) JobListContent.ITEMS);
         setListAdapter(customerJobAdapter);
         customerJobAdapter.notifyDataSetChanged();
-        getJobs(url+mobileNumber);
+        getJobs(getJobsURL+mobileNumber);
 
         /*
         JobAdapter jobAdapter = new JobAdapter(getActivity(), (ArrayList<Job>) JobListContent.ITEMS);
@@ -222,7 +224,7 @@ public class JobListFragment extends ListFragment {
         @Override
         protected List<Job> doInBackground(String... urls) {
             List<Job> jobs = null;
-            GetJob getJob = new GetJob();
+            GetJob getJob = new GetJob(context);
             try {
                 jobs = getJob.getJobs(urls[0]);
             } catch (IOException e) {

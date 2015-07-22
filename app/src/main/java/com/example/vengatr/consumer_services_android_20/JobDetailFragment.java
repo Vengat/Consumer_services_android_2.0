@@ -1,5 +1,7 @@
 package com.example.vengatr.consumer_services_android_20;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -43,6 +45,7 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
     private Job mItem;
     private long jobId;
     View rootView1;
+    private Context context;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -63,6 +66,13 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
             jobId = mItem.getId();
         }
     }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        context = activity;
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -131,7 +141,7 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
 
         @Override
         protected Job doInBackground(String... urls) {
-            GetJob getJob = new GetJob();
+            GetJob getJob = new GetJob(context);
             Job job = null;
             Job cancelledJob = null;
             try {
@@ -140,7 +150,7 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
                 e.printStackTrace();
             }
             try {
-                cancelledJob = new PutJob ().cancelJob(job);
+                cancelledJob = new PutJob(context).cancelJob(job);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -164,7 +174,7 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
 
         @Override
         protected Job doInBackground(String... urls) {
-            GetJob getJob = new GetJob();
+            GetJob getJob = new GetJob(context);
             Job job = null;
             Job agreedJob = null;
             try {
@@ -173,7 +183,7 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
                 e.printStackTrace();
             }
             try {
-                agreedJob = new PutJob ().agreeJob(job);
+                agreedJob = new PutJob(context).agreeJob(job);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -199,7 +209,7 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
 
         @Override
         protected Job doInBackground(String... urls) {
-            GetJob getJob = new GetJob();
+            GetJob getJob = new GetJob(context);
             Job job = null;
             Job unassignedJob = null;
             try {
@@ -208,7 +218,7 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
                 e.printStackTrace();
             }
             try {
-                unassignedJob = new PutJob ().unassignJob(job);
+                unassignedJob = new PutJob(context).unassignJob(job);
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -121,7 +121,7 @@ public class UserDetailsFragment extends DialogFragment implements View.OnClickL
 
         @Override
         protected Boolean doInBackground(String... mobile) {
-            GetServiceProvider getServiceProvider = new GetServiceProvider();
+            GetServiceProvider getServiceProvider = new GetServiceProvider(getActivity());
             //ServiceProvider serviceProvider = null;
             boolean isServiceProvider = false;
             try {

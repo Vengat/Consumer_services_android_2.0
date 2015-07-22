@@ -1,9 +1,11 @@
 package com.example.vengatr.consumer_services_android_20.rest_classes;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.example.vengatr.consumer_services_android_20.model.Job;
 import com.example.vengatr.consumer_services_android_20.model.ServiceProvider;
+import com.example.vengatr.consumer_services_android_20.util.CSProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
@@ -27,11 +29,18 @@ public class PutJob {
 
     private final String CANCEL_JOB_URL = "http://10.0.2.2:8080/customers/cancelJob/jobId/"+jobId+"/mobileNumber/"+customerMobileNumber;
 
+    private String domain;
+
+    public PutJob(Context context) {
+        CSProperties csProperties = new CSProperties(context);
+        this.domain = csProperties.getDomain();
+    }
+
     public Job cancelJob(Job job) throws IOException {
         StringBuffer stringBuffer = new StringBuffer();
         ObjectMapper objectMapper = new ObjectMapper();
         HttpClient client = new DefaultHttpClient();
-        String cancel_job_url = "http://10.0.2.2:8080/customers/cancelJob/jobId/"+job.getId()+"/mobileNumber/"+job.getCustomerMobileNumber();
+        String cancel_job_url = this.domain+"/customers/cancelJob/jobId/"+job.getId()+"/mobileNumber/"+job.getCustomerMobileNumber();
         //String cancel_job_url = "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/customers/cancelJob/jobId/"+job.getId()+"/mobileNumber/"+job.getCustomerMobileNumber();
         HttpPut request = new HttpPut(cancel_job_url);
         HttpResponse response = client.execute(request);
@@ -61,7 +70,7 @@ public class PutJob {
         String spJson = ow.writeValueAsString(sp);
         System.out.println("Hello your json object "+spJson);
         HttpClient client = new DefaultHttpClient();
-        String assign_job_url = "http://10.0.2.2:8080/serviceProviders/assignJob/jobId/"+jobId;
+        String assign_job_url = this.domain+"/serviceProviders/assignJob/jobId/"+jobId;
         //String assign_job_url = "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/serviceProviders/assignJob/jobId/"+jobId;
         HttpPut request = new HttpPut(assign_job_url);
         request.setEntity(new StringEntity(spJson));
@@ -88,7 +97,7 @@ public class PutJob {
         ObjectMapper objectMapper = new ObjectMapper();
 
         HttpClient client = new DefaultHttpClient();
-        String close_job_url = "http://10.0.2.2:8080/serviceProviders/closeJob/jobId/"+jobId;
+        String close_job_url = this.domain+"/serviceProviders/closeJob/jobId/"+jobId;
         //String close_job_url = "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/serviceProviders/closeJob/jobId/"+jobId;
         HttpPut request = new HttpPut(close_job_url);
 
@@ -118,7 +127,7 @@ public class PutJob {
         String jobJson = ow.writeValueAsString(job);
         System.out.println("Hello your json object "+jobJson);
         HttpClient client = new DefaultHttpClient();
-        String agree_job_url = "http://10.0.2.2:8080/customers/agreeJob";
+        String agree_job_url = this.domain+"/customers/agreeJob";
         //String agree_job_url = "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/customers/agreeJob";
         HttpPut request = new HttpPut(agree_job_url);
         request.setEntity(new StringEntity(jobJson));
@@ -155,7 +164,7 @@ public class PutJob {
         String jobJson = ow.writeValueAsString(job);
         System.out.println("Hello your json object "+jobJson);
         HttpClient client = new DefaultHttpClient();
-        String unassign_job_url = "http://10.0.2.2:8080/customers/unassignJob";
+        String unassign_job_url = this.domain+"/customers/unassignJob";
         //String unassign_job_url = "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/customers/unassignJob";
         HttpPut request = new HttpPut(unassign_job_url);
         request.setEntity(new StringEntity(jobJson));

@@ -41,7 +41,7 @@ public class MainActivity extends FragmentActivity implements UserDetailsFragmen
 
         //backgroundImage.setImageResource(R.drawable.loader);
         mSharedPreferences = getSharedPreferences(PREFS, MODE_PRIVATE);
-        mSharedPreferences.edit().clear().commit();
+        //mSharedPreferences.edit().clear().commit();
         mobileNumber = mSharedPreferences.getString(PHONE, "");
         //mobileNumber="9986020496";
         name = mSharedPreferences.getString(NAME, "");

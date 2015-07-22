@@ -1,5 +1,7 @@
 package com.example.vengatr.consumer_services_android_20;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -48,6 +50,7 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
     private CloseJobAsyncHttpTask closeJobAsyncHttpTask;
 
     private long jobId;
+    private Context context;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -71,6 +74,12 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
         }
         getServiceProviderAsyncHttpTask = new GetServiceProviderAsyncHttpTask();
         getServiceProviderAsyncHttpTask.execute(mobileNumber);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        context = activity;
     }
 
     @Override
@@ -141,7 +150,7 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
 
         @Override
         protected ServiceProvider doInBackground(String... params) {
-            GetServiceProvider getServiceProvider = new GetServiceProvider();
+            GetServiceProvider getServiceProvider = new GetServiceProvider(context);
             ServiceProvider sp = null;
 
             try {
@@ -166,7 +175,7 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
             Job job = null;
             try {
                 if (currentServiceProvider == null) System.out.println("&&&&&&Current Service Provider is null");
-                job = new PutJob().assignJob(Long.parseLong(params[0]), currentServiceProvider);
+                job = new PutJob(context).assignJob(Long.parseLong(params[0]), currentServiceProvider);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -188,7 +197,7 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
             Job job = null;
             try {
                 if (currentServiceProvider == null) System.out.println("&&&&&&Current Service Provider is null");
-                job = new PutJob().closeJob(Long.parseLong(params[0]));
+                job = new PutJob(context).closeJob(Long.parseLong(params[0]));
             } catch (IOException e) {
                 e.printStackTrace();
             }

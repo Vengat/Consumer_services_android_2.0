@@ -1,9 +1,11 @@
 package com.example.vengatr.consumer_services_android_20.rest_classes;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.example.vengatr.consumer_services_android_20.model.Job;
 import com.example.vengatr.consumer_services_android_20.util.CSConstants;
+import com.example.vengatr.consumer_services_android_20.util.CSProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 
@@ -26,19 +28,35 @@ public class GetJob {
 
     //ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080
 
-    private static final String QUERY_NEW_JOB_URL = "http://10.0.2.2:8080/jobs";
+    //private static final String QUERY_NEW_JOB_URL = "http://10.0.2.2:8080/jobs";
 
     //private static final String QUERY_NEW_JOB_URL = "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/jobs";
 
-    private static final String QUERY_JOB_BY_ID = "http://10.0.2.2:8080/jobs/id/";//append the id
+    //private static final String QUERY_JOB_BY_ID = "http://10.0.2.2:8080/jobs/id/";//append the id
 
     //private static final String QUERY_JOB_BY_ID = "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/jobs/id/";//append the id
 
-    private static final String QUERY_URL_GET_JOBS_BY_MOBILE_NUMBER = "http://10.0.2.2:8080/customers/jobs/mobileNumber/";
+    //private static final String QUERY_URL_GET_JOBS_BY_MOBILE_NUMBER = "http://10.0.2.2:8080/customers/jobs/mobileNumber/";
 
    // private static final String QUERY_URL_GET_JOBS_BY_MOBILE_NUMBER = "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/customers/jobs/mobileNumber/";
 
     private Job job;
+
+    private String domain;
+
+    private String newJobUrl;
+
+    private String jobByIdUrl;
+
+    private String getJobsByMobileNumber;
+
+    public GetJob(Context context) {
+        CSProperties csProperties = new CSProperties(context);
+        domain = csProperties.getDomain();
+        newJobUrl = domain+"/jobs";
+        jobByIdUrl= domain+"/jobs/id/";
+        getJobsByMobileNumber = domain+"/customers/jobs/mobileNumber/";
+    }
 
 
     /*
@@ -88,7 +106,7 @@ public class GetJob {
         StringBuffer stringBuffer = new StringBuffer();
         ObjectMapper objectMapper = new ObjectMapper();
         HttpClient client = new DefaultHttpClient();
-        HttpGet request = new HttpGet(QUERY_NEW_JOB_URL);
+        HttpGet request = new HttpGet(newJobUrl);
         //HttpResponse response = client.execute(request);
 
         HttpResponse response = null;
@@ -114,7 +132,7 @@ public class GetJob {
         StringBuffer stringBuffer = new StringBuffer();
         ObjectMapper objectMapper = new ObjectMapper();
         HttpClient client = new DefaultHttpClient();
-        HttpGet request = new HttpGet(QUERY_JOB_BY_ID+id);
+        HttpGet request = new HttpGet(jobByIdUrl+id);
         //HttpResponse response = client.execute(request);
 
         HttpResponse response = null;

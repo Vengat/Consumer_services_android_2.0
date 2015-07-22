@@ -1,9 +1,11 @@
 package com.example.vengatr.consumer_services_android_20;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -36,6 +38,7 @@ import com.example.vengatr.consumer_services_android_20.model.JobStatus;
 import com.example.vengatr.consumer_services_android_20.model.JobType;
 import com.example.vengatr.consumer_services_android_20.notifier.OnPostJobCompletionNotifier;
 import com.example.vengatr.consumer_services_android_20.rest_classes.GetJob;
+import com.example.vengatr.consumer_services_android_20.util.CSProperties;
 import com.example.vengatr.consumer_services_android_20.util.DateManipulation;
 import com.example.vengatr.consumer_services_android_20.util.DaySegmentMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -75,7 +78,7 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
 
     //ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com
     //private static final String QUERY_URL_POST_PUT_JOB = "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/jobs";
-    private static final String QUERY_URL_POST_PUT_JOB = "http://10.0.2.2:8080/jobs";
+    private String postJobUrl;// = "http://10.0.2.2:8080/jobs";
 
     private SharedPreferences mSharedPreferences;
 
@@ -88,6 +91,8 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
     private Date preferredDate;
     private Date jobPreferredDate = null;
     private View fragmentView;
+    private Context context;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -129,6 +134,14 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        if (activity == null) Log.e("IS NULL", "NULLNULLNULLNULLNULLNULLNULLNULLNULLNULLNULL");
+        context = activity;
     }
 
     public void createSpinnerJobType(View v) {
@@ -322,7 +335,8 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
         preferredDate = jobPreferredDate;
 
         progressDialog.show();
-        new PostJobHttpAsyncTask().execute(QUERY_URL_POST_PUT_JOB);
+        postJobUrl = new CSProperties(context).getDomain()+"/jobs";
+        new PostJobHttpAsyncTask().execute(postJobUrl);
     }
 
     private class PostJobHttpAsyncTask extends AsyncTask<String, Void, String> {
@@ -330,7 +344,7 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
         protected String doInBackground(String... urls) {
 
 
-            GetJob getJob = new GetJob();
+            GetJob getJob = new GetJob(getActivity());
             Job job = null;
             try {
                 job =  getJob.getNewJob();
