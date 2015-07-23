@@ -42,8 +42,8 @@
 
     <string name="jobtypes_prompt">Choose a Job type</string>
     <string-array name="job_types">
-        <item>PLUMBING</item>
-        <item>ELECTRICAL</item>
+        <item>Plumbing</item>
+        <item>Electrical</item>
     </string-array>
 
     <string name="day_segment_prompt">Choose a time</string>

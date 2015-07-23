@@ -101,7 +101,7 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
 
 
 
-        if (userType.equalsIgnoreCase("customer")) {
+        if (userType == null || userType.equalsIgnoreCase("customer")) {
             jobListFragment = new JobListFragment();
             jobListFragment.setArguments(getIntent().getExtras());
 
@@ -115,9 +115,10 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
             postJobButton = (Button) findViewById(R.id.post_job_button);
             postJobButton.setClickable(true);
             postJobButton.setVisibility(View.VISIBLE);
+            postJobButton.setEnabled(true);
             postJobButton.setOnClickListener(this);
 
-        } else {
+        } else if (userType.equalsIgnoreCase("service provider")){
             serviceProviderJobsPerspectiveFragment = new ServiceProviderJobsPerspectiveFragment();
             serviceProviderJobsPerspectiveFragment.setArguments(getIntent().getExtras());
 
@@ -289,6 +290,8 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
         if (userType.equalsIgnoreCase("customer")) {
             getSupportFragmentManager().beginTransaction().replace(R.id.job_list_container, jobListFragment).commit();
             postJobButton.setVisibility(View.VISIBLE);
+            postJobButton.setEnabled(true);
+            postJobButton.setClickable(true);
             postJobButton.setOnClickListener(this);
         } else {
             getSupportFragmentManager().beginTransaction()

@@ -42,7 +42,7 @@ public class DateManipulation {
 	public static boolean isSegmentAssignableToday(Date date, DaySegment daySegment) {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DATE, 0);
-		DateFormat df = new SimpleDateFormat("h", Locale.ENGLISH);
+		DateFormat df = new SimpleDateFormat("h");
 		String time = df.format(date);
 		Log.d("", " df.format(date) " + df.format(date));
 		Log.d("", "daySegment " + DaySegment.valueOf(daySegment.toString()));

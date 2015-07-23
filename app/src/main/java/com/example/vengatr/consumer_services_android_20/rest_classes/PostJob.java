@@ -58,6 +58,7 @@ public class PostJob {
             */
             // ** Alternative way to convert Person object to JSON string usin Jackson Lib
             ObjectMapper mapper = new ObjectMapper();
+            Log.i("Pref date", "POST "+job.getDatePreferred().toString());
             json = mapper.writeValueAsString(job);
 
             // 5. set json to StringEntity

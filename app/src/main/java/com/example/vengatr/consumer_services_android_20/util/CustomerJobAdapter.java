@@ -67,10 +67,10 @@ public class CustomerJobAdapter extends ArrayAdapter<Job> {
         // Populate the data into the template view using the data object
         viewHolder.jobIdTextView.setText(String.valueOf("Job ID : "+job.getId()));
         String phone = String.valueOf(job.getServiceProviderMobileNumber());
-        if (phone.equals("0")) phone = "Not assigned yet";
+        if (phone.equals("0")) phone = "";
         viewHolder.serviceProviderPhoneTextView.setText(phone);
         String spName = job.getServiceProviderName();
-        if (spName.length() == 0) spName = "Service Provider not assigned yet";
+        if (spName.length() == 0) spName = "Unassigned";
         viewHolder.serviceProviderNameTextView.setText(spName);
         if(job.getJobType().toString().equalsIgnoreCase("plumbing")) {
             viewHolder.jobTypeImageView.setImageResource(R.drawable.plumbing);

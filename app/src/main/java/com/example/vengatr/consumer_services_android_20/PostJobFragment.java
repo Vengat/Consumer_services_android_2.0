@@ -85,11 +85,14 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
     private int year;
     private int month;
     private int day;
+    private int selectedYear;
+    private int selectedMonth;
+    private int selectedDay;
     private int hour;
     private int minute;
     private DaySegment selectedDaySegment;
     private Date preferredDate;
-    private Date jobPreferredDate = null;
+    private Date jobPreferredDate;
     private View fragmentView;
     private Context context;
 
@@ -149,9 +152,16 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
 
     public void createSpinnerJobType(View v) {
         jobTypeSelector = (Spinner) v.findViewById(R.id.job_types_spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+        /*ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.job_types, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);*/
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.job_types, R.layout.selected_item);
+
+        adapter.setDropDownViewResource(R.layout.dropdown_item);
+
         jobTypeSelector.setAdapter(adapter);
         //jobTypeSelector.setOnItemSelectedListener(new JobTypeOnItemSelectedListener());
         jobTypeSelector.setOnItemSelectedListener(new JobTypeOnItemSelectedListener() {
@@ -159,7 +169,7 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
                                        int arg2, long arg3) {
                 Toast.makeText(getActivity(), jobTypeSelector.getSelectedItem().toString(),
                         Toast.LENGTH_LONG).show();
-                jobTypeSpinnerSelectionValue = jobTypeSelector.getSelectedItem().toString();
+                jobTypeSpinnerSelectionValue = jobTypeSelector.getSelectedItem().toString().toUpperCase();
 
             }
 
@@ -176,7 +186,7 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
     public ArrayAdapter<CharSequence> createSpinnerValuesOfDay() {
         ArrayAdapter<CharSequence> adapter = null;
         String date = String.valueOf(year)+"-"+String.valueOf(month+1)+"-"+String.valueOf(day);
-        Log.i("", "Date selected is "+date);
+        Log.i("", "Date selected is " + date);
         Date jobPreferredDate = null;
         try {
             jobPreferredDate = DateManipulation.convertStringToDate(date);
@@ -184,33 +194,36 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
 
+         if (preferredDate == null) preferredDate = jobPreferredDate;
 
-        String applicableDaySegments = DateManipulation.getApplicableDaySegment(jobPreferredDate);
+        String applicableDaySegments = DateManipulation.getApplicableDaySegment(preferredDate);
 
         switch(applicableDaySegments) {
             case "future_date":
+                /*adapter = ArrayAdapter.createFromResource(getActivity(),
+                        R.array.day_segments, android.R.layout.simple_spinner_item);*/
                 adapter = ArrayAdapter.createFromResource(getActivity(),
-                        R.array.day_segments, android.R.layout.simple_spinner_item);
+                        R.array.day_segments, R.layout.selected_item);
                 break;
             case "at_morning":
                 adapter = ArrayAdapter.createFromResource(getActivity(),
-                        R.array.day_segments_morning_done, android.R.layout.simple_spinner_item);
+                        R.array.day_segments_morning_done, R.layout.selected_item);
                 break;
             case "at_forenoon":
                 adapter = ArrayAdapter.createFromResource(getActivity(),
-                        R.array.day_segments_forenoon_done, android.R.layout.simple_spinner_item);
+                        R.array.day_segments_forenoon_done, R.layout.selected_item);
                 break;
             case "at_afternoon":
                 adapter = ArrayAdapter.createFromResource(getActivity(),
-                        R.array.day_segments_afternoon_done, android.R.layout.simple_spinner_item);
+                        R.array.day_segments_afternoon_done, R.layout.selected_item);
                 break;
             case "at_evening":
                 adapter = ArrayAdapter.createFromResource(getActivity(),
-                        R.array.day_segments_evening_done, android.R.layout.simple_spinner_item);
+                        R.array.day_segments_evening_done, R.layout.selected_item);
                 break;
             default:
                 adapter = ArrayAdapter.createFromResource(getActivity(),
-                        R.array.day_segments, android.R.layout.simple_spinner_item);
+                        R.array.day_segments, R.layout.selected_item);
                 break;
         }
         adapter.notifyDataSetChanged();
@@ -224,7 +237,8 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
        /* ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.day_segments, android.R.layout.simple_spinner_item);*/
         ArrayAdapter<CharSequence> adapter = createSpinnerValuesOfDay();
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.dropdown_item);
         daySegmentSelector.setAdapter(adapter);
         daySegmentSpinnerSelectionValue = daySegmentSelector.getSelectedItem().toString();
         daySegmentSelector.setOnItemSelectedListener(new DaySegmentOnItemSelectedListener() {
@@ -260,6 +274,14 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
                 .append(month + 1).append("-").append(day).append("-")
                 .append(year).append(" "));
 
+        try {
+            preferredDate = DateManipulation.convertStringToDate(String.valueOf(year)+"-"+String.valueOf(month+1)+"-"+String.valueOf(day));
+        } catch (ParseException e) {
+            preferredDate = null;
+            e.printStackTrace();
+        }
+
+        Log.i("Date selected", ""+preferredDate.toString());
         postJobDateDisplayEditText.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -294,6 +316,8 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
             month = selectedMonth;
             day = selectedDay;
 
+            Log.i("Selected day ", ""+selectedDay);
+            Log.i("Selected month ", ""+selectedMonth);
             // set selected date into textview
             postJobDateDisplayEditText.setText(new StringBuilder().append(month + 1)
                     .append("-").append(day).append("-").append(year)
@@ -302,6 +326,13 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
 
             // set selected date into datepicker also
             //datePicker.init(year, month, day, null);
+            try {
+                preferredDate = DateManipulation.convertStringToDate(String.valueOf(year)+"-"+String.valueOf(month+1)+"-"+String.valueOf(day));
+            } catch (ParseException e) {
+                preferredDate = null;
+                e.printStackTrace();
+            }
+            Log.d("Pref date", preferredDate.toString());
             createSpinnerDaySegment(fragmentView);
 
         }
@@ -322,20 +353,26 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
                 e.printStackTrace();
             }
 
+        if (preferredDate == null) preferredDate = jobPreferredDate;
+        if (daySegmentSpinnerSelectionValue.equalsIgnoreCase("Select next day")) {
+            dateValidityTextView.setTextColor(Color.RED);
+            dateValidityTextView.setText("You have chosen an invalid time of day. We operate between 9-5. Please select a later date");
+            return;
+        }
         selectedDaySegment = DaySegmentMapper.getDaySegment(daySegmentSpinnerSelectionValue);
 
         Log.d("", selectedDaySegment.toString());
         if (selectedDaySegment == null) {
             dateValidityTextView.setTextColor(Color.RED);
-            dateValidityTextView.setText("You have chosen either an invalid time of day. We operate between 9-5");
+            dateValidityTextView.setText("You have chosen an invalid time of day. We operate between 9-5");
             return;
         }
-        if (!DateManipulation.isDateEligibleForPosting(jobPreferredDate, DaySegmentMapper.getDaySegment(daySegmentSpinnerSelectionValue))) {
+        if (!DateManipulation.isDateEligibleForPosting(preferredDate, DaySegmentMapper.getDaySegment(daySegmentSpinnerSelectionValue))) {
             dateValidityTextView.setTextColor(Color.RED);
             dateValidityTextView.setText("You have chosen either an invalid date or time of day. We operate between 9-5");
             return;
         }
-        preferredDate = jobPreferredDate;
+        //preferredDate = jobPreferredDate;
 
         progressDialog.show();
         postJobUrl = new CSProperties(context).getDomain()+"/jobs";
@@ -365,7 +402,7 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
             Log.d("", selectedDaySegment.toString());
             job.setDaySegment(selectedDaySegment);
             job.setDatePreferred(preferredDate);
-            Log.d("", preferredDate.toString());
+            Log.d("Pref date", preferredDate.toString());
 
             String result = "";
 

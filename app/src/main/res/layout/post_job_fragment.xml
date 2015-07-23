@@ -21,6 +21,10 @@
         android:id="@+id/job_types_spinner"
         android:entries="@array/job_types"
         android:layout_gravity="bottom"
+        android:textSize="15sp"
+        android:textStyle="normal"
+        android:typeface="serif"
+        android:textColor="@color/teal"
         android:prompt="@string/jobtypes_prompt" />
 
 
@@ -36,6 +40,9 @@
         android:layout_marginTop="20dp"
         android:hint="@string/job_description"
         android:layout_weight="0.24"
+        android:textSize="15sp"
+        android:textStyle="normal"
+        android:typeface="serif"
         android:textColor="@color/teal"
         android:layout_gravity="center"
         android:gravity="center|left"/>
@@ -46,10 +53,11 @@
         android:id="@+id/schedule_heading"
         android:layout_gravity="center"
         android:ems="10"
+        android:textSize="15sp"
+        android:textStyle="normal"
+        android:typeface="serif"
         android:textColor="@color/teal"
         android:text="@string/schedule_job_message"
-        android:textSize="15dp"
-        android:textStyle="normal"
         android:gravity="center|left"/>
 
     <TextView
@@ -73,6 +81,10 @@
             android:inputType="date"
             android:ems="10"
             android:id="@+id/set_job_date"
+            android:textSize="15sp"
+            android:textStyle="normal"
+            android:typeface="serif"
+            android:textColor="@color/teal"
             android:drawableEnd= "@drawable/down_arrow"
             android:drawableRight= "@drawable/down_arrow"/>
 
@@ -98,6 +110,10 @@
             android:layout_toRightOf="@+id/set_job_date"
             android:entries="@array/day_segments"
             android:layout_gravity="bottom"
+            android:textSize="15sp"
+            android:textStyle="normal"
+            android:typeface="serif"
+            android:textColor="@color/teal"
             android:prompt="@string/day_segment_prompt"/>
 
     </RelativeLayout>

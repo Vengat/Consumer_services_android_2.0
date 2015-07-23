@@ -13,7 +13,7 @@ import java.util.Properties;
 /**
  * Created by vengat.r on 7/22/2015.
  */
-public class CSProperties {
+public class CSProperties implements CSConstants {
 
 
     private Context context;
@@ -53,6 +53,16 @@ public class CSProperties {
         Log.i("", "getEnvironment()"+getEnvironment());
         return getEnvironment().equalsIgnoreCase("stage") ? getProperties().getProperty("stage.domain") : getProperties().getProperty("local.domain");
     }
+
+    public String getNewJobUrl() {
+        return getDomain()+QUERY_NEW_JOB_URL;
+    }
+
+    public String getNewJobByIdUrl() {
+        return getDomain()+QUERY_JOB_BY_ID;
+    }
+
+
 
 
 }
