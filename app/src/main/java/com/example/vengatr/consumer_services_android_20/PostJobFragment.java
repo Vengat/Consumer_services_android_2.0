@@ -49,6 +49,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 import static com.example.vengatr.consumer_services_android_20.rest_classes.PostJob.POST;
 
@@ -93,6 +94,7 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
     private DaySegment selectedDaySegment;
     private Date preferredDate;
     private Date jobPreferredDate;
+    private Date dateInitiated;
     private View fragmentView;
     private Context context;
 
@@ -194,7 +196,7 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
 
-         if (preferredDate == null) preferredDate = jobPreferredDate;
+        if (preferredDate == null) preferredDate = jobPreferredDate;
 
         String applicableDaySegments = DateManipulation.getApplicableDaySegment(preferredDate);
 
@@ -202,6 +204,10 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
             case "future_date":
                 /*adapter = ArrayAdapter.createFromResource(getActivity(),
                         R.array.day_segments, android.R.layout.simple_spinner_item);*/
+                adapter = ArrayAdapter.createFromResource(getActivity(),
+                        R.array.day_segments, R.layout.selected_item);
+                break;
+            case "ar_early_morning":
                 adapter = ArrayAdapter.createFromResource(getActivity(),
                         R.array.day_segments, R.layout.selected_item);
                 break;
@@ -281,6 +287,7 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
 
+        dateInitiated = preferredDate;
         Log.i("Date selected", ""+preferredDate.toString());
         postJobDateDisplayEditText.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -391,7 +398,7 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Log.d("*******Job customer name" + job.getCustomerName(), "");
+
             job.setJobType(JobType.valueOf(jobTypeSpinnerSelectionValue));
             //job.setJobType(JobType.PLUMBING);
             job.setJobStatus(JobStatus.OPEN);
@@ -401,6 +408,8 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
             job.setDescription(jobDescriptionEditText.getText().toString());
             Log.d("", selectedDaySegment.toString());
             job.setDaySegment(selectedDaySegment);
+            job.setDateInitiated(dateInitiated);
+            Log.i("Date Initiated", "*"+dateInitiated);
             job.setDatePreferred(preferredDate);
             Log.d("Pref date", preferredDate.toString());
 

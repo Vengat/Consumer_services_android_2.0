@@ -22,9 +22,13 @@ import com.example.vengatr.consumer_services_android_20.notifier.CancelJobListen
 import com.example.vengatr.consumer_services_android_20.rest_classes.GetJob;
 import com.example.vengatr.consumer_services_android_20.rest_classes.PutJob;
 import com.example.vengatr.consumer_services_android_20.util.CustomerJobAdapter;
+import com.example.vengatr.consumer_services_android_20.util.DateManipulation;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * A fragment representing a single Job detail screen.
@@ -73,6 +77,14 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
         context = activity;
     }
 
+    public void convertDatePerTimeZone(Date date) {
+        Calendar cal = Calendar.getInstance();
+        TimeZone timeZone = TimeZone.getTimeZone("UTC+13:30");
+        cal.setTimeZone(timeZone);
+        cal.setTime(date);
+        System.out.println("************************" + cal.get(Calendar.DAY_OF_MONTH));
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,9 +104,15 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
             ((TextView) rootView.findViewById(R.id.serviceproviderName)).setText("Service Provider Name : "+mItem.getServiceProviderName());
             ((TextView) rootView.findViewById(R.id.serviceProviderMobileNumber)).setText("Service Provider Mobile : "+mItem.getServiceProviderMobileNumber());
             ((TextView) rootView.findViewById(R.id.pincode)).setText("Pincode : "+mItem.getPincode());
-            ((TextView) rootView.findViewById(R.id.dateinitiated)).setText("Date Initiated : "+ mItem.getDateInitiated());
-            ((TextView) rootView.findViewById(R.id.customer_preferred_date)).setText("Preferred Date : "+ mItem.getDatePreferred());
-            ((TextView) rootView.findViewById(R.id.dateDone)).setText("Date Done : "+mItem.getDateDone());
+            ((TextView) rootView.findViewById(R.id.dateinitiated)).setText("Date Initiated : "+ DateManipulation.dateFormatIST(mItem.getDateInitiated()));
+            ((TextView) rootView.findViewById(R.id.customer_preferred_date)).setText("Preferred Date : " + DateManipulation.dateFormatIST(mItem.getDatePreferred()));
+            convertDatePerTimeZone(mItem.getDatePreferred());
+            if (mItem.getDateDone() == null) {
+                ((TextView) rootView.findViewById(R.id.dateDone)).setText("Date Done : In Progress");
+            } else {
+                ((TextView) rootView.findViewById(R.id.dateDone)).setText("Date Done : "+ DateManipulation.dateFormatIST(mItem.getDateDone()));
+            }
+
             ((TextView) rootView.findViewById(R.id.description)).setText(mItem.getDescription());
             cancel = (Button) rootView.findViewById(R.id.cancel_button);
             cancel.setOnClickListener(this);

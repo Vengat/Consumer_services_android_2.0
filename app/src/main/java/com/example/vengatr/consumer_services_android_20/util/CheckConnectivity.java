@@ -22,7 +22,8 @@ public class CheckConnectivity {
         return activeNetworkInfo != null;
     }
 
-    public static boolean hasActiveInternetConnection(Context context) {
+    public static boolean
+    hasActiveInternetConnection(Context context) {
         if (isNetworkAvailable(context)) {
             try {
                 HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.google.com").openConnection());

@@ -289,9 +289,9 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
 
         if (userType.equalsIgnoreCase("customer")) {
             getSupportFragmentManager().beginTransaction().replace(R.id.job_list_container, jobListFragment).commit();
+            postJobButton.setClickable(true);
             postJobButton.setVisibility(View.VISIBLE);
             postJobButton.setEnabled(true);
-            postJobButton.setClickable(true);
             postJobButton.setOnClickListener(this);
         } else {
             getSupportFragmentManager().beginTransaction()

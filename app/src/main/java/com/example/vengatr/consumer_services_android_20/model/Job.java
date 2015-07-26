@@ -127,6 +127,10 @@ public class Job implements Serializable {
         return dateInitiated;
     }
 
+    public void setDateInitiated(Date dateInitiated) {
+         this.dateInitiated = dateInitiated;
+    }
+
     public String getDescription() {
         return description;
     }

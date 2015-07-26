@@ -37,6 +37,8 @@
     <string name="user_name">Service User</string>
     <string name="user_phone">User Phone</string>
     <string name="schedule_job_message">Schedule</string>
+    <string name="no_connectivity">Please check your internet connectivity</string>
+    <string name="unreachable_server">We are not able to reach our server. Please try later</string>
 
     <string name="post_job_select_date">.</string>
 

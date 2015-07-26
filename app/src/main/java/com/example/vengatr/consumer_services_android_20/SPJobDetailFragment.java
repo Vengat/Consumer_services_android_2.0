@@ -20,6 +20,7 @@ import com.example.vengatr.consumer_services_android_20.model.ServiceProvider;
 import com.example.vengatr.consumer_services_android_20.notifier.OnAssignOrCloseJobListenerNotifier;
 import com.example.vengatr.consumer_services_android_20.rest_classes.GetServiceProvider;
 import com.example.vengatr.consumer_services_android_20.rest_classes.PutJob;
+import com.example.vengatr.consumer_services_android_20.util.DateManipulation;
 
 import java.io.IOException;
 
@@ -99,9 +100,13 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
             ((TextView) rootView.findViewById(R.id.serviceproviderName)).setText("Service Provider Name : "+mItem.getServiceProviderName());
             ((TextView) rootView.findViewById(R.id.serviceProviderMobileNumber)).setText("Service Provider Mobile : "+mItem.getServiceProviderMobileNumber());
             ((TextView) rootView.findViewById(R.id.pincode)).setText("Pincode : "+mItem.getPincode());
-            ((TextView) rootView.findViewById(R.id.dateinitiated)).setText("Date Initiated : "+ mItem.getDateInitiated());
-            ((TextView) rootView.findViewById(R.id.customer_preferred_date)).setText("Preferred Date : "+ mItem.getDatePreferred());
-            ((TextView) rootView.findViewById(R.id.dateDone)).setText("Date Done : "+mItem.getDateDone());
+            ((TextView) rootView.findViewById(R.id.dateinitiated)).setText("Date Initiated : "+ DateManipulation.dateFormatIST(mItem.getDateInitiated()));
+            ((TextView) rootView.findViewById(R.id.customer_preferred_date)).setText("Preferred Date : "+ DateManipulation.dateFormatIST(mItem.getDatePreferred()));
+            if (mItem.getDateDone() == null) {
+                ((TextView) rootView.findViewById(R.id.dateDone)).setText("Date Done : In Progress");
+            } else {
+                ((TextView) rootView.findViewById(R.id.dateDone)).setText("Date Done : "+ DateManipulation.dateFormatIST(mItem.getDateDone()));
+            }
             ((TextView) rootView.findViewById(R.id.description)).setText(mItem.getDescription());
 
 

@@ -1,6 +1,7 @@
 package com.example.vengatr.consumer_services_android_20;
 
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -21,7 +22,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.vengatr.consumer_services_android_20.listener.ServerUnreachableListener;
 import com.example.vengatr.consumer_services_android_20.model.ServiceProvider;
+import com.example.vengatr.consumer_services_android_20.notifier.ServerUnreachableNotifier;
 import com.example.vengatr.consumer_services_android_20.notifier.SharedPreferencesSetNotifier;
 import com.example.vengatr.consumer_services_android_20.rest_classes.GetServiceProvider;
 
@@ -115,6 +118,11 @@ public class UserDetailsFragment extends DialogFragment implements View.OnClickL
         editor.putString(PINCODE, pincode);
         editor.putString(USER_T, "customer");
         editor.commit();
+    }
+
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (context == null) context = activity;
     }
 
     private class IsUserSPHttpAsyncTask extends AsyncTask<String, String, Boolean> {

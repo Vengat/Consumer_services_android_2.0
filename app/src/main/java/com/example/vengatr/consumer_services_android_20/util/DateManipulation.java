@@ -10,10 +10,32 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 
 public class DateManipulation {
-	
+
+    public static String dateFormatIST(Date date) {
+        DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("IST"));
+        return dateFormat.format(date);
+    }
+
+    public static Date dateUTCtoIST(Date date) {
+        Calendar cal = Calendar.getInstance();
+        TimeZone timeZone = TimeZone.getTimeZone("IST");
+        cal.setTimeZone(timeZone);
+        cal.setTime(date);
+        return new Date(cal.getTimeInMillis());
+    }
+
+    public static Date dateISTToUTC(Date date) {
+        Calendar cal = Calendar.getInstance();
+        TimeZone timeZone = TimeZone.getTimeZone("UTC");
+        cal.setTimeZone(timeZone);
+        cal.setTime(date);
+        return new Date(cal.getTimeInMillis());
+    }
 
 	public static Date getYesterdayDate() {
 		Calendar cal = Calendar.getInstance();
@@ -42,16 +64,24 @@ public class DateManipulation {
 	public static boolean isSegmentAssignableToday(Date date, DaySegment daySegment) {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DATE, 0);
-		DateFormat df = new SimpleDateFormat("h");
+		DateFormat df = new SimpleDateFormat("HH");
 		String time = df.format(date);
 		Log.d("", " df.format(date) " + df.format(date));
 		Log.d("", "daySegment " + DaySegment.valueOf(daySegment.toString()));
 		String dSegment = DaySegment.valueOf(daySegment.toString()).getDaySegment();
 		Log.d("", "date.equals(new Date(cal.getTimeInMillis())) " + date.equals(new Date(cal.getTimeInMillis())));
+        Log.i("time is", "*"+time);
 		//Check if the date is today's
 		if (isTodayDate(date)) {
-			//If the CURRENT time is 9-11 then except 9-11 segment all other greater segments are applicable
-			 if (Long.parseLong(time) >= 9 && Long.parseLong(time) < 11) {
+            if (Long.parseLong(time) >=0 && Long.parseLong(time) < 9) {
+                Log.i("", "dSegment "+dSegment);
+                Log.i("", "dSegment "+dSegment.isEmpty());
+                if (!dSegment.isEmpty()) {
+                    Log.i("", "^^^^^^^Customer is in the 0-9 slot^^^^^^^^");
+                    return true;
+                }
+                //If the CURRENT time is 9-11 then except 9-11 segment all other greater segments are applicable
+            } else if (Long.parseLong(time) >= 9 && Long.parseLong(time) < 11) {
 				 if (!dSegment.equals("9-11") || !dSegment.isEmpty()) {
 					 return true;
 				 }
@@ -123,7 +153,10 @@ public class DateManipulation {
 			Log.i("", "Todays date");
             Log.i("", "Time in getApplicableDaySegmen---------------------------------------------------------t "+time);
 			//If the CURRENT time is 9-11 then except 9-11 segment all other greater segments are applicable
-			if (Long.parseLong(time) >= 9 && Long.parseLong(time) < 11) {
+			if (Long.parseLong(time) >=0 && Long.parseLong(time) < 9) {
+				Log.i("", "^^^^^^^Customer is in the 0-9 slot^^^^^^^^");
+				return "at_early_morning";
+			} else if (Long.parseLong(time) >= 9 && Long.parseLong(time) < 11) {
                 Log.i("", "^^^^^^^Customer is in the 9-11 slot^^^^^^^^");
 				return "at_morning";
 			} else if (Long.parseLong(time) >= 11 && Long.parseLong(time) < 1) {
