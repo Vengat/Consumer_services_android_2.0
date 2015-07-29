@@ -24,7 +24,7 @@
     <string name="job_description">Job description</string>
     <string name="cancel_job_button">Cancel Job </string>
     <string name="assign_job_button">Assign</string>
-
+    <string name="post_new_job">Post New Job</string>
     <string name="job_id">Job Id</string>
     <string name="job_type">Job Type</string>
     <string name="job_status">Job Status</string>

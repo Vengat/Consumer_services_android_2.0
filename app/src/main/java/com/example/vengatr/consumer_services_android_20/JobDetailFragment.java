@@ -1,6 +1,7 @@
 package com.example.vengatr.consumer_services_android_20;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -51,6 +52,8 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
     View rootView1;
     private Context context;
 
+    ProgressDialog progressDialog;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -69,6 +72,8 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
             mItem = JobListContent.JOB_ITEM_MAP.get(getArguments().getLong(ARG_ITEM_ID));
             jobId = mItem.getId();
         }
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setCancelable(false);
     }
 
     @Override
@@ -92,20 +97,21 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
         View rootView = inflater.inflate(R.layout.fragment_job_detail, container, false);
         rootView1 = rootView;
         Button cancel, agree, unassign;
+
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
             System.out.println("****" + mItem.getId());
             ((TextView) rootView.findViewById(R.id.jobId)).setText("Job Id : " + mItem.getId());
             ((TextView) rootView.findViewById(R.id.jobType)).setText("Job Type : " + mItem.getJobType().toString());
             ((TextView) rootView.findViewById(R.id.jobStatus)).setText("Job Status : " + mItem.getJobStatus().toString());
-            ((TextView) rootView.findViewById(R.id.daySegment)).setText("Job day segment : "+mItem.getDaySegment().getDaySegment());
-            ((TextView) rootView.findViewById(R.id.customerName)).setText("Customer Name : " + mItem.getCustomerName());
-            ((TextView) rootView.findViewById(R.id.customerMobileNumber)).setText("Customer Mobile : "+mItem.getCustomerMobileNumber());
+            //((TextView) rootView.findViewById(R.id.customerName)).setText("Customer Name : " + mItem.getCustomerName());
+            //((TextView) rootView.findViewById(R.id.customerMobileNumber)).setText("Customer Mobile : "+mItem.getCustomerMobileNumber());
             ((TextView) rootView.findViewById(R.id.serviceproviderName)).setText("Service Provider Name : "+mItem.getServiceProviderName());
-            ((TextView) rootView.findViewById(R.id.serviceProviderMobileNumber)).setText("Service Provider Mobile : "+mItem.getServiceProviderMobileNumber());
+            ((TextView) rootView.findViewById(R.id.serviceProviderMobileNumber)).setText("Service Provider Mobile : "+(mItem.getServiceProviderMobileNumber() != 0 ? mItem.getServiceProviderMobileNumber() : ""));
             ((TextView) rootView.findViewById(R.id.pincode)).setText("Pincode : "+mItem.getPincode());
             ((TextView) rootView.findViewById(R.id.dateinitiated)).setText("Date Initiated : "+ DateManipulation.dateFormatIST(mItem.getDateInitiated()));
             ((TextView) rootView.findViewById(R.id.customer_preferred_date)).setText("Preferred Date : " + DateManipulation.dateFormatIST(mItem.getDatePreferred()));
+            ((TextView) rootView.findViewById(R.id.daySegment)).setText("Job day segment : "+mItem.getDaySegment().getDaySegment());
             convertDatePerTimeZone(mItem.getDatePreferred());
             if (mItem.getDateDone() == null) {
                 ((TextView) rootView.findViewById(R.id.dateDone)).setText("Date Done : In Progress");
@@ -146,11 +152,14 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.cancel_button) {
+            progressDialog.show();
             new CancelJobAsyncHttpTask().execute(String.valueOf(jobId));
             //new CancelJobListenerNotifier((JobDetailActivity) getActivity());
         } else if (v.getId() == R.id.agree_button) {
+            progressDialog.show();
             new AgreedJobAsyncHttpTask().execute(String.valueOf(jobId));
         } else if (v.getId() == R.id.unassign_button) {
+            progressDialog.show();
             new UnassignJobAsyncHttpTask().execute(String.valueOf(jobId));
         }
     }
@@ -180,6 +189,7 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
             Toast.makeText(getActivity(), "Job cancelled!", Toast.LENGTH_LONG).show();
             new JobListContent().removeJob(job);
             new CancelJobListenerNotifier((JobDetailActivity) getActivity());
+            progressDialog.dismiss();
         }
     }
 
@@ -214,6 +224,7 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
             Toast.makeText(getActivity(), "Job agreed!", Toast.LENGTH_LONG).show();
             new JobListContent().updateJob(job);
             new AgreedJobNotifier((JobDetailActivity) getActivity());
+            progressDialog.dismiss();
         }
     }
 
@@ -249,6 +260,7 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
             Toast.makeText(getActivity(), "Job unassigned!", Toast.LENGTH_LONG).show();
             new JobListContent().updateJob(job);
             new AgreedJobNotifier((JobDetailActivity) getActivity());
+            progressDialog.dismiss();
         }
     }
 }

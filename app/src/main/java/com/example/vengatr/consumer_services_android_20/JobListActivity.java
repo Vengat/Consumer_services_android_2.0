@@ -57,7 +57,7 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
 
     private PostJobFragment postJobFragment;
 
-    private Button postJobButton;
+    private Button postNewJobButton;
 
     SharedPreferences mSharedPreferences;
 
@@ -65,6 +65,7 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
 
     JobListFragment jobListFragment;
     ServiceProviderJobsPerspectiveFragment serviceProviderJobsPerspectiveFragment;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +79,9 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
         userName = intent.getStringExtra(MainActivity.USER_NAME);
         pincode = intent.getStringExtra(MainActivity.USER_PINCODE);
         userType = intent.getStringExtra(MainActivity.USER_TYPE);*/
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
 
         createJobListView();
 
@@ -112,12 +116,18 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
                     .replace(R.id.job_list_container, jobListFragment).commit();
             System.out.println("OK job list fragment has been dynamically created");
 
-            postJobButton = (Button) findViewById(R.id.post_job_button);
-            postJobButton.setClickable(true);
-            postJobButton.setVisibility(View.VISIBLE);
-            postJobButton.setEnabled(true);
-            postJobButton.setOnClickListener(this);
-
+            postNewJobButton = (Button) findViewById(R.id.post_job_button);
+            //postNewJobButton.setClickable(true);
+            postNewJobButton.setVisibility(View.VISIBLE);
+            postNewJobButton.setEnabled(true);
+            postNewJobButton.setOnClickListener(this);
+            /*
+            postNewJobButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.i("Post New Job", "Clicked");
+                }
+            });*/
         } else if (userType.equalsIgnoreCase("service provider")){
             serviceProviderJobsPerspectiveFragment = new ServiceProviderJobsPerspectiveFragment();
             serviceProviderJobsPerspectiveFragment.setArguments(getIntent().getExtras());
@@ -129,10 +139,10 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
 
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.job_list_container, serviceProviderJobsPerspectiveFragment).commit();
-            postJobButton = (Button) findViewById(R.id.post_job_button);
-            postJobButton.setVisibility(View.GONE);
-            postJobButton.setEnabled(false);
-            postJobButton.setOnClickListener(null);
+            postNewJobButton = (Button) findViewById(R.id.post_job_button);
+            postNewJobButton.setVisibility(View.GONE);
+            postNewJobButton.setEnabled(false);
+            //postNewJobButton.setOnClickListener(null);
         }
 
 
@@ -255,30 +265,33 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
     @Override
     public void onClick(View v) {
         if (userType.equalsIgnoreCase("customer")){
+            progressDialog.show();
             Toast.makeText(this, "Job is being posted", Toast.LENGTH_SHORT).show();
-            postJobButton.setVisibility(View.GONE);
+            postNewJobButton.setVisibility(View.GONE);
             if (postJobFragment == null) {
                 postJobFragment = new PostJobFragment();
                 postJobFragment.setArguments(getIntent().getExtras());
             }
 
-            if (postJobFragment.getArguments() == null) postJobFragment.setArguments(getIntent().getExtras());
+            //if (postJobFragment.getArguments() == null) postJobFragment.setArguments(getIntent().getExtras());
 
             System.out.println("Clicked post job");
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.job_list_container, postJobFragment).commit();
+            progressDialog.dismiss();
         }
     }
 
 
     @Override
     public void onPostJobCompletion() {
+        if(progressDialog != null) progressDialog.dismiss();
         System.out.println("I am at onPostJobCompletion");
         getSupportFragmentManager().beginTransaction().replace(R.id.job_list_container, jobListFragment).commit();
         //finish();
         //startActivity(getIntent());
-        postJobButton.setVisibility(View.VISIBLE);
-        postJobButton.setOnClickListener(this);
+        postNewJobButton.setVisibility(View.VISIBLE);
+        postNewJobButton.setOnClickListener(this);
     }
 
     @Override
@@ -289,15 +302,15 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
 
         if (userType.equalsIgnoreCase("customer")) {
             getSupportFragmentManager().beginTransaction().replace(R.id.job_list_container, jobListFragment).commit();
-            postJobButton.setClickable(true);
-            postJobButton.setVisibility(View.VISIBLE);
-            postJobButton.setEnabled(true);
-            postJobButton.setOnClickListener(this);
+            postNewJobButton.setClickable(true);
+            postNewJobButton.setVisibility(View.VISIBLE);
+            postNewJobButton.setEnabled(true);
+            postNewJobButton.setOnClickListener(this);
         } else {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.job_list_container, serviceProviderJobsPerspectiveFragment).commit();
-            postJobButton.setVisibility(View.GONE);
-            postJobButton.setEnabled(false);
+            postNewJobButton.setVisibility(View.GONE);
+            postNewJobButton.setEnabled(false);
             //postJobButton.setOnClickListener(null);
         }
 
@@ -306,12 +319,12 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
     @Override
     public void showPostJobFragment() {
         System.out.println("I am at showPostJobFragment");
-        postJobButton.setVisibility(View.GONE);
+        postNewJobButton.setVisibility(View.GONE);
         if (postJobFragment == null){
             postJobFragment = new PostJobFragment();
             postJobFragment.setArguments(getIntent().getExtras());
         }
-        if (postJobFragment.getArguments() == null) postJobFragment.setArguments(getIntent().getExtras());
+        //if (postJobFragment.getArguments() == null) postJobFragment.setArguments(getIntent().getExtras());
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.job_list_container, postJobFragment).commit();
     }

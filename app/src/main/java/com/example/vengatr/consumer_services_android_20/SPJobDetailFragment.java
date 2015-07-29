@@ -1,6 +1,7 @@
 package com.example.vengatr.consumer_services_android_20;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -53,6 +54,8 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
     private long jobId;
     private Context context;
 
+    ProgressDialog progressDialog;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -73,7 +76,10 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
             mItem = JobListContent.JOB_ITEM_MAP.get(getArguments().getLong(ARG_ITEM_ID));
             jobId = mItem.getId();
         }
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setCancelable(false);
         getServiceProviderAsyncHttpTask = new GetServiceProviderAsyncHttpTask();
+        progressDialog.show();
         getServiceProviderAsyncHttpTask.execute(mobileNumber);
     }
 
@@ -94,14 +100,14 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
             ((TextView) rootView.findViewById(R.id.jobId)).setText("Job Id : " + mItem.getId());
             ((TextView) rootView.findViewById(R.id.jobType)).setText("Job Type : " + mItem.getJobType().toString());
             ((TextView) rootView.findViewById(R.id.jobStatus)).setText("Job Status : " + mItem.getJobStatus().toString());
-            ((TextView) rootView.findViewById(R.id.daySegment)).setText("Job day segment : "+mItem.getDaySegment().getDaySegment());
             ((TextView) rootView.findViewById(R.id.customerName)).setText("Customer Name : "+mItem.getCustomerName());
             ((TextView) rootView.findViewById(R.id.customerMobileNumber)).setText("Customer Mobile : "+mItem.getCustomerMobileNumber());
-            ((TextView) rootView.findViewById(R.id.serviceproviderName)).setText("Service Provider Name : "+mItem.getServiceProviderName());
-            ((TextView) rootView.findViewById(R.id.serviceProviderMobileNumber)).setText("Service Provider Mobile : "+mItem.getServiceProviderMobileNumber());
+            //((TextView) rootView.findViewById(R.id.serviceproviderName)).setText("Service Provider Name : "+mItem.getServiceProviderName());
+            //((TextView) rootView.findViewById(R.id.serviceProviderMobileNumber)).setText("Service Provider Mobile : "+(mItem.getServiceProviderMobileNumber() != 0 ? mItem.getServiceProviderMobileNumber() : ""));
             ((TextView) rootView.findViewById(R.id.pincode)).setText("Pincode : "+mItem.getPincode());
             ((TextView) rootView.findViewById(R.id.dateinitiated)).setText("Date Initiated : "+ DateManipulation.dateFormatIST(mItem.getDateInitiated()));
-            ((TextView) rootView.findViewById(R.id.customer_preferred_date)).setText("Preferred Date : "+ DateManipulation.dateFormatIST(mItem.getDatePreferred()));
+            ((TextView) rootView.findViewById(R.id.customer_preferred_date)).setText("Scheduled Date : "+ DateManipulation.dateFormatIST(mItem.getDatePreferred()));
+            ((TextView) rootView.findViewById(R.id.daySegment)).setText("Job day segment : "+mItem.getDaySegment().getDaySegment());
             if (mItem.getDateDone() == null) {
                 ((TextView) rootView.findViewById(R.id.dateDone)).setText("Date Done : In Progress");
             } else {
@@ -137,12 +143,14 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.assign_button) {
+            progressDialog.show();
             assignJobAsyncHttpTask = new AssignJobAsyncHttpTask();
             if(getServiceProviderAsyncHttpTask .getStatus() == AsyncTask.Status.FINISHED) {
                 assignJobAsyncHttpTask.execute(String.valueOf(jobId));
             }
             System.out.println("Assigned");
         } else if (v.getId() == R.id.close_button) {
+            progressDialog.show();
             closeJobAsyncHttpTask = new CloseJobAsyncHttpTask();
             if(getServiceProviderAsyncHttpTask .getStatus() == AsyncTask.Status.FINISHED) {
                 closeJobAsyncHttpTask.execute(String.valueOf(jobId));
@@ -169,6 +177,7 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
 
         @Override
         protected void onPostExecute(ServiceProvider sp) {
+            progressDialog.dismiss();
             currentServiceProvider = sp;
         }
     }
@@ -192,6 +201,7 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
             Toast.makeText(getActivity(), "Job Assigned", Toast.LENGTH_LONG).show();
             new JobListContent().updateJob(job);
             new OnAssignOrCloseJobListenerNotifier((JobDetailActivity) getActivity());
+            progressDialog.dismiss();
         }
     }
 
@@ -214,6 +224,7 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
             Toast.makeText(getActivity(), "Job Assigned", Toast.LENGTH_LONG).show();
             new JobListContent().removeJob(job);
             new OnAssignOrCloseJobListenerNotifier((JobDetailActivity) getActivity());
+            progressDialog.dismiss();
         }
     }
 

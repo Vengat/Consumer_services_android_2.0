@@ -67,21 +67,7 @@
             android:typeface="serif"
             android:text="@string/job_status" />
 
-        <TextView
-            android:id="@+id/daySegment"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:textColor="@color/teal"
-            android:gravity="top|left"
-            android:layout_gravity="top|left"
-            android:layout_margin="5dp"
-            android:layout_marginBottom="2dp"
-            android:background="@color/white"
-            android:textSize="15dp"
-            android:textStyle="normal"
-            android:typeface="serif"
-            android:text="@string/job_status" />
-
+        <!--
         <TextView
             android:id="@+id/customerName"
             android:layout_width="match_parent"
@@ -111,6 +97,8 @@
             android:textStyle="normal"
             android:typeface="serif"
             android:text="@string/customer_phone_number" />
+
+        -->
 
         <TextView
             android:id="@+id/serviceproviderName"
@@ -171,6 +159,21 @@
             android:textStyle="normal"
             android:typeface="serif"
             android:text="@string/customer_preferred_date" />
+
+        <TextView
+            android:id="@+id/daySegment"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:textColor="@color/teal"
+            android:gravity="top|left"
+            android:layout_gravity="top|left"
+            android:layout_margin="5dp"
+            android:layout_marginBottom="2dp"
+            android:background="@color/white"
+            android:textSize="15dp"
+            android:textStyle="normal"
+            android:typeface="serif"
+            android:text="@string/day_segment" />
 
         <TextView
             android:id="@+id/dateinitiated"
