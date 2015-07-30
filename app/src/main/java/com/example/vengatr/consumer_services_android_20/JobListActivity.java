@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -117,17 +118,11 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
             System.out.println("OK job list fragment has been dynamically created");
 
             postNewJobButton = (Button) findViewById(R.id.post_job_button);
-            //postNewJobButton.setClickable(true);
+            postNewJobButton.setClickable(true);
             postNewJobButton.setVisibility(View.VISIBLE);
             postNewJobButton.setEnabled(true);
             postNewJobButton.setOnClickListener(this);
-            /*
-            postNewJobButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.i("Post New Job", "Clicked");
-                }
-            });*/
+
         } else if (userType.equalsIgnoreCase("service provider")){
             serviceProviderJobsPerspectiveFragment = new ServiceProviderJobsPerspectiveFragment();
             serviceProviderJobsPerspectiveFragment.setArguments(getIntent().getExtras());
@@ -333,4 +328,5 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
     public void onUpdateAdapter() {
         customerJobAdapter.notifyDataSetChanged();
     }
+
 }
