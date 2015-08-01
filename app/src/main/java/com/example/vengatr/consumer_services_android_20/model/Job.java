@@ -6,6 +6,7 @@ package com.example.vengatr.consumer_services_android_20.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.TimeZone;
 
 
 public class Job implements Serializable {
@@ -52,6 +53,8 @@ public class Job implements Serializable {
     private Date dateDone;
 
     private String description;
+
+    private TimeZone timeZone;
 
     protected Job() {
     }
@@ -169,6 +172,14 @@ public class Job implements Serializable {
 
     public void setDatePreferred(Date datePreferred) {
         this.datePreferred = datePreferred;
+    }
+
+    public TimeZone getTimeZone() {
+        return timeZone;
+    }
+
+    public void setTimeZone(TimeZone timeZone) {
+        this.timeZone = timeZone;
     }
 
 

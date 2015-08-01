@@ -91,6 +91,7 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
     private int selectedDay;
     private int hour;
     private int minute;
+    private String jobDescription;
     private DaySegment selectedDaySegment;
     private Date preferredDate;
     private Date jobPreferredDate;
@@ -352,6 +353,7 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
     /*********************************************************************************************************************/
     @Override
     public void onClick(View v) {
+        jobDescription = jobDescriptionEditText.getText().toString();
         String date = String.valueOf(year)+"-"+String.valueOf(month+1)+"-"+String.valueOf(day);
         Date jobPreferredDate = null;
         try {
@@ -405,9 +407,10 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
             job.setCustomerName(userName);
             job.setCustomerMobileNumber(Long.parseLong(mobileNumber));
             job.setPincode(pincode);
-            job.setDescription(jobDescriptionEditText.getText().toString());
+            job.setDescription(jobDescription);
             Log.d("", selectedDaySegment.toString());
             job.setDaySegment(selectedDaySegment);
+            job.setTimeZone(TimeZone.getDefault());
             job.setDateInitiated(dateInitiated);
             Log.i("Date Initiated", "*"+dateInitiated);
             job.setDatePreferred(preferredDate);

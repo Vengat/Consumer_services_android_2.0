@@ -4,6 +4,9 @@ import android.util.Log;
 
 import com.example.vengatr.consumer_services_android_20.model.DaySegment;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -117,8 +120,15 @@ public class DateManipulation {
 
 	public static Date convertStringToDate(String dateInString) throws ParseException {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        //formatter.setTimeZone(TimeZone.getDefault());
 		return formatter.parse(dateInString);
 	}
+
+	public static DateTime convertDateToDateWithTZ(Date date) {
+        DateTime dateTime = new DateTime(date);
+        dateTime.withZone(DateTimeZone.getDefault());
+        return dateTime;
+    }
 
 	public static boolean isDateEligibleForPosting(Date date, DaySegment daySegment) {
 		return validAssignDateDaySegment(date, daySegment);
