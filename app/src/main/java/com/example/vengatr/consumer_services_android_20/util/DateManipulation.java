@@ -169,10 +169,10 @@ public class DateManipulation {
 			} else if (Long.parseLong(time) >= 9 && Long.parseLong(time) < 11) {
                 Log.i("", "^^^^^^^Customer is in the 9-11 slot^^^^^^^^");
 				return "at_morning";
-			} else if (Long.parseLong(time) >= 11 && Long.parseLong(time) < 1) {
+			} else if (Long.parseLong(time) >= 11 && Long.parseLong(time) < 13) {
                 Log.i("", "^^^^^^^Customer is in the 11-1 slot^^^^^^^^");
 				return "at_forenoon";
-			} else if (Long.parseLong(time) >= 1 && Long.parseLong(time) < 3) {
+			} else if (Long.parseLong(time) >= 13 && Long.parseLong(time) < 15) {
                 Log.i("", "^^^^^^^Customer is in the 1-3 slot^^^^^^^^");
 				return "at_afternoon";
 			} else {//if (Long.parseLong(time) >= 3 && Long.parseLong(time) < 9) {
