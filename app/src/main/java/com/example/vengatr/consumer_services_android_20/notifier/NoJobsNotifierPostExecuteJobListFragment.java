@@ -9,7 +9,7 @@ import com.example.vengatr.consumer_services_android_20.JobListFragment;
 public class NoJobsNotifierPostExecuteJobListFragment {
 
     public NoJobsNotifierPostExecuteJobListFragment(JobListFragment.NoJobsListenerPostExecuteJobListFragment noJobsListenerPostExecuteJobListFragment) {
-        noJobsListenerPostExecuteJobListFragment.showPostJobFragment();
+        noJobsListenerPostExecuteJobListFragment.showSelectJobTypeFragment();
     }
 
 }

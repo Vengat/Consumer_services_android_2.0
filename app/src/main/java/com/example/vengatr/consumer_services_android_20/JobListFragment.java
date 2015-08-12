@@ -277,6 +277,7 @@ public class JobListFragment extends ListFragment {
     }
 
     public interface NoJobsListenerPostExecuteJobListFragment {
-        void showPostJobFragment();
+        void showSelectJobTypeFragment();
+        //void showPostJobFragment();
     }
 }

@@ -8,14 +8,37 @@
     android:weightSum="1">
 
     <!--android:src="@drawable/take_order"-->
-    <ImageView
+    <!--<ImageView
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:id="@+id/post_job_image"
-        android:layout_gravity="top" />
+        android:layout_gravity="top" />-->
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/plumbing_imageButton"
+            android:src="@drawable/job_type_button_plumbing"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp" />
 
-    <Spinner
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/electrical_imageButton"
+            android:src="@drawable/job_type_button_electrical"
+            android:layout_below="@+id/plumbing_imageButton"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp" />
+
+    </FrameLayout>
+    <!--<Spinner
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:id="@+id/job_types_spinner"
@@ -25,12 +48,12 @@
         android:textStyle="normal"
         android:typeface="serif"
         android:textColor="@color/teal"
-        android:prompt="@string/jobtypes_prompt" />
+        android:prompt="@string/jobtypes_prompt" />-->
 
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="50dp"
         android:inputType="textMultiLine"
         android:ems="10"
         android:id="@+id/editTextDescription"
@@ -39,7 +62,6 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
         android:hint="@string/job_description"
-        android:layout_weight="0.24"
         android:textSize="15sp"
         android:textStyle="normal"
         android:typeface="serif"
@@ -76,8 +98,8 @@
         android:background="@color/white">
 
         <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
             android:inputType="date"
             android:ems="10"
             android:id="@+id/set_job_date"
@@ -86,7 +108,7 @@
             android:typeface="serif"
             android:textColor="@color/teal"
             android:drawableEnd= "@drawable/down_arrow"
-            android:drawableRight= "@drawable/down_arrow"/>
+            android:drawableRight= "@drawable/down_arrow" />
 
         <!--Disabling this time picker for now
         <EditText
@@ -103,17 +125,17 @@
         -->
 
         <Spinner
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
             android:id="@+id/day_segment_values"
-            android:layout_toEndOf="@+id/set_job_date"
-            android:layout_toRightOf="@+id/set_job_date"
+            android:layout_below="@+id/set_job_date"
             android:entries="@array/day_segments"
             android:layout_gravity="bottom"
             android:textSize="15sp"
             android:textStyle="normal"
             android:typeface="serif"
             android:textColor="@color/teal"
+            android:layout_marginTop="20dp"
             android:prompt="@string/day_segment_prompt"/>
 
     </RelativeLayout>

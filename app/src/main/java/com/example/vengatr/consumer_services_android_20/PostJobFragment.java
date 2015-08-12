@@ -23,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -58,7 +59,8 @@ import static com.example.vengatr.consumer_services_android_20.rest_classes.Post
  */
 public class PostJobFragment extends Fragment implements View.OnClickListener {
 
-
+    private static final String TAG= "PostJobFragment";
+    public static final String jobType = "jobTypeSelected";
 
     private RelativeLayout calendarArea;
     private EditText jobDescriptionEditText, postJobDateDisplayEditText, postJobTimeDisplayEditText;
@@ -91,6 +93,7 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
     private int selectedDay;
     private int hour;
     private int minute;
+    private String jobTypeSelected;
     private String jobDescription;
     private DaySegment selectedDaySegment;
     private Date preferredDate;
@@ -98,10 +101,22 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
     private Date dateInitiated;
     private View fragmentView;
     private Context context;
+    private ImageView plumbingImageText, electricalImageText;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments().containsKey(jobType)) {
+            jobTypeSelected = getArguments().getString(jobType);
+        }
+        Log.i(TAG, "Job type selected is "+jobTypeSelected);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        context = getActivity();
+
         // Inflate the layout for this fragment
         System.out.println("***In post job fragment***");
         View view = inflater.inflate(R.layout.post_job_fragment, container, false);
@@ -110,6 +125,8 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
         //setCurrentTimeOnView(view);
         dateValidityTextView = (TextView) view.findViewById(R.id.valid_job_text_view);
         jobDescriptionEditText = (EditText) view.findViewById(R.id.editTextDescription);
+        showJobTypeImage(view);
+
 
         //jobTypeSelector = (Spinner) view.findViewById(R.id.job_types_spinner);
         //createSpinnerJobType(view);
@@ -137,10 +154,23 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
+    public void showJobTypeImage(View view) {
+        plumbingImageText = (ImageView) view.findViewById(R.id.plumbing_imageButton);
+        plumbingImageText.setImageResource(R.drawable.job_type_button_plumbing);
+        electricalImageText = (ImageView) view.findViewById(R.id.electrical_imageButton);
+        electricalImageText.setImageResource(R.drawable.job_type_button_electrical);
+        if (jobTypeSelected.equalsIgnoreCase("plumbing")) {
+            electricalImageText.setVisibility(View.GONE);
+        } else if (jobTypeSelected.equalsIgnoreCase("electrical")) {
+            plumbingImageText.setVisibility(View.GONE);
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();
-        createSpinnerJobType(fragmentView);
+        //createSpinnerJobType(fragmentView);
+        showJobTypeImage(fragmentView);
         setCurrentDateOnEdit(fragmentView);
         createSpinnerDaySegment(fragmentView);
     }
@@ -153,12 +183,15 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
         context = activity;
     }
 
+/*
     public void createSpinnerJobType(View v) {
         jobTypeSelector = (Spinner) v.findViewById(R.id.job_types_spinner);
-        /*ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+        */
+/*ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.job_types, android.R.layout.simple_spinner_item);
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);*/
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);*//*
+
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.job_types, R.layout.selected_item);
@@ -185,6 +218,7 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
         //jobTypeSpinnerSelectionValue = jobTypeSelector.getSelectedItem().toString();
         System.out.println("**************" + jobTypeSpinnerSelectionValue);
     }
+*/
 
     public ArrayAdapter<CharSequence> createSpinnerValuesOfDay() {
         ArrayAdapter<CharSequence> adapter = null;
@@ -401,8 +435,9 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
                 e.printStackTrace();
             }
 
-            job.setJobType(JobType.valueOf(jobTypeSpinnerSelectionValue));
+            //job.setJobType(JobType.valueOf(jobTypeSpinnerSelectionValue));
             //job.setJobType(JobType.PLUMBING);
+            job.setJobType(JobType.valueOf(jobTypeSelected.toUpperCase()));
             job.setJobStatus(JobStatus.OPEN);
             job.setCustomerName(userName);
             job.setCustomerMobileNumber(Long.parseLong(mobileNumber));

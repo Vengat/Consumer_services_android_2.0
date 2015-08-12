@@ -1,6 +1,7 @@
 package com.example.vengatr.consumer_services_android_20;
 
 import android.app.ActionBar;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -22,6 +24,8 @@ import com.example.vengatr.consumer_services_android_20.listener.AdapterUpdateLi
 import com.example.vengatr.consumer_services_android_20.listener.PostActionJobListPageTransitionListener;
 import com.example.vengatr.consumer_services_android_20.model.Job;
 import com.example.vengatr.consumer_services_android_20.util.CustomerJobAdapter;
+import com.example.vengatr.consumer_services_android_20.util.TabListener;
+import com.example.vengatr.consumer_services_android_20.util.TabsPagerAdapter;
 
 import java.util.ArrayList;
 
@@ -44,9 +48,10 @@ import java.util.ArrayList;
  *
  */
 public class JobListActivity extends ActionBarActivity //FragmentActivity ActionBarActivity
-        implements JobListFragment.Callbacks,  ServiceProviderJobsPerspectiveFragment.SPCallbacks, PostActionJobListPageTransitionListener, View.OnClickListener, PostJobFragment.OnPostJobCompletionListener,
-        JobListFragment.NoJobsListenerPostExecuteJobListFragment, AdapterUpdateListener {
+        implements JobListFragment.Callbacks, ServiceProviderJobsPerspectiveFragment.SPCallbacks, PostActionJobListPageTransitionListener, View.OnClickListener, PostJobFragment.OnPostJobCompletionListener,
+        JobListFragment.NoJobsListenerPostExecuteJobListFragment, AdapterUpdateListener, SelectJobTypeFragment.OnPostSelectJobTypeListener {
 
+    public static String userTypeRendered;
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
@@ -56,7 +61,7 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
 
     private String mobileNumber, pincode, userName, userType;
 
-    private PostJobFragment postJobFragment;
+    private String jobTypeSelected;
 
     private Button postNewJobButton;
 
@@ -64,30 +69,38 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
 
     CustomerJobAdapter customerJobAdapter;
 
+    private PostJobFragment postJobFragment;
+    private SelectJobTypeFragment selectJobTypeFragment;
     JobListFragment jobListFragment;
     ServiceProviderJobsPerspectiveFragment serviceProviderJobsPerspectiveFragment;
+    private ReferInviteFragment referInviteFragment;
     ProgressDialog progressDialog;
+
+    private ViewPager viewPager;
+    private TabsPagerAdapter mAdapter;
+    private android.support.v7.app.ActionBar actionBar;
+    // Tab titles
+    private android.support.v7.app.ActionBar.Tab jobsTab, referTab;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_list);
 
-
         System.out.println("In oncreate job list activity");
-        /*Intent intent = getIntent();
-        mobileNumber = intent.getStringExtra(MainActivity.USER_MOBILE_NUMBER);
-        userName = intent.getStringExtra(MainActivity.USER_NAME);
-        pincode = intent.getStringExtra(MainActivity.USER_PINCODE);
-        userType = intent.getStringExtra(MainActivity.USER_TYPE);*/
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
 
-        createJobListView();
 
+        createJobListView();
+        showReferInviteFragment();
+        createTabsPager();
         // TODO: If exposing deep links into your app, handle intents here.
     }
+
 
     private void createJobListView() {
         mSharedPreferences = getSharedPreferences("prefs", MODE_PRIVATE);
@@ -95,23 +108,21 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
         userName = mSharedPreferences.getString("nameKey", "");
         pincode = mSharedPreferences.getString("pincodeKey", "");
         userType = mSharedPreferences.getString("userTypeKey", "");
+        userTypeRendered = userType;
 
-        /*
-        EmptyFragment emptyJobListFragment = new EmptyFragment();
-        emptyJobListFragment.setArguments(getIntent().getExtras());
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.job_list_container, emptyJobListFragment).commit();*/
+        if (postJobFragment != null && postJobFragment.isVisible()) {
+            getSupportFragmentManager().beginTransaction().hide(postJobFragment).commit();
+        }
 
-        if (postJobFragment != null && postJobFragment.isVisible()) getSupportFragmentManager().beginTransaction().hide(postJobFragment).commit();
-
+        if (selectJobTypeFragment != null && selectJobTypeFragment.isVisible()){
+            getSupportFragmentManager().beginTransaction().hide(selectJobTypeFragment).commit();
+        }
 
 
         if (userType == null || userType.equalsIgnoreCase("customer")) {
             jobListFragment = new JobListFragment();
             jobListFragment.setArguments(getIntent().getExtras());
 
-            // getSupportFragmentManager().beginTransaction()
-            //         .hide(emptyJobListFragment).commit();
 
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.job_list_container, jobListFragment).commit();
@@ -127,10 +138,9 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
             serviceProviderJobsPerspectiveFragment = new ServiceProviderJobsPerspectiveFragment();
             serviceProviderJobsPerspectiveFragment.setArguments(getIntent().getExtras());
 
-            //getSupportFragmentManager().beginTransaction()
-            //       .hide(emptyJobListFragment).commit();
-
-            if (postJobFragment != null && postJobFragment.isVisible()) getSupportFragmentManager().beginTransaction().remove(postJobFragment).commit();
+            if (postJobFragment != null && postJobFragment.isVisible()) {
+                getSupportFragmentManager().beginTransaction().remove(postJobFragment).commit();
+            }
 
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.job_list_container, serviceProviderJobsPerspectiveFragment).commit();
@@ -161,6 +171,51 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
 
         }
 
+    }
+
+    private void createTabsPager() {
+        // Initialization
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        actionBar = getSupportActionBar();
+        //mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
+        //viewPager.setAdapter(mAdapter);
+        actionBar.setHomeButtonEnabled(false);
+        actionBar.setNavigationMode(android.support.v7.app.ActionBar.NAVIGATION_MODE_TABS);
+
+
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                actionBar.setSelectedNavigationItem(position);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        if (actionBar.getTabCount() == 0) {
+            jobsTab = actionBar.newTab().setText("Jobs");
+            referTab = actionBar.newTab().setText("Refer");
+        }
+
+
+        if (userType.equalsIgnoreCase("customer")) {
+            jobsTab.setTabListener(new TabListener(jobListFragment));
+        } else {
+            jobsTab.setTabListener(new TabListener(serviceProviderJobsPerspectiveFragment));
+        }
+
+        referTab.setTabListener(new TabListener(referInviteFragment));
+        actionBar.addTab(jobsTab);
+        actionBar.addTab(referTab);
     }
 
 
@@ -262,17 +317,7 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
         if (userType.equalsIgnoreCase("customer")){
             progressDialog.show();
             Toast.makeText(this, "Job is being posted", Toast.LENGTH_SHORT).show();
-            postNewJobButton.setVisibility(View.GONE);
-            if (postJobFragment == null) {
-                postJobFragment = new PostJobFragment();
-                postJobFragment.setArguments(getIntent().getExtras());
-            }
-
-            //if (postJobFragment.getArguments() == null) postJobFragment.setArguments(getIntent().getExtras());
-
-            System.out.println("Clicked post job");
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.job_list_container, postJobFragment).commit();
+            showSelectJobTypeFragment();
             progressDialog.dismiss();
         }
     }
@@ -283,8 +328,6 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
         if(progressDialog != null) progressDialog.dismiss();
         System.out.println("I am at onPostJobCompletion");
         getSupportFragmentManager().beginTransaction().replace(R.id.job_list_container, jobListFragment).commit();
-        //finish();
-        //startActivity(getIntent());
         postNewJobButton.setVisibility(View.VISIBLE);
         postNewJobButton.setOnClickListener(this);
     }
@@ -294,6 +337,8 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
         super.onResume();
         System.out.println("I am at onResume");
         createJobListView();
+        showReferInviteFragment();
+        //createTabsPager();
 
         if (userType.equalsIgnoreCase("customer")) {
             getSupportFragmentManager().beginTransaction().replace(R.id.job_list_container, jobListFragment).commit();
@@ -306,20 +351,23 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
                     .replace(R.id.job_list_container, serviceProviderJobsPerspectiveFragment).commit();
             postNewJobButton.setVisibility(View.GONE);
             postNewJobButton.setEnabled(false);
-            //postJobButton.setOnClickListener(null);
         }
 
     }
 
-    @Override
+    //@Override
     public void showPostJobFragment() {
         System.out.println("I am at showPostJobFragment");
         postNewJobButton.setVisibility(View.GONE);
+        postNewJobButton.setEnabled(false);
         if (postJobFragment == null){
             postJobFragment = new PostJobFragment();
-            postJobFragment.setArguments(getIntent().getExtras());
+            //postJobFragment.setArguments(getIntent().getExtras());
         }
-        //if (postJobFragment.getArguments() == null) postJobFragment.setArguments(getIntent().getExtras());
+        Bundle arguments = new Bundle();
+        //arguments.putAll(getIntent().getExtras());
+        arguments.putString(PostJobFragment.jobType, getJobTypeSelected());
+        postJobFragment.setArguments(arguments);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.job_list_container, postJobFragment).commit();
     }
@@ -327,6 +375,54 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
     @Override
     public void onUpdateAdapter() {
         customerJobAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onPostSelectJobType(String jobTypeSelected) {
+        setJobTypeSelected(jobTypeSelected);
+        showPostJobFragment();
+    }
+
+    @Override
+    public void showSelectJobTypeFragment() {
+        postNewJobButton.setVisibility(View.GONE);
+        if (selectJobTypeFragment == null) {
+            selectJobTypeFragment = new SelectJobTypeFragment();
+            selectJobTypeFragment.setArguments(getIntent().getExtras());
+        }
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.job_list_container, selectJobTypeFragment).commit();
+    }
+
+    public String getJobTypeSelected() {
+        return jobTypeSelected;
+    }
+
+    public void setJobTypeSelected(String jobTypeSelected) {
+        this.jobTypeSelected = jobTypeSelected;
+    }
+
+    private void showReferInviteFragment() {
+        if (referInviteFragment == null) {
+            referInviteFragment = new ReferInviteFragment();
+        }
+
+        if (!referInviteFragment.getUserVisibleHint()) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.job_list_container, referInviteFragment).commit();
+        }
+        //postNewJobButton = (Button) findViewById(R.id.post_job_button);
+        //postNewJobButton.setVisibility(View.GONE);
+        //postNewJobButton.setEnabled(false);
+    }
+
+    private void hidePostNewJobButton() {
+        if (postNewJobButton != null) {
+            postNewJobButton.setVisibility(View.GONE);
+            postNewJobButton.setEnabled(false);
+            //postJobButton.setOnClickListener(null);
+        }
     }
 
 }
