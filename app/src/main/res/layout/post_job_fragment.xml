@@ -65,7 +65,7 @@
         android:textSize="15sp"
         android:textStyle="normal"
         android:typeface="serif"
-        android:textColor="@color/teal"
+        android:textColor="@color/black"
         android:layout_gravity="center"
         android:gravity="center|left"/>
 
@@ -78,7 +78,7 @@
         android:textSize="15sp"
         android:textStyle="normal"
         android:typeface="serif"
-        android:textColor="@color/teal"
+        android:textColor="@color/black"
         android:text="@string/schedule_job_message"
         android:gravity="center|left"/>
 
@@ -106,7 +106,7 @@
             android:textSize="15sp"
             android:textStyle="normal"
             android:typeface="serif"
-            android:textColor="@color/teal"
+            android:textColor="@color/black"
             android:drawableEnd= "@drawable/down_arrow"
             android:drawableRight= "@drawable/down_arrow" />
 
@@ -134,7 +134,7 @@
             android:textSize="15sp"
             android:textStyle="normal"
             android:typeface="serif"
-            android:textColor="@color/teal"
+            android:textColor="@color/black"
             android:layout_marginTop="20dp"
             android:prompt="@string/day_segment_prompt"/>
 
@@ -146,7 +146,7 @@
         android:layout_height="75dp"
         android:text="Post Job"
         android:textColor="@color/white"
-        android:background="@color/teal"
+        android:background="@color/yellow"
         android:textSize="15sp"
         android:textStyle="normal"
         android:typeface="serif"

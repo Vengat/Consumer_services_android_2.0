@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.vengatr.consumer_services_android_20.dummy.JobListContent;
 import com.example.vengatr.consumer_services_android_20.model.Job;
+import com.example.vengatr.consumer_services_android_20.notifier.JobListFragmentDisplayedNotifier;
 import com.example.vengatr.consumer_services_android_20.notifier.NoJobsNotifierPostExecuteJobListFragment;
 import com.example.vengatr.consumer_services_android_20.rest_classes.GetJob;
 import com.example.vengatr.consumer_services_android_20.util.CSProperties;
@@ -40,6 +41,7 @@ public class JobListFragment extends ListFragment {
 
 
 
+    public static String TAG = "JobListFragment";
     /**
      * The serialization (saved instance state) Bundle key representing the
      * activated item position. Only used on tablets.
@@ -128,6 +130,7 @@ public class JobListFragment extends ListFragment {
                 android.R.id.text1,
                 JobListContent.ITEMS));*/
 
+        new JobListFragmentDisplayedNotifier((JobListFragmentDisplayedListener) context);
         getJobsURL= new CSProperties(context).getDomain()+"/customers/jobs/mobileNumber/";
         CustomerJobAdapter customerJobAdapter = new CustomerJobAdapter(getActivity(), (ArrayList<Job>) JobListContent.ITEMS);
         setListAdapter(customerJobAdapter);
@@ -157,7 +160,7 @@ public class JobListFragment extends ListFragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        if (activity == null) Log.e("IS NULL", "NULLNULLNULLNULLNULLNULLNULLNULLNULLNULLNULL");
+        if (activity == null) Log.e(TAG, "NULLNULLNULLNULLNULLNULLNULLNULLNULLNULLNULL");
         context = activity;
         // Activities containing this fragment must implement its callbacks.
         if (!(activity instanceof Callbacks)) {
@@ -279,5 +282,9 @@ public class JobListFragment extends ListFragment {
     public interface NoJobsListenerPostExecuteJobListFragment {
         void showSelectJobTypeFragment();
         //void showPostJobFragment();
+    }
+
+    public interface JobListFragmentDisplayedListener {
+        void onJobListFragmentDisplayed();
     }
 }

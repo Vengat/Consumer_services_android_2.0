@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Omlee 1.1 :)</string>
+    <string name="app_name">Omelee</string>
     <string name="title_job_detail">Job Detail</string>
 
 <!-- TODO: Remove or change this placeholder text -->
@@ -85,6 +85,9 @@
     <color name="grey">#686868</color>
     <color name="red">#FF0000</color>
     <color name="cream">#FFFFCC</color>
+    <color name="blue">#3B5998</color>
+    <color name="yellow">#A16F0E</color>
+    <color name="black">#000000</color>
 
 
 </resources>

@@ -4,9 +4,9 @@
     android:layout_height="wrap_content"
     android:textStyle="normal"
     android:typeface="serif"
-    android:textColor="@color/teal"
+    android:textColor="@color/black"
     android:background="@color/white"
-    android:divider="#008080"
+    android:divider="@color/blue"
     android:dividerHeight="4dp"
     android:textSize="15sp">
 </TextView>

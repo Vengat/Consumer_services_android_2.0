@@ -45,7 +45,7 @@
         android:layout_height="50dp"
         android:text="Post Job"
         android:textColor="@color/white"
-        android:background="@color/teal"
+        android:background="@color/yellow"
         android:textSize="15dp"
         android:textStyle="normal"
         android:typeface="serif"

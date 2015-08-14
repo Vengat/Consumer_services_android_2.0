@@ -1,5 +1,6 @@
 package com.example.vengatr.consumer_services_android_20;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +16,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.vengatr.consumer_services_android_20.notifier.ReferInviteFragmentDisplayedNotifier;
 
 /**
  * Created by vengat.r on 8/12/2015.
@@ -45,6 +48,24 @@ public class ReferInviteFragment extends Fragment implements View.OnClickListene
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        new ReferInviteFragmentDisplayedNotifier((ReferInviteFragmentDisplayedListener) context);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        if (activity == null) Log.e(TAG, "Didnt attach");
+        context = activity;
+        // Activities containing this fragment must implement its callbacks.
+        if (!(activity instanceof ReferInviteFragmentDisplayedListener)) {
+            throw new IllegalStateException("Activity must implement fragment's callbacks - ReferInviteFragmentDisplayedListener.");
+        }
+    }
+
+        @Override
     public void onClick(View v) {
         if (v.getId() == R.id.sms_image_button) {
             sendSMS();
@@ -75,6 +96,10 @@ public class ReferInviteFragment extends Fragment implements View.OnClickListene
                 "Download the app today from Google play store @ link %s. Your friend gets discounts for the first service with the code OM903";
 
         return message;
+    }
+
+    public interface ReferInviteFragmentDisplayedListener {
+        void onReferInviteFragmentDisplayed();
     }
 
 }

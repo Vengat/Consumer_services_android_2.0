@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:text="Post New Job"
             android:textColor="@color/white"
-            android:background="@color/teal"
+            android:background="@color/yellow"
             android:textSize="15sp"
             android:textStyle="normal"
             android:typeface="serif"

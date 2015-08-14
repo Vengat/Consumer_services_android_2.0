@@ -1,15 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- the theme applied to the application or activity -->
-    <style name="CustomActionBarTheme"
-        parent="@android:style/Theme.Holo.Light.DarkActionBar">
-        <item name="android:actionBarStyle">@style/MyActionBar</item>
+
+    <!-- Base application theme.Theme.AppCompat.Light.DarkActionBar -->
+    <style name="AppTheme1" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:actionBarStyle">@style/MyActionBar1</item>
     </style>
 
     <!-- ActionBar styles -->
-    <!--<style name="MyActionBar"
+    <style name="MyActionBar1"
         parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@drawable/actionbar_background</item>
-    </style>-->
+        <item name="android:background">@drawable/omelee_blue</item>
+    </style>
 
 </resources>

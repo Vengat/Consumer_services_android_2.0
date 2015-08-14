@@ -4,7 +4,7 @@
     android:background="@color/white"
     android:layout_height="match_parent">
 
-    <ImageButton
+    <!--<ImageButton
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:id="@+id/plumbing_imageButton"
@@ -22,5 +22,33 @@
         android:layout_below="@+id/plumbing_imageButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp" />-->
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Plumbing"
+        android:textColor="@color/white"
+        android:background="@color/yellow"
+        android:textSize="15sp"
+        android:textStyle="normal"
+        android:typeface="serif"
+        android:gravity="center|center"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="170dp"
+        android:id="@+id/plumbing_job_button" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Electrical"
+        android:textColor="@color/white"
+        android:background="@color/yellow"
+        android:textSize="15sp"
+        android:textStyle="normal"
+        android:typeface="serif"
+        android:gravity="center|center"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="10dp"
+        android:id="@+id/electrical_job_button" />
 </LinearLayout>

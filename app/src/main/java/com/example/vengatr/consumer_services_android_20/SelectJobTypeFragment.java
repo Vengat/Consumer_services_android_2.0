@@ -23,8 +23,11 @@ import com.example.vengatr.consumer_services_android_20.notifier.OnPostSelectJob
  */
 public class SelectJobTypeFragment extends Fragment implements View.OnClickListener {
 
-    private ImageButton plumbingButton;
-    private ImageButton electricalButton;
+    /*private ImageButton plumbingButton;
+    private ImageButton electricalButton;*/
+
+    private Button plumbingButton;
+    private Button electricalButton;
     private ProgressDialog progressDialog;
 
     private View fragmentView;
@@ -41,10 +44,10 @@ public class SelectJobTypeFragment extends Fragment implements View.OnClickListe
         View view = inflater.inflate(R.layout.fragment_jobtypes, container, false);
         fragmentView = view;
 
-        plumbingButton = (ImageButton) view.findViewById(R.id.plumbing_imageButton);
+        plumbingButton = (Button) view.findViewById(R.id.plumbing_job_button);
         plumbingButton.setOnClickListener(this);
 
-        electricalButton = (ImageButton) view.findViewById(R.id.electrical_imageButton);
+        electricalButton = (Button) view.findViewById(R.id.electrical_job_button);
         electricalButton.setOnClickListener(this);
 
         progressDialog = new ProgressDialog(context);
@@ -55,11 +58,13 @@ public class SelectJobTypeFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.plumbing_imageButton) {
+        progressDialog.show();
+        if (v.getId() == R.id.plumbing_job_button) {
             new OnPostSelectJobTypeNotifier((JobListActivity) context, "plumbing");
-        } else if (v.getId() == R.id.electrical_imageButton) {
+        } else if (v.getId() == R.id.electrical_job_button) {
             new OnPostSelectJobTypeNotifier((JobListActivity) context, "electrical");
         }
+        progressDialog.dismiss();
     }
 
     @Override
@@ -72,10 +77,10 @@ public class SelectJobTypeFragment extends Fragment implements View.OnClickListe
     @Override
     public void onResume() {
         super.onResume();
-        plumbingButton = (ImageButton) fragmentView.findViewById(R.id.plumbing_imageButton);
+        plumbingButton = (Button) fragmentView.findViewById(R.id.plumbing_job_button);
         plumbingButton.setOnClickListener(this);
 
-        electricalButton = (ImageButton) fragmentView.findViewById(R.id.electrical_imageButton);
+        electricalButton = (Button) fragmentView.findViewById(R.id.electrical_job_button);
         electricalButton.setOnClickListener(this);
     }
 
