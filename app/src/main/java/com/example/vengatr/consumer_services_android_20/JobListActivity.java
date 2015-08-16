@@ -180,7 +180,7 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
         if (actionBar == null) {
             actionBar = getSupportActionBar();
         }
-
+        actionBar.setNavigationMode(android.support.v7.app.ActionBar.NAVIGATION_MODE_STANDARD);
         if (actionBar.getTabCount() > 0)actionBar.removeAllTabs();
         actionBar.setStackedBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
     }
@@ -188,7 +188,7 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
     private void createTabsPager() {
         // Initialization
         if (actionBar != null && actionBar.getTabCount() > 0) return;
-        viewPager = (ViewPager) findViewById(R.id.pager);
+        //viewPager = (ViewPager) findViewById(R.id.pager);
         actionBar = getSupportActionBar();
         /*if (actionBar != null) {
             actionBar.setLogo(R.drawable.golden_star);
@@ -202,7 +202,7 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
         actionBar.setNavigationMode(android.support.v7.app.ActionBar.NAVIGATION_MODE_TABS);
 
 
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        /*viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -219,7 +219,7 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
 
             }
         });
-
+*/
         Log.i(TAG, "Tab count "+actionBar.getTabCount());
         if (actionBar.getTabCount() == 0) {
             jobsTab = actionBar.newTab().setText("Jobs");
@@ -228,7 +228,7 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
             return;
         }
 
-
+        Log.i(TAG, "userType "+userType);
         if (userType.equalsIgnoreCase("customer")) {
             jobsTab.setTabListener(new TabListener(jobListFragment));
             referTab.setTabListener(new TabListener(referInviteFragment));

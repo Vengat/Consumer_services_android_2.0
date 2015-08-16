@@ -104,6 +104,7 @@ public class JobDetailActivity extends ActionBarActivity implements JobDetailFra
     @Override
     public void jobListPageTransition() {
         Intent intent = new Intent(this, JobListActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 }

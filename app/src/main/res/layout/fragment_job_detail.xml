@@ -217,7 +217,7 @@
             android:layout_marginBottom="2dp"
             android:layout_marginTop="10dp"
             android:background="@color/white"
-            android:textSize="20dp"
+            android:textSize="15dp"
             android:textStyle="normal"
             android:typeface="serif"
             android:text="@string/job_status" />
@@ -233,7 +233,7 @@
             android:typeface="serif"
             android:gravity="center|center"
             android:layout_gravity="center|center"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="15dp"
             android:id="@+id/cancel_button" />
 
 
