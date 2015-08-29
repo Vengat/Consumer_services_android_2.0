@@ -45,10 +45,13 @@ public class Job implements Serializable {
 
     private ServiceProvider serviceProvider;
 
+    private Invoice invoice;
 
     private Date dateInitiated;
 
     private Date datePreferred;
+
+    private Date startTime;
 
     private Date dateDone;
 
@@ -131,7 +134,7 @@ public class Job implements Serializable {
     }
 
     public void setDateInitiated(Date dateInitiated) {
-         this.dateInitiated = dateInitiated;
+        this.dateInitiated = dateInitiated;
     }
 
     public String getDescription() {

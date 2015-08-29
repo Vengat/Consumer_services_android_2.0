@@ -6,7 +6,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +15,13 @@ import android.widget.Toast;
 
 import com.example.vengatr.consumer_services_android_20.dummy.JobListContent;
 import com.example.vengatr.consumer_services_android_20.model.Job;
-import com.example.vengatr.consumer_services_android_20.model.JobStatus;
-import com.example.vengatr.consumer_services_android_20.model.JobType;
 import com.example.vengatr.consumer_services_android_20.notifier.AgreedJobNotifier;
 import com.example.vengatr.consumer_services_android_20.notifier.CancelJobListenerNotifier;
 import com.example.vengatr.consumer_services_android_20.rest_classes.GetJob;
 import com.example.vengatr.consumer_services_android_20.rest_classes.PutJob;
-import com.example.vengatr.consumer_services_android_20.util.CustomerJobAdapter;
 import com.example.vengatr.consumer_services_android_20.util.DateManipulation;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
@@ -113,6 +108,13 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
             ((TextView) rootView.findViewById(R.id.customer_preferred_date)).setText("Preferred Date : " + DateManipulation.dateFormatIST(mItem.getDatePreferred()));
             ((TextView) rootView.findViewById(R.id.daySegment)).setText("Job day segment : "+mItem.getDaySegment().getDaySegment());
             convertDatePerTimeZone(mItem.getDatePreferred());
+
+            if (mItem.getDateDone() == null) {
+                ((TextView) rootView.findViewById(R.id.dateStarted)).setText("Date Sarted : Not started yet");
+            } else {
+                ((TextView) rootView.findViewById(R.id.dateStarted)).setText("Date Done : "+ DateManipulation.dateFormatIST(mItem.getDateDone()));
+            }
+
             if (mItem.getDateDone() == null) {
                 ((TextView) rootView.findViewById(R.id.dateDone)).setText("Date Done : In Progress");
             } else {

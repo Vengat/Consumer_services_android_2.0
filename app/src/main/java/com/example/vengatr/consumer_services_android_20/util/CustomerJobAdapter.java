@@ -13,7 +13,6 @@ import com.example.vengatr.consumer_services_android_20.R;
 import com.example.vengatr.consumer_services_android_20.model.Job;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by vengat.r on 7/3/2015.

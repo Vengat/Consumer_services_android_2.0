@@ -4,13 +4,11 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.vengatr.consumer_services_android_20.model.Job;
-import com.example.vengatr.consumer_services_android_20.util.CSConstants;
 import com.example.vengatr.consumer_services_android_20.util.CSProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;

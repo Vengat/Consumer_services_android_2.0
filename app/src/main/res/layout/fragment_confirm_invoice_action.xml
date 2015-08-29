@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/confirm_invoice_action"
+        android:id="@+id/invoice_confirmation"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/reject_invoice_amount"
+        android:id="@+id/no_button"
+        android:layout_marginTop="84dp"
+        android:layout_marginLeft="70dp"
+        android:layout_below="@+id/invoice_confirmation"
+        android:background="@color/yellow"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/accept_invoice_amount"
+        android:id="@+id/yes_button"
+        android:layout_marginRight="70dp"
+        android:layout_alignTop="@+id/no_button"
+        android:background="@color/yellow"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+</RelativeLayout>

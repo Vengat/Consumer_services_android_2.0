@@ -2,8 +2,6 @@ package com.example.vengatr.consumer_services_android_20.util;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +11,8 @@ import android.widget.TextView;
 
 import com.example.vengatr.consumer_services_android_20.R;
 import com.example.vengatr.consumer_services_android_20.model.Job;
-import com.example.vengatr.consumer_services_android_20.model.JobType;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by vengat.r on 7/2/2015.

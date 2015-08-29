@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_weight=".2">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/material_charges"
+            android:id="@+id/material_charges_text"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="start|start"
+            android:textColor="@color/black"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/material_charges"
+            android:background="@color/beige"
+            android:layout_toRightOf="@+id/material_charges_text"
+            android:layout_toEndOf="@+id/material_charges_text"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="30dp"
+            android:inputType="numberDecimal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/labour_charges"
+            android:id="@+id/labour_charges_text"
+            android:layout_below="@+id/material_charges_text"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/black"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/labour_charges"
+            android:background="@color/beige"
+            android:layout_below="@+id/material_charges"
+            android:layout_toRightOf="@+id/labour_charges_text"
+            android:layout_toEndOf="@+id/labour_charges_text"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="15dp"
+            android:inputType="numberDecimal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/coupon_code"
+            android:id="@+id/coupon_code_text"
+            android:layout_below="@+id/labour_charges_text"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/black"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/coupon_code"
+            android:background="@color/beige"
+            android:layout_below="@+id/labour_charges"
+            android:layout_toRightOf="@+id/coupon_code_text"
+            android:layout_toEndOf="@+id/coupon_code_text"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="20dp"
+            android:inputType="text" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/total_charges"
+            android:id="@+id/total_charges_text"
+            android:layout_below="@+id/coupon_code_text"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="35dp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/total_charges"
+            android:background="@color/beige"
+            android:layout_below="@+id/coupon_code"
+            android:layout_toRightOf="@+id/total_charges_text"
+            android:layout_toEndOf="@+id/total_charges_text"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="25dp"
+            android:inputType="text"
+            android:layout_alignLeft="@+id/material_charges"
+            android:layout_alignStart="@+id/material_charges" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/discounted_material_charges"
+            android:id="@+id/discounted_material_charges_text"
+            android:layout_below="@+id/total_charges_text"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/discounted_material_charges"
+            android:background="@color/beige"
+            android:layout_below="@+id/total_charges"
+            android:layout_toRightOf="@+id/total_charges_text"
+            android:layout_toEndOf="@+id/total_charges_text"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="75dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="25dp"
+            android:inputType="text"
+            android:layout_alignLeft="@+id/material_charges"
+            android:layout_alignStart="@+id/material_charges" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/discounted_labour_charges"
+            android:id="@+id/discounted_labour_charges_text"
+            android:layout_below="@+id/discounted_material_charges_text"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="25dp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/discounted_labour_charges"
+            android:background="@color/beige"
+            android:layout_below="@+id/discounted_material_charges"
+            android:layout_toRightOf="@+id/discounted_material_charges_text"
+            android:layout_toEndOf="@+id/discounted_material_charges_text"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="75dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="25dp"
+            android:inputType="text"
+            android:layout_alignLeft="@+id/material_charges"
+            android:layout_alignStart="@+id/material_charges" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/discounted_total_charges"
+            android:id="@+id/discounted_total_charges_text"
+            android:layout_below="@+id/discounted_labour_charges_text"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/discounted_total_charges"
+            android:background="@color/beige"
+            android:layout_below="@+id/discounted_labour_charges"
+            android:layout_toRightOf="@+id/discounted_labour_charges_text"
+            android:layout_toEndOf="@+id/discounted_labour_charges_text"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="75dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="25dp"
+            android:inputType="text"
+            android:layout_alignLeft="@+id/material_charges"
+            android:layout_alignStart="@+id/material_charges" />
+
+    </RelativeLayout>
+
+
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight=".2">
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/post_invoice_button"
+            android:id="@+id/invoice_button"
+            android:background="@color/yellow"
+            android:layout_marginTop="30dp"
+            android:gravity="center|center"
+            android:layout_gravity="center_horizontal" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="left|top">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/confirm_invoice_action"
+                android:id="@+id/invoice_confirmation"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/reject_invoice_amount"
+                android:id="@+id/cancel_button"
+                android:layout_marginTop="84dp"
+                android:layout_marginLeft="70dp"
+                android:layout_below="@+id/invoice_confirmation"
+                android:background="@color/yellow"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/accept_invoice_amount"
+                android:id="@+id/accept_button"
+                android:background="@color/yellow"
+                android:layout_alignTop="@+id/cancel_button"
+                android:layout_alignRight="@+id/invoice_confirmation"
+                android:layout_alignEnd="@+id/invoice_confirmation" />
+        </RelativeLayout>
+    </FrameLayout>
+
+</LinearLayout>

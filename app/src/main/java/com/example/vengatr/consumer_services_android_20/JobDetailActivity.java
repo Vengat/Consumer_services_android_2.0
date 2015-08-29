@@ -1,11 +1,12 @@
 package com.example.vengatr.consumer_services_android_20;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
+
+import com.example.vengatr.consumer_services_android_20.listener.ServiceProviderBillClickListener;
 
 
 /**
@@ -18,9 +19,10 @@ import android.view.MenuItem;
  * more than a {@link JobDetailFragment}.
  */
 public class JobDetailActivity extends ActionBarActivity implements JobDetailFragment.CancelJobListener, SPJobDetailFragment.OnAssignOrCloseJobListener,
-        JobDetailFragment.AgreedJobListener{
+        JobDetailFragment.AgreedJobListener, ServiceProviderBillClickListener {
 
     private String userType, userName;
+    private long jobId;
 
 
     @Override
@@ -50,6 +52,7 @@ public class JobDetailActivity extends ActionBarActivity implements JobDetailFra
                 // Create the detail fragment and add it to the activity
                 // using a fragment transaction.
                 Bundle arguments = new Bundle();
+                jobId = getIntent().getLongExtra(JobDetailFragment.ARG_ITEM_ID, 0);
                 arguments.putLong(JobDetailFragment.ARG_ITEM_ID,
                         getIntent().getLongExtra(JobDetailFragment.ARG_ITEM_ID, 0));
                 JobDetailFragment fragment = new JobDetailFragment();
@@ -59,6 +62,7 @@ public class JobDetailActivity extends ActionBarActivity implements JobDetailFra
                         .commit();
             } else {
                 Bundle arguments = new Bundle();
+                jobId = getIntent().getLongExtra(SPJobDetailFragment.ARG_ITEM_ID, 0);
                 arguments.putLong(SPJobDetailFragment.ARG_ITEM_ID,
                         getIntent().getLongExtra(SPJobDetailFragment.ARG_ITEM_ID, 0));
                 SPJobDetailFragment fragment = new SPJobDetailFragment();
@@ -106,5 +110,10 @@ public class JobDetailActivity extends ActionBarActivity implements JobDetailFra
         Intent intent = new Intent(this, JobListActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+    @Override
+    public void showInvoiceFragment() {
+        InvoiceFragment invoiceFragment = new InvoiceFragment();
     }
 }

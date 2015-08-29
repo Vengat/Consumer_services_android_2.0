@@ -161,22 +161,37 @@
                 android:typeface="serif"
                 android:text="@string/customer_preferred_date" />
 
-        <TextView
-            android:id="@+id/daySegment"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:textColor="@color/black"
-            android:gravity="center|center"
-            android:layout_gravity="center|center"
-            android:layout_margin="5dp"
-            android:layout_marginBottom="2dp"
-            android:background="@color/white"
-            android:textSize="10dp"
-            android:textStyle="normal"
-            android:typeface="serif"
-            android:text="@string/day_segment" />
+            <TextView
+                android:id="@+id/daySegment"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:textColor="@color/black"
+                android:gravity="center|center"
+                android:layout_gravity="center|center"
+                android:layout_margin="5dp"
+                android:layout_marginBottom="2dp"
+                android:background="@color/white"
+                android:textSize="10dp"
+                android:textStyle="normal"
+                android:typeface="serif"
+                android:text="@string/day_segment" />
 
-        <TextView
+            <TextView
+                android:id="@+id/dateStarted"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:textColor="@color/black"
+                android:gravity="center|center"
+                android:layout_gravity="center|center"
+                android:layout_margin="5dp"
+                android:layout_marginBottom="2dp"
+                android:background="@color/white"
+                android:textSize="10dp"
+                android:textStyle="normal"
+                android:typeface="serif"
+                android:text="@string/date_started" />
+
+           <TextView
                 android:id="@+id/dateDone"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
@@ -206,23 +221,30 @@
                 android:typeface="serif"
                 android:text="@string/job_description" />
 
-        <TextView
-            android:id="@+id/jobStatus"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:textColor="@color/black"
-            android:gravity="center|center"
-            android:layout_gravity="center|center"
-            android:layout_margin="5dp"
-            android:layout_marginBottom="2dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/white"
-            android:textSize="15dp"
-            android:textStyle="normal"
-            android:typeface="serif"
-            android:text="@string/job_status" />
+            <TextView
+                android:id="@+id/jobStatus"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:textColor="@color/black"
+                android:gravity="center|center"
+                android:layout_gravity="center|center"
+                android:layout_margin="5dp"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:textSize="15dp"
+                android:textStyle="normal"
+                android:typeface="serif"
+                android:text="@string/job_status" />
 
-        <Button
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/white"
+            android:layout_weight="0.20">
+
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Assign"
@@ -239,6 +261,20 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Start"
+                android:textColor="@color/white"
+                android:background="@color/yellow"
+                android:textSize="15dp"
+                android:textStyle="normal"
+                android:typeface="serif"
+                android:gravity="center|center"
+                android:layout_gravity="center|center"
+                android:layout_marginTop="10dp"
+                android:id="@+id/start_button" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Close"
                 android:textColor="@color/white"
                 android:background="@color/yellow"
@@ -249,6 +285,24 @@
                 android:layout_gravity="center|center"
                 android:layout_marginTop="5dp"
                 android:id="@+id/close_button" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bill"
+                android:textColor="@color/white"
+                android:background="@color/yellow"
+                android:textSize="15dp"
+                android:textStyle="normal"
+                android:typeface="serif"
+                android:gravity="center|center"
+                android:layout_gravity="center|center"
+                android:layout_marginTop="5dp"
+                android:id="@+id/bill_button" />
+
+
+        </FrameLayout>
+
 
     </LinearLayout>
 

@@ -1,34 +1,22 @@
 package com.example.vengatr.consumer_services_android_20;
 
-import android.app.ActionBar;
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.example.vengatr.consumer_services_android_20.dummy.JobListContent;
 import com.example.vengatr.consumer_services_android_20.listener.AdapterUpdateListener;
 import com.example.vengatr.consumer_services_android_20.listener.PostActionJobListPageTransitionListener;
-import com.example.vengatr.consumer_services_android_20.model.Job;
 import com.example.vengatr.consumer_services_android_20.util.CustomerJobAdapter;
 import com.example.vengatr.consumer_services_android_20.util.TabListener;
 import com.example.vengatr.consumer_services_android_20.util.TabsPagerAdapter;
-
-import java.util.ArrayList;
 
 
 /**

@@ -8,10 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -22,7 +19,6 @@ import com.example.vengatr.consumer_services_android_20.notifier.NoJobsNotifierP
 import com.example.vengatr.consumer_services_android_20.rest_classes.GetJob;
 import com.example.vengatr.consumer_services_android_20.util.CSProperties;
 import com.example.vengatr.consumer_services_android_20.util.CustomerJobAdapter;
-import com.example.vengatr.consumer_services_android_20.util.JobAdapter;
 
 import java.io.IOException;
 import java.util.ArrayList;

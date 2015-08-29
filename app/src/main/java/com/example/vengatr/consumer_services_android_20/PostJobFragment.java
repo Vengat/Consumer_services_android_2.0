@@ -2,11 +2,9 @@ package com.example.vengatr.consumer_services_android_20;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -27,12 +25,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.vengatr.consumer_services_android_20.dummy.JobListContent;
 import com.example.vengatr.consumer_services_android_20.listener.DaySegmentOnItemSelectedListener;
-import com.example.vengatr.consumer_services_android_20.listener.JobTypeOnItemSelectedListener;
 import com.example.vengatr.consumer_services_android_20.model.DaySegment;
 import com.example.vengatr.consumer_services_android_20.model.Job;
 import com.example.vengatr.consumer_services_android_20.model.JobStatus;
@@ -42,7 +37,6 @@ import com.example.vengatr.consumer_services_android_20.rest_classes.GetJob;
 import com.example.vengatr.consumer_services_android_20.util.CSProperties;
 import com.example.vengatr.consumer_services_android_20.util.DateManipulation;
 import com.example.vengatr.consumer_services_android_20.util.DaySegmentMapper;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.json.JSONException;
 

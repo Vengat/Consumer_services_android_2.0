@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +48,7 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
 
     private GetServiceProviderAsyncHttpTask getServiceProviderAsyncHttpTask;
     private AssignJobAsyncHttpTask assignJobAsyncHttpTask;
+    private StartJobAsyncHttpTask startJobAsyncHttpTask;
     private CloseJobAsyncHttpTask closeJobAsyncHttpTask;
 
     private long jobId;
@@ -93,7 +93,7 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.sp_fragment_job_detail, container, false);
-        Button assign, close;
+        Button assign, start, close, bill;
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
             System.out.println("****" + mItem.getId());
@@ -108,6 +108,13 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
             ((TextView) rootView.findViewById(R.id.dateinitiated)).setText("Date Initiated : "+ DateManipulation.dateFormatIST(mItem.getDateInitiated()));
             ((TextView) rootView.findViewById(R.id.customer_preferred_date)).setText("Scheduled Date : "+ DateManipulation.dateFormatIST(mItem.getDatePreferred()));
             ((TextView) rootView.findViewById(R.id.daySegment)).setText("Job day segment : "+mItem.getDaySegment().getDaySegment());
+
+            if (mItem.getDateDone() == null) {
+                ((TextView) rootView.findViewById(R.id.dateStarted)).setText("Date Sarted : Not started yet");
+            } else {
+                ((TextView) rootView.findViewById(R.id.dateStarted)).setText("Date Done : "+ DateManipulation.dateFormatIST(mItem.getDateDone()));
+            }
+            
             if (mItem.getDateDone() == null) {
                 ((TextView) rootView.findViewById(R.id.dateDone)).setText("Date Done : In Progress");
             } else {
@@ -126,6 +133,16 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
             }
 
             if (mItem.getJobStatus().toString().equalsIgnoreCase("agreed") && mItem.getServiceProviderMobileNumber() == Long.parseLong(mobileNumber)) {
+                start = (Button) rootView.findViewById(R.id.start_button);
+                start.setOnClickListener(this);
+            } else {
+                start = (Button) rootView.findViewById(R.id.start_button);
+                start.setEnabled(false);
+                start.setVisibility(View.GONE);
+                start.setOnClickListener(null);
+            }
+
+            if (mItem.getJobStatus().toString().equalsIgnoreCase("wip") && mItem.getServiceProviderMobileNumber() == Long.parseLong(mobileNumber)) {
                 close = (Button) rootView.findViewById(R.id.close_button);
                 close.setOnClickListener(this);
             } else {
@@ -133,6 +150,16 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
                 close.setEnabled(false);
                 close.setVisibility(View.GONE);
                 close.setOnClickListener(null);
+            }
+
+            if (mItem.getJobStatus().toString().equalsIgnoreCase("closed") && mItem.getServiceProviderMobileNumber() == Long.parseLong(mobileNumber)) {
+                bill = (Button) rootView.findViewById(R.id.bill_button);
+                bill.setOnClickListener(this);
+            } else {
+                bill = (Button) rootView.findViewById(R.id.bill_button);
+                bill.setEnabled(false);
+                bill.setVisibility(View.GONE);
+                bill.setOnClickListener(null);
             }
 
         }
@@ -155,8 +182,19 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
             if(getServiceProviderAsyncHttpTask .getStatus() == AsyncTask.Status.FINISHED) {
                 closeJobAsyncHttpTask.execute(String.valueOf(jobId));
             }
+        } else if (v.getId() == R.id.start_button) {
+            progressDialog.show();
+            startJobAsyncHttpTask = new StartJobAsyncHttpTask();
+            if(getServiceProviderAsyncHttpTask .getStatus() == AsyncTask.Status.FINISHED) {
+                startJobAsyncHttpTask.execute(String.valueOf(jobId));
+            }
+        } else if (v.getId() == R.id.bill_button) {
+            progressDialog.show();
+            startJobAsyncHttpTask = new StartJobAsyncHttpTask();
+            if(getServiceProviderAsyncHttpTask .getStatus() == AsyncTask.Status.FINISHED) {
+                startJobAsyncHttpTask.execute(String.valueOf(jobId));
+            }
         }
-
     }
 
     private class GetServiceProviderAsyncHttpTask extends AsyncTask<String, Void, ServiceProvider> {
@@ -190,6 +228,29 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
             try {
                 if (currentServiceProvider == null) System.out.println("&&&&&&Current Service Provider is null");
                 job = new PutJob(context).assignJob(Long.parseLong(params[0]), currentServiceProvider);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return job;
+        }
+
+        @Override
+        protected void onPostExecute(Job job) {
+            Toast.makeText(getActivity(), "Job Assigned", Toast.LENGTH_LONG).show();
+            new JobListContent().updateJob(job);
+            new OnAssignOrCloseJobListenerNotifier((JobDetailActivity) getActivity());
+            progressDialog.dismiss();
+        }
+    }
+
+    private class StartJobAsyncHttpTask extends AsyncTask<String, Void, Job> {
+
+        @Override
+        protected Job doInBackground(String... params) {
+            Job job = null;
+            try {
+                if (currentServiceProvider == null) System.out.println("&&&&&&Current Service Provider is null");
+                job = new PutJob(context).startJob(Long.parseLong(params[0]), currentServiceProvider);
             } catch (IOException e) {
                 e.printStackTrace();
             }

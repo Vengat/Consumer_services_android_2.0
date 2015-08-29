@@ -34,6 +34,7 @@
     <string name="date_initiated">Start Date</string>
     <string name="customer_preferred_date">Customer Preferred Date</string>
     <string name="date_completed">Done Date</string>
+    <string name="date_started">Date Started</string>
     <string name="user_name">Service User</string>
     <string name="user_phone">User Phone</string>
     <string name="schedule_job_message">Schedule</string>
@@ -41,6 +42,20 @@
     <string name="unreachable_server">We are not able to reach our server. Please try later</string>
 
     <string name="post_job_select_date">.</string>
+
+    <string name="post_invoice_button">Bill</string>
+    <string name="material_charges">Material Charges    Rs:</string>
+    <string name="labour_charges">Labour Charges      Rs:</string>
+    <string name="coupon_code">Coupon Code           :</string>
+    <string name="total_charges">Total Charges       Rs:</string>
+    <string name="discounted_material_charges">Discounted Material Charges    Rs:</string>
+    <string name="discounted_labour_charges">Discounted Labour Charges      Rs:</string>
+    <string name="discounted_total_charges">Discounted Total Charges       Rs:</string>
+
+    <string name="confirm_invoice_action">Please confirm before proceeding</string>
+    <string name="reject_invoice_amount">Cancel</string>
+    <string name="accept_invoice_amount">Accept</string>
+    <string name="ok_button">Ok</string>
 
     <string name="jobtypes_prompt">Choose a Job type</string>
     <string-array name="job_types">
@@ -89,6 +104,7 @@
     <!--<color name="yellow">#A16F0E</color>-->
     <color name="yellow">#FFF176</color>
     <color name="black">#000000</color>
+    <color name="beige">#FFFFBF</color>
 
 
 </resources>

@@ -3,33 +3,14 @@ package com.example.vengatr.consumer_services_android_20;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
-import android.view.Menu;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.vengatr.consumer_services_android_20.listener.NoInternetConnectivityListener;
 import com.example.vengatr.consumer_services_android_20.listener.ServerUnreachableListener;
-import com.example.vengatr.consumer_services_android_20.model.Job;
-import com.example.vengatr.consumer_services_android_20.model.JobStatus;
-import com.example.vengatr.consumer_services_android_20.model.JobType;
-import com.example.vengatr.consumer_services_android_20.notifier.OnPostJobCompletionNotifier;
-import com.example.vengatr.consumer_services_android_20.rest_classes.GetJob;
-import com.example.vengatr.consumer_services_android_20.util.CheckConnectivity;
-
-import org.json.JSONException;
-
-import java.io.IOException;
-
-import static com.example.vengatr.consumer_services_android_20.rest_classes.PostJob.POST;
 
 /**
  * Created by vengat.r on 7/6/2015.
