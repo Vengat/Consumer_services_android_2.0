@@ -15,9 +15,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vengatr.consumer_services_android_20.dummy.JobListContent;
+import com.example.vengatr.consumer_services_android_20.listener.ServiceProviderBillClickListener;
 import com.example.vengatr.consumer_services_android_20.model.Job;
 import com.example.vengatr.consumer_services_android_20.model.ServiceProvider;
 import com.example.vengatr.consumer_services_android_20.notifier.OnAssignOrCloseJobListenerNotifier;
+import com.example.vengatr.consumer_services_android_20.notifier.ServiceProviderBillClickNotifier;
 import com.example.vengatr.consumer_services_android_20.rest_classes.GetServiceProvider;
 import com.example.vengatr.consumer_services_android_20.rest_classes.PutJob;
 import com.example.vengatr.consumer_services_android_20.util.DateManipulation;
@@ -189,11 +191,7 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
                 startJobAsyncHttpTask.execute(String.valueOf(jobId));
             }
         } else if (v.getId() == R.id.bill_button) {
-            progressDialog.show();
-            startJobAsyncHttpTask = new StartJobAsyncHttpTask();
-            if(getServiceProviderAsyncHttpTask .getStatus() == AsyncTask.Status.FINISHED) {
-                startJobAsyncHttpTask.execute(String.valueOf(jobId));
-            }
+            new ServiceProviderBillClickNotifier((ServiceProviderBillClickListener) getActivity());
         }
     }
 

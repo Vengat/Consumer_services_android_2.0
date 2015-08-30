@@ -6,6 +6,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 
+import com.example.vengatr.consumer_services_android_20.listener.JobListPageTransitionListener;
 import com.example.vengatr.consumer_services_android_20.listener.ServiceProviderBillClickListener;
 
 
@@ -19,7 +20,7 @@ import com.example.vengatr.consumer_services_android_20.listener.ServiceProvider
  * more than a {@link JobDetailFragment}.
  */
 public class JobDetailActivity extends ActionBarActivity implements JobDetailFragment.CancelJobListener, SPJobDetailFragment.OnAssignOrCloseJobListener,
-        JobDetailFragment.AgreedJobListener, ServiceProviderBillClickListener {
+        JobDetailFragment.AgreedJobListener, ServiceProviderBillClickListener, JobListPageTransitionListener {
 
     private String userType, userName;
     private long jobId;
@@ -62,7 +63,7 @@ public class JobDetailActivity extends ActionBarActivity implements JobDetailFra
                         .commit();
             } else {
                 Bundle arguments = new Bundle();
-                jobId = getIntent().getLongExtra(SPJobDetailFragment.ARG_ITEM_ID, 0);
+                jobId = getIntent().getLongExtra(JobDetailFragment.ARG_ITEM_ID, 0);
                 arguments.putLong(SPJobDetailFragment.ARG_ITEM_ID,
                         getIntent().getLongExtra(SPJobDetailFragment.ARG_ITEM_ID, 0));
                 SPJobDetailFragment fragment = new SPJobDetailFragment();
@@ -114,6 +115,18 @@ public class JobDetailActivity extends ActionBarActivity implements JobDetailFra
 
     @Override
     public void showInvoiceFragment() {
+        Bundle arguments = new Bundle();
         InvoiceFragment invoiceFragment = new InvoiceFragment();
+        arguments.putLong(InvoiceFragment.ARG_ITEM_ID,
+                getIntent().getLongExtra(InvoiceFragment.ARG_ITEM_ID, 0));
+        invoiceFragment.setArguments(arguments);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.job_detail_container, invoiceFragment)
+                .commit();
+    }
+
+    @Override
+    public void navigateToJobList() {
+        jobListPageTransition();
     }
 }

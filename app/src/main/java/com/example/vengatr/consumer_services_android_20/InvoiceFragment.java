@@ -12,9 +12,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.vengatr.consumer_services_android_20.dummy.JobListContent;
 import com.example.vengatr.consumer_services_android_20.model.Invoice;
+import com.example.vengatr.consumer_services_android_20.model.Job;
 import com.example.vengatr.consumer_services_android_20.rest_classes.GetInvoice;
+import com.example.vengatr.consumer_services_android_20.rest_classes.PostInvoice;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -24,6 +28,8 @@ import java.util.Date;
  * Created by vengat.r on 8/27/2015.
  */
 public class InvoiceFragment extends Fragment implements View.OnClickListener {
+
+    public static final String ARG_ITEM_ID = "item_id";
 
     private Button billButton;
     private Button cancelButton;
@@ -57,10 +63,20 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
     private String materialChargesAmount, labourChargesAmount;
     private String couponCode;
 
+    private Job job;
+    private long jobId;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (getArguments().containsKey(ARG_ITEM_ID)) {
+            // Load the dummy content specified by the fragment
+            // arguments. In a real-world scenario, use a Loader
+            // to load content from a content provider.
+            job = JobListContent.JOB_ITEM_MAP.get(getArguments().getLong(ARG_ITEM_ID));
+            jobId = job.getId();
+        }
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setCancelable(false);
     }
@@ -137,10 +153,7 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
             progressDialog.show();
             hideBillButton();
             disableEditTextFields();
-            showAcceptButton();
-            showCancelButton();
-            showConfirmationText();
-            progressDialog.dismiss();
+            new DisplayInvoiceAsyncHttpTask().execute("displayInvoice");
         } else if (v.getId() == R.id.cancel_button) {
             progressDialog.show();
             enableEditTextFields();
@@ -151,7 +164,7 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
             progressDialog.dismiss();
         } else if (v.getId() == R.id.accept_button) {
             progressDialog.show();
-
+            new PostInvoiceAsyncHttpTask().execute("postInvoice");
         }
 
     }
@@ -228,7 +241,7 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
         discountedTotalChargesVal.setVisibility(View.VISIBLE);
     }
 
-    public void showDiscountedTotalAndLabourChargesOnly() {
+    private void showDiscountedTotalAndLabourChargesOnly() {
         totalChargesTextView.setVisibility(View.VISIBLE);
         discountedLabourChargesTextView.setVisibility(View.VISIBLE);
         discountedMaterialChargesTextView.setVisibility(View.GONE);
@@ -239,15 +252,28 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
         discountedTotalChargesVal.setVisibility(View.VISIBLE);
     }
 
-    public void showDiscountedTotalMaterialAndLabourChargesOnly() {
+    private void showDiscountedTotalMaterialAndLabourChargesOnly() {
         totalChargesTextView.setVisibility(View.VISIBLE);
-        discountedLabourChargesTextView.setVisibility(View.VISIBLE);
-        discountedMaterialChargesTextView.setVisibility(View.VISIBLE);
-        discountedTotalChargesTextView.setVisibility(View.VISIBLE);
         totalChargesVal.setVisibility(View.VISIBLE);
+        discountedLabourChargesTextView.setVisibility(View.VISIBLE);
         discountedLabourChargesVal.setVisibility(View.VISIBLE);
+        discountedMaterialChargesTextView.setVisibility(View.VISIBLE);
         discountedMaterialChargesVal.setVisibility(View.VISIBLE);
+        discountedTotalChargesTextView.setVisibility(View.VISIBLE);
         discountedTotalChargesVal.setVisibility(View.VISIBLE);
+    }
+
+    private void displayInvoiceValues(Invoice invoice) {
+        materialChargesEditText.setText(invoice.getMaterialCharges().toString());
+        materialChargesEditText.setEnabled(false);
+        labourChargesEditText.setText(invoice.getLabourCharges().toString());
+        labourChargesEditText.setEnabled(false);
+        couponCodeEditText.setText(invoice.getCouponCode());
+        couponCodeEditText.setEnabled(false);
+        totalChargesVal.setText(invoice.getTotalCharges().toString());
+        discountedMaterialChargesVal.setText(invoice.getDiscountedMaterialCharges().toString());
+        discountedLabourChargesVal.setText(invoice.getDiscountedLabourCharges().toString());
+        discountedTotalChargesVal.setText(invoice.getDiscountedTotalCharges().toString());
     }
 
     private class DisplayInvoiceAsyncHttpTask extends AsyncTask<String, Void, Invoice> {
@@ -261,12 +287,76 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
                 e.printStackTrace();
             }
 
-            inv.setCouponCode(couponCode);
+            if (couponCode != null) inv.setCouponCode(couponCode);
             inv.setMaterialCharges(new BigDecimal(materialChargesAmount));
             inv.setLabourCharges(new BigDecimal(labourChargesAmount));
             inv.setInvoiceDate(new Date());
-            return null;
+            inv.setJobId(jobId);
+            inv.setInvoiceDate(new Date());
+            inv.setCustomerMobileNumber(job.getCustomerMobileNumber());
+            inv.setCustomerName(job.getCustomerName());
+            inv.setServiceProviderMobileNumber(job.getServiceProviderMobileNumber());
+            inv.setServiceProviderName(job.getServiceProviderName());
+
+            Invoice displayInvoice = null;
+            try {
+                displayInvoice = new PostInvoice(context).displayInvoice(inv);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return displayInvoice;
+        }
+
+        @Override
+        protected void onPostExecute(Invoice invoice) {
+            Toast.makeText(getActivity(), "Invoice displayed", Toast.LENGTH_LONG).show();
+            showAcceptButton();
+            showCancelButton();
+            showConfirmationText();
+            showDiscountedTotalMaterialAndLabourChargesOnly();
+            displayInvoiceValues(invoice);
+            progressDialog.dismiss();
         }
     }
+
+
+    private class PostInvoiceAsyncHttpTask extends AsyncTask<String, Void, Invoice> {
+
+        @Override
+        protected Invoice doInBackground(String... params) {
+            Invoice inv = null;
+            try {
+                inv = new GetInvoice(context).getNewInvoice();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            if (couponCode != null) inv.setCouponCode(couponCode);
+            inv.setMaterialCharges(new BigDecimal(materialChargesAmount));
+            inv.setLabourCharges(new BigDecimal(labourChargesAmount));
+            inv.setInvoiceDate(new Date());
+            inv.setJobId(jobId);
+            inv.setInvoiceDate(new Date());
+            inv.setCustomerMobileNumber(job.getCustomerMobileNumber());
+            inv.setCustomerName(job.getCustomerName());
+            inv.setServiceProviderMobileNumber(job.getServiceProviderMobileNumber());
+            inv.setServiceProviderName(job.getServiceProviderName());
+
+            Invoice displayInvoice = null;
+            try {
+                displayInvoice = new PostInvoice(context).postInvoice(inv);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return displayInvoice;
+        }
+
+        @Override
+        protected void onPostExecute(Invoice invoice) {
+            Toast.makeText(getActivity(), "Invoice saved", Toast.LENGTH_LONG).show();
+            progressDialog.dismiss();
+        }
+    }
+
 
 }
