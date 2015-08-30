@@ -185,6 +185,12 @@ public class Job implements Serializable {
         this.timeZone = timeZone;
     }
 
+    public Date getStartTime() {
+        return startTime;
+    }
 
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
 }
 

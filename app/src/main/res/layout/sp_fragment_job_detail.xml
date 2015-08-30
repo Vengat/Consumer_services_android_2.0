@@ -282,8 +282,10 @@
                 android:textStyle="normal"
                 android:typeface="serif"
                 android:gravity="center|center"
-                android:layout_gravity="center|center"
+                android:layout_gravity="bottom|start"
                 android:layout_marginTop="5dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="40dp"
                 android:id="@+id/close_button" />
 
             <Button
@@ -296,8 +298,10 @@
                 android:textStyle="normal"
                 android:typeface="serif"
                 android:gravity="center|center"
-                android:layout_gravity="center|center"
+                android:layout_gravity="bottom|end"
                 android:layout_marginTop="5dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="40dp"
                 android:id="@+id/bill_button" />
 
 

@@ -109,10 +109,10 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
             ((TextView) rootView.findViewById(R.id.daySegment)).setText("Job day segment : "+mItem.getDaySegment().getDaySegment());
             convertDatePerTimeZone(mItem.getDatePreferred());
 
-            if (mItem.getDateDone() == null) {
-                ((TextView) rootView.findViewById(R.id.dateStarted)).setText("Date Sarted : Not started yet");
+            if (mItem.getStartTime() == null) {
+                ((TextView) rootView.findViewById(R.id.dateStarted)).setText("Date Started : Not started yet");
             } else {
-                ((TextView) rootView.findViewById(R.id.dateStarted)).setText("Date Done : "+ DateManipulation.dateFormatIST(mItem.getDateDone()));
+                ((TextView) rootView.findViewById(R.id.dateStarted)).setText("Date Done : "+ DateManipulation.dateFormatIST(mItem.getStartTime()));
             }
 
             if (mItem.getDateDone() == null) {

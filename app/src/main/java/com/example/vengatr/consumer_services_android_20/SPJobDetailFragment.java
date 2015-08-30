@@ -111,10 +111,10 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
             ((TextView) rootView.findViewById(R.id.customer_preferred_date)).setText("Scheduled Date : "+ DateManipulation.dateFormatIST(mItem.getDatePreferred()));
             ((TextView) rootView.findViewById(R.id.daySegment)).setText("Job day segment : "+mItem.getDaySegment().getDaySegment());
 
-            if (mItem.getDateDone() == null) {
-                ((TextView) rootView.findViewById(R.id.dateStarted)).setText("Date Sarted : Not started yet");
+            if (mItem.getStartTime() == null) {
+                ((TextView) rootView.findViewById(R.id.dateStarted)).setText("Date Started : Not started yet");
             } else {
-                ((TextView) rootView.findViewById(R.id.dateStarted)).setText("Date Done : "+ DateManipulation.dateFormatIST(mItem.getDateDone()));
+                ((TextView) rootView.findViewById(R.id.dateStarted)).setText("Date Done : "+ DateManipulation.dateFormatIST(mItem.getStartTime()));
             }
             
             if (mItem.getDateDone() == null) {
@@ -145,16 +145,6 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
             }
 
             if (mItem.getJobStatus().toString().equalsIgnoreCase("wip") && mItem.getServiceProviderMobileNumber() == Long.parseLong(mobileNumber)) {
-                close = (Button) rootView.findViewById(R.id.close_button);
-                close.setOnClickListener(this);
-            } else {
-                close = (Button) rootView.findViewById(R.id.close_button);
-                close.setEnabled(false);
-                close.setVisibility(View.GONE);
-                close.setOnClickListener(null);
-            }
-
-            if (mItem.getJobStatus().toString().equalsIgnoreCase("closed") && mItem.getServiceProviderMobileNumber() == Long.parseLong(mobileNumber)) {
                 bill = (Button) rootView.findViewById(R.id.bill_button);
                 bill.setOnClickListener(this);
             } else {
@@ -162,6 +152,16 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
                 bill.setEnabled(false);
                 bill.setVisibility(View.GONE);
                 bill.setOnClickListener(null);
+            }
+
+            if (mItem.getJobStatus().toString().equalsIgnoreCase("wip") && mItem.getServiceProviderMobileNumber() == Long.parseLong(mobileNumber)) {
+                close = (Button) rootView.findViewById(R.id.close_button);
+                close.setOnClickListener(this);
+            } else {
+                close = (Button) rootView.findViewById(R.id.close_button);
+                close.setEnabled(false);
+                close.setVisibility(View.GONE);
+                close.setOnClickListener(null);
             }
 
         }
