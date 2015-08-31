@@ -112,7 +112,7 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
             if (mItem.getStartTime() == null) {
                 ((TextView) rootView.findViewById(R.id.dateStarted)).setText("Date Started : Not started yet");
             } else {
-                ((TextView) rootView.findViewById(R.id.dateStarted)).setText("Date Done : "+ DateManipulation.dateTimeFormatIST(mItem.getStartTime()));
+                ((TextView) rootView.findViewById(R.id.dateStarted)).setText("Date Started : "+ DateManipulation.dateTimeFormatIST(mItem.getStartTime()));
             }
 
             if (mItem.getDateDone() == null) {

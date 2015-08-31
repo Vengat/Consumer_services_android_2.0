@@ -120,19 +120,23 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
             if (mItem.getDateDone() == null) {
                 ((TextView) rootView.findViewById(R.id.dateDone)).setText("Date Done : In Progress");
             } else {
-                ((TextView) rootView.findViewById(R.id.dateDone)).setText("Date Done : "+ DateManipulation.dateTimeFormatIST(mItem.getDateDone()));
+                ((TextView) rootView.findViewById(R.id.dateDone)).setText("Date Done : " + DateManipulation.dateTimeFormatIST(mItem.getDateDone()));
             }
             ((TextView) rootView.findViewById(R.id.description)).setText(mItem.getDescription());
 
 
-            assign = (Button) rootView.findViewById(R.id.assign_button);
-            assign.setOnClickListener(this);
 
-            if (mItem.getJobStatus().toString().equalsIgnoreCase("assigned") || mItem.getJobStatus().toString().equalsIgnoreCase("agreed")) {
+
+            if (mItem.getJobStatus().toString().equalsIgnoreCase("open")) {
+                assign = (Button) rootView.findViewById(R.id.assign_button);
+                assign.setOnClickListener(this);
+            } else {
+                assign = (Button) rootView.findViewById(R.id.assign_button);
                 assign.setEnabled(false);
                 assign.setVisibility(View.GONE);
                 assign.setOnClickListener(null);
             }
+
 
             if (mItem.getJobStatus().toString().equalsIgnoreCase("agreed") && mItem.getServiceProviderMobileNumber() == Long.parseLong(mobileNumber)) {
                 start = (Button) rootView.findViewById(R.id.start_button);

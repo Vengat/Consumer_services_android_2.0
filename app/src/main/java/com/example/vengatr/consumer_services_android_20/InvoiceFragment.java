@@ -15,8 +15,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vengatr.consumer_services_android_20.dummy.JobListContent;
+import com.example.vengatr.consumer_services_android_20.listener.JobListPageTransitionListener;
 import com.example.vengatr.consumer_services_android_20.model.Invoice;
 import com.example.vengatr.consumer_services_android_20.model.Job;
+import com.example.vengatr.consumer_services_android_20.notifier.JobListPageTransitionNotifier;
 import com.example.vengatr.consumer_services_android_20.rest_classes.GetInvoice;
 import com.example.vengatr.consumer_services_android_20.rest_classes.PostInvoice;
 
@@ -143,7 +145,9 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        couponCode = couponCodeEditText.getText().toString();
+        couponCode = couponCodeEditText.getText().toString().trim();
+        Log.i(TAG, "Coupon code entered is "+couponCode);
+        Log.i(TAG, "Is coupon code empty "+couponCode.isEmpty());
         materialChargesAmount = materialChargesEditText.getText().toString();
         labourChargesAmount = labourChargesEditText.getText().toString();
 
@@ -287,7 +291,10 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
                 e.printStackTrace();
             }
 
-            if (couponCode != null) inv.setCouponCode(couponCode);
+            if (inv == null) throw new NullPointerException("Invoice is null while getting");
+            if (couponCode != null) {
+                inv.setCouponCode(couponCode);
+            }
             inv.setMaterialCharges(new BigDecimal(materialChargesAmount));
             inv.setLabourCharges(new BigDecimal(labourChargesAmount));
             inv.setInvoiceDate(new Date());
@@ -355,6 +362,7 @@ public class InvoiceFragment extends Fragment implements View.OnClickListener {
         protected void onPostExecute(Invoice invoice) {
             Toast.makeText(getActivity(), "Invoice saved", Toast.LENGTH_LONG).show();
             progressDialog.dismiss();
+            new JobListPageTransitionNotifier((JobListPageTransitionListener) context);
         }
     }
 

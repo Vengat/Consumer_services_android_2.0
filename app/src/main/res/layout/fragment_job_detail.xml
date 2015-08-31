@@ -271,8 +271,9 @@
                 android:textStyle="normal"
                 android:typeface="serif"
                 android:gravity="center|center"
-                android:layout_gravity="center|center"
-                android:layout_marginTop="5dp"
+                android:layout_gravity="center|end"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="20dp"
                 android:id="@+id/agree_button" />
 
             <Button
@@ -285,8 +286,9 @@
                 android:textStyle="normal"
                 android:typeface="serif"
                 android:gravity="center|center"
-                android:layout_gravity="center|center"
-                android:layout_marginTop="5dp"
+                android:layout_gravity="start|center"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="20dp"
                 android:id="@+id/unassign_button" />
 
         </FrameLayout>

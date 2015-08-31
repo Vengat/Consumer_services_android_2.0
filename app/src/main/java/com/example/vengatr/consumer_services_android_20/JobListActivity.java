@@ -226,6 +226,7 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
         } else {
             //jobsTab.setTabListener(new TabListener(serviceProviderJobsPerspectiveFragment));
             if (actionBar.getTabCount() > 0) actionBar.removeAllTabs();
+            actionBar.setStackedBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.blue)));
         }
     }
 
