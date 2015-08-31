@@ -24,6 +24,12 @@ public class DateManipulation {
         return dateFormat.format(date);
     }
 
+    public static String dateTimeFormatIST(Date date) {
+        DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy HH:mm");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("IST"));
+        return dateFormat.format(date);
+    }
+
     public static Date dateUTCtoIST(Date date) {
         Calendar cal = Calendar.getInstance();
         TimeZone timeZone = TimeZone.getTimeZone("IST");

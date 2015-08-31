@@ -114,13 +114,13 @@ public class SPJobDetailFragment extends Fragment implements View.OnClickListene
             if (mItem.getStartTime() == null) {
                 ((TextView) rootView.findViewById(R.id.dateStarted)).setText("Date Started : Not started yet");
             } else {
-                ((TextView) rootView.findViewById(R.id.dateStarted)).setText("Date Done : "+ DateManipulation.dateFormatIST(mItem.getStartTime()));
+                ((TextView) rootView.findViewById(R.id.dateStarted)).setText("Date Done : "+ DateManipulation.dateTimeFormatIST(mItem.getStartTime()));
             }
             
             if (mItem.getDateDone() == null) {
                 ((TextView) rootView.findViewById(R.id.dateDone)).setText("Date Done : In Progress");
             } else {
-                ((TextView) rootView.findViewById(R.id.dateDone)).setText("Date Done : "+ DateManipulation.dateFormatIST(mItem.getDateDone()));
+                ((TextView) rootView.findViewById(R.id.dateDone)).setText("Date Done : "+ DateManipulation.dateTimeFormatIST(mItem.getDateDone()));
             }
             ((TextView) rootView.findViewById(R.id.description)).setText(mItem.getDescription());
 
