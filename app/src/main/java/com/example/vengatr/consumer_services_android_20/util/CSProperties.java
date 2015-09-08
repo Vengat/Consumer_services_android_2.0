@@ -2,10 +2,8 @@ package com.example.vengatr.consumer_services_android_20.util;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.content.res.Resources;
 import android.util.Log;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -51,7 +49,10 @@ public class CSProperties implements CSConstants {
     public String getDomain() {
         Log.i("", "properties.getProperty(\"local.domain\") "+getProperties().getProperty("local.domain"));
         Log.i("", "getEnvironment()"+getEnvironment());
-        return getEnvironment().equalsIgnoreCase("stage") ? getProperties().getProperty("stage.domain") : getProperties().getProperty("local.domain");
+        //return getEnvironment().equalsIgnoreCase("stage") ? getProperties().getProperty("stage.domain") : getProperties().getProperty("local.domain");
+        if (getEnvironment().equalsIgnoreCase("local")) return  getProperties().getProperty("local.domain");
+        if (getEnvironment().equalsIgnoreCase("stage_mini")) return  getProperties().getProperty("stage_mini.domain");
+        return  getProperties().getProperty("stage.domain");
     }
 
     public String getNewJobUrl() {

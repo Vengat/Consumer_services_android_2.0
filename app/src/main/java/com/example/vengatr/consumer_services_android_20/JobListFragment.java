@@ -131,6 +131,7 @@ public class JobListFragment extends ListFragment {
         CustomerJobAdapter customerJobAdapter = new CustomerJobAdapter(getActivity(), (ArrayList<Job>) JobListContent.ITEMS);
         setListAdapter(customerJobAdapter);
         customerJobAdapter.notifyDataSetChanged();
+        Log.i(TAG, "getJobsURL+mobileNumber "+getJobsURL+mobileNumber);
         getJobs(getJobsURL+mobileNumber);
 
         /*

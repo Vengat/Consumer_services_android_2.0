@@ -68,7 +68,7 @@
         android:layout_height="50dp"
         android:elevation="100dp"
         android:text="Post New Job"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:background="@color/yellow"
         android:textSize="15sp"
         android:textStyle="normal"

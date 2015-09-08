@@ -6,10 +6,13 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vengatr.consumer_services_android_20.listener.AdapterUpdateListener;
@@ -89,6 +92,14 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
         createJobListView();
         showReferInviteFragment();
         createTabsPager();
+
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setCustomView(getLayoutInflater().inflate(R.layout.action_bar_layout, null));
+        getSupportActionBar().setCustomView(R.layout.action_bar_layout);
+        TextView omelee = (TextView) getSupportActionBar().getCustomView().findViewById(R.id.app_name);
+
         // TODO: If exposing deep links into your app, handle intents here.
     }
 
@@ -168,6 +179,7 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
         if (actionBar == null) {
             actionBar = getSupportActionBar();
         }
+
         actionBar.setNavigationMode(android.support.v7.app.ActionBar.NAVIGATION_MODE_STANDARD);
         if (actionBar.getTabCount() > 0)actionBar.removeAllTabs();
         actionBar.setStackedBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.white)));
@@ -184,7 +196,7 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
         //mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
         //viewPager.setAdapter(mAdapter);
         if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(false);
+            actionBar.setHomeButtonEnabled(true);
             //getSupportActionBar().setIcon(R.drawable.omelee_icon);
         }
         actionBar.setNavigationMode(android.support.v7.app.ActionBar.NAVIGATION_MODE_TABS);
@@ -207,11 +219,21 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
 
             }
         });
+        getSupportActionBar().setCustomView(R.layout.action_bar_layout);
+        TextView omelee = (TextView) getSupportActionBar().getCustomView().findViewById(R.id.app_name);
 */
         Log.i(TAG, "Tab count "+actionBar.getTabCount());
         if (actionBar.getTabCount() == 0) {
+            RelativeLayout tabView1 = (RelativeLayout) getLayoutInflater().inflate(R.layout.tab_layout, null);
+            RelativeLayout tabView2 = (RelativeLayout) getLayoutInflater().inflate(R.layout.tab_layout, null);
             jobsTab = actionBar.newTab().setText("Jobs");
+            jobsTab.setCustomView(tabView1);
+            TextView jobsTabTextView = (TextView) tabView1.findViewById(R.id.tabText);
+            jobsTabTextView.setText("Jobs");
             referTab = actionBar.newTab().setText("Refer");
+            referTab.setCustomView(tabView2);
+            TextView referTabTextView = (TextView) tabView2.findViewById(R.id.tabText);
+            referTabTextView.setText("Refer");
         } else if (actionBar.getTabCount() > 0) {
             return;
         }
