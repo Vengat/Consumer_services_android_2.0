@@ -57,19 +57,19 @@
         android:inputType="textMultiLine"
         android:ems="10"
         android:id="@+id/editTextDescription"
-        android:background="@color/white"
+        android:background="@color/beige"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
         android:hint="@string/job_description"
         android:textSize="15sp"
-        android:textStyle="normal"
+        android:textStyle="italic"
         android:typeface="serif"
         android:textColor="@color/black"
         android:layout_gravity="center"
-        android:gravity="center|left"/>
+        android:gravity="center|center_horizontal"/>
 
-    <TextView
+    <!--<TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:id="@+id/schedule_heading"
@@ -80,7 +80,7 @@
         android:typeface="serif"
         android:textColor="@color/black"
         android:text="@string/schedule_job_message"
-        android:gravity="center|left"/>
+        android:gravity="center|left"/>-->
 
     <TextView
         android:layout_width="wrap_content"
@@ -98,7 +98,7 @@
         android:background="@color/white">
 
         <EditText
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:inputType="date"
             android:ems="10"
@@ -108,7 +108,12 @@
             android:typeface="serif"
             android:textColor="@color/black"
             android:drawableEnd= "@drawable/down_arrow"
-            android:drawableRight= "@drawable/down_arrow" />
+            android:drawableRight= "@drawable/down_arrow"
+            android:gravity="center|center_horizontal"
+            android:layout_gravity="center|center"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="150dp"
+            android:layout_marginLeft="150dp" />
 
         <!--Disabling this time picker for now
         <EditText
@@ -125,7 +130,7 @@
         -->
 
         <Spinner
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:id="@+id/day_segment_values"
             android:layout_below="@+id/set_job_date"
@@ -135,8 +140,12 @@
             android:textStyle="normal"
             android:typeface="serif"
             android:textColor="@color/black"
-            android:layout_marginTop="20dp"
-            android:prompt="@string/day_segment_prompt"/>
+            android:layout_marginTop="50dp"
+            android:prompt="@string/day_segment_prompt"
+            android:gravity="center|center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="150dp"
+            android:layout_marginLeft="150dp"/>
 
     </RelativeLayout>
 
@@ -151,6 +160,6 @@
         android:typeface="serif"
         android:layout_gravity="center|bottom"
         android:id="@+id/postJobButton"
-        android:layout_marginTop="150dp"/>
+        android:layout_marginTop="175dp"/>
 
 </LinearLayout>

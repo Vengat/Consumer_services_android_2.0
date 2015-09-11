@@ -222,7 +222,7 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
         getSupportActionBar().setCustomView(R.layout.action_bar_layout);
         TextView omelee = (TextView) getSupportActionBar().getCustomView().findViewById(R.id.app_name);
 */
-        Log.i(TAG, "Tab count "+actionBar.getTabCount());
+        Log.i(TAG, "Tab count " + actionBar.getTabCount());
         if (actionBar.getTabCount() == 0) {
             RelativeLayout tabView1 = (RelativeLayout) getLayoutInflater().inflate(R.layout.tab_layout, null);
             RelativeLayout tabView2 = (RelativeLayout) getLayoutInflater().inflate(R.layout.tab_layout, null);
@@ -238,7 +238,7 @@ public class JobListActivity extends ActionBarActivity //FragmentActivity Action
             return;
         }
 
-        Log.i(TAG, "userType "+userType);
+        Log.i(TAG, "userType " + userType);
         if (userType.equalsIgnoreCase("customer")) {
             jobsTab.setTabListener(new TabListener(jobListFragment));
             referTab.setTabListener(new TabListener(referInviteFragment));

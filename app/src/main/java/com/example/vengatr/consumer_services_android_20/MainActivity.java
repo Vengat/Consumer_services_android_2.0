@@ -108,12 +108,16 @@ public class MainActivity extends FragmentActivity implements UserDetailsFragmen
                 .replace(R.id.main_activity, new UnableToReachServerFragment()).commit();
     }
 
-    /*
+
     @Override
     public void onResume() {
         super.onResume();
-        jobListPageTransition();
-    }*/
+        if (mobileNumber.length() == 0 || name.length() == 0 || pincode.length() == 0 || userType.length() == 0) {
+            showEditDialog();
+        } else {
+            jobListPageTransition();
+        }
+    }
 
 
 

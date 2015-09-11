@@ -3,6 +3,7 @@ package com.example.vengatr.consumer_services_android_20;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 
@@ -34,9 +35,13 @@ public class JobDetailActivity extends ActionBarActivity implements JobDetailFra
         Intent intent = getIntent();
         userName = intent.getStringExtra("Name");
         userType = intent.getStringExtra("User_Type");
-        System.out.println("OK lets see what the user type is "+userType);
+        System.out.println("OK lets see what the user type is " + userType);
         // Show the Up button in the action bar.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        //getSupportActionBar().setCustomView(getLayoutInflater().inflate(R.layout.action_bar_layout, null));
+        getSupportActionBar().setCustomView(R.layout.action_bar_layout);
 
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity
