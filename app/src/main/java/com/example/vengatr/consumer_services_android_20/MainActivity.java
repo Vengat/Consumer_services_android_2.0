@@ -112,11 +112,11 @@ public class MainActivity extends FragmentActivity implements UserDetailsFragmen
     @Override
     public void onResume() {
         super.onResume();
-        if (mobileNumber.length() == 0 || name.length() == 0 || pincode.length() == 0 || userType.length() == 0) {
+/*        if (mobileNumber.length() == 0 || name.length() == 0 || pincode.length() == 0 || userType.length() == 0) {
             showEditDialog();
         } else {
             jobListPageTransition();
-        }
+        }*/
     }
 
 

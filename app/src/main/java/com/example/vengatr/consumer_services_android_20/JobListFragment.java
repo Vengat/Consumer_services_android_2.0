@@ -128,12 +128,12 @@ public class JobListFragment extends ListFragment {
 
         new JobListFragmentDisplayedNotifier((JobListFragmentDisplayedListener) context);
         getJobsURL= new CSProperties(context).getDomain()+"/customers/jobs/mobileNumber/";
+        new JobListContent().removeClosedJobs();
         CustomerJobAdapter customerJobAdapter = new CustomerJobAdapter(getActivity(), (ArrayList<Job>) JobListContent.ITEMS);
         setListAdapter(customerJobAdapter);
         customerJobAdapter.notifyDataSetChanged();
-        Log.i(TAG, "getJobsURL+mobileNumber "+getJobsURL+mobileNumber);
-        getJobs(getJobsURL+mobileNumber);
-
+        Log.i(TAG, "getJobsURL+mobileNumber " + getJobsURL + mobileNumber);
+        getJobs(getJobsURL + mobileNumber);
         /*
         JobAdapter jobAdapter = new JobAdapter(getActivity(), (ArrayList<Job>) JobListContent.ITEMS);
         ListView listView = (ListView) getView().findViewById(R.id.jobs);
@@ -251,6 +251,7 @@ public class JobListFragment extends ListFragment {
                     android.R.id.text1,
                     JobListContent.ITEMS));*/
 
+                new JobListContent().removeClosedJobs();
                 CustomerJobAdapter customerJobAdapter = new CustomerJobAdapter(context, (ArrayList<Job>) JobListContent.ITEMS);
                 setListAdapter(customerJobAdapter);
                 customerJobAdapter.notifyDataSetChanged();

@@ -46,7 +46,7 @@
             android:textColor="@color/black"
             android:background="@color/yellow"
             android:textSize="15sp"
-            android:textStyle="normal"
+            android:textStyle="bold"
             android:typeface="serif"
             android:gravity="center|center"
             android:layout_gravity="bottom"

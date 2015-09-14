@@ -123,7 +123,15 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
 
             ((TextView) rootView.findViewById(R.id.description)).setText(mItem.getDescription());
             cancel = (Button) rootView.findViewById(R.id.cancel_button);
+            cancel.setEnabled(false);
+            cancel.setVisibility(View.GONE);
             cancel.setOnClickListener(this);
+
+            if (!mItem.getJobStatus().toString().equalsIgnoreCase("closed")) {
+                cancel.setEnabled(true);
+                cancel.setVisibility(View.VISIBLE);
+                cancel.setOnClickListener(this);
+            }
 
             agree = (Button) rootView.findViewById(R.id.agree_button);
             agree.setEnabled(false);

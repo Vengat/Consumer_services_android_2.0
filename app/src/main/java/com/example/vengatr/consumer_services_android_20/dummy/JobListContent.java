@@ -1,5 +1,7 @@
 package com.example.vengatr.consumer_services_android_20.dummy;
 
+import android.util.Log;
+
 import com.example.vengatr.consumer_services_android_20.model.Job;
 
 import java.util.ArrayList;
@@ -11,6 +13,8 @@ import java.util.Map;
  * Created by vengat.r on 7/1/2015.
  */
 public class JobListContent {
+
+    private static final String TAG = "JobListContent";
 
     /**
      * An array of sample (job) items.
@@ -52,6 +56,21 @@ public class JobListContent {
                 }
                 i = i + 1;
             }
+        }
+    }
+
+    public void removeClosedJobs() {
+        int i = 0;
+        Log.i(TAG, "Removing closed jobs");
+        for (Job j:ITEMS) {
+            Log.i(TAG, "j.getJobStatus().toString() "+j.getJobStatus().toString());
+            if (j.getJobStatus().toString().equalsIgnoreCase("closed")) {
+                ITEMS.remove(i);
+                if (JOB_ITEM_MAP.get(j.getId()) != null) {
+                    JOB_ITEM_MAP.put(j.getId(), null);
+                }
+            }
+            i++;
         }
     }
 
