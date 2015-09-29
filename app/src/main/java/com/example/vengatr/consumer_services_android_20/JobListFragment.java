@@ -3,6 +3,7 @@ package com.example.vengatr.consumer_services_android_20;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import com.example.vengatr.consumer_services_android_20.model.Job;
 import com.example.vengatr.consumer_services_android_20.notifier.JobListFragmentDisplayedNotifier;
 import com.example.vengatr.consumer_services_android_20.notifier.NoJobsNotifierPostExecuteJobListFragment;
 import com.example.vengatr.consumer_services_android_20.rest_classes.GetJob;
+import com.example.vengatr.consumer_services_android_20.service.JobListService;
 import com.example.vengatr.consumer_services_android_20.util.CSProperties;
 import com.example.vengatr.consumer_services_android_20.util.CustomerJobAdapter;
 
@@ -108,6 +110,7 @@ public class JobListFragment extends ListFragment {
         /////mSharedPreferences.edit().clear().commit();
         mobileNumber = mSharedPreferences.getString("phoneKey", "");
 
+        //startJobListService();
         // TODO: replace with a real list adapter.
 
     }
@@ -128,7 +131,7 @@ public class JobListFragment extends ListFragment {
 
         new JobListFragmentDisplayedNotifier((JobListFragmentDisplayedListener) context);
         getJobsURL= new CSProperties(context).getDomain()+"/customers/jobs/mobileNumber/";
-        new JobListContent().removeClosedJobs();
+        //new JobListContent().removeClosedJobs();
         CustomerJobAdapter customerJobAdapter = new CustomerJobAdapter(getActivity(), (ArrayList<Job>) JobListContent.ITEMS);
         setListAdapter(customerJobAdapter);
         customerJobAdapter.notifyDataSetChanged();
@@ -251,7 +254,7 @@ public class JobListFragment extends ListFragment {
                     android.R.id.text1,
                     JobListContent.ITEMS));*/
 
-                new JobListContent().removeClosedJobs();
+                //new JobListContent().removeClosedJobs();
                 CustomerJobAdapter customerJobAdapter = new CustomerJobAdapter(context, (ArrayList<Job>) JobListContent.ITEMS);
                 setListAdapter(customerJobAdapter);
                 customerJobAdapter.notifyDataSetChanged();
@@ -284,5 +287,20 @@ public class JobListFragment extends ListFragment {
 
     public interface JobListFragmentDisplayedListener {
         void onJobListFragmentDisplayed();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //stopJobListService();
+    }
+
+    public void startJobListService() {
+        Intent i = new Intent(context, JobListService.class);
+        getActivity().startService(new Intent(getActivity(), JobListService.class));
+    }
+
+    public void stopJobListService() {
+        getActivity().stopService(new Intent(getActivity(), JobListService.class));
     }
 }

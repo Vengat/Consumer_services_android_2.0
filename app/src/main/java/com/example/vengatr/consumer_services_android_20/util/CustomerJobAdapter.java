@@ -87,6 +87,8 @@ public class CustomerJobAdapter extends ArrayAdapter<Job> {
             viewHolder.jobStatusImageView.setImageResource(R.drawable.deep_sky_blue);
         } else if(job.getJobStatus().toString().equalsIgnoreCase("wip")) {
             viewHolder.jobStatusImageView.setImageResource(R.drawable.wip);
+        } else if(job.getJobStatus().toString().equalsIgnoreCase("closed")) {
+            viewHolder.jobStatusImageView.setImageResource(R.drawable.bright_red);
         }
 
         // Return the completed view to render on screen

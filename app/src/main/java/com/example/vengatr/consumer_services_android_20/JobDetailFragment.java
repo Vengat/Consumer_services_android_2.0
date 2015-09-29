@@ -19,7 +19,6 @@ import com.example.vengatr.consumer_services_android_20.notifier.AgreedJobNotifi
 import com.example.vengatr.consumer_services_android_20.notifier.CancelJobListenerNotifier;
 import com.example.vengatr.consumer_services_android_20.rest_classes.GetJob;
 import com.example.vengatr.consumer_services_android_20.rest_classes.PutJob;
-import com.example.vengatr.consumer_services_android_20.util.DateManipulation;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -96,20 +95,21 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
             System.out.println("****" + mItem.getId());
-            ((TextView) rootView.findViewById(R.id.jobId)).setText("Job Id : " + mItem.getId());
+            //((TextView) rootView.findViewById(R.id.jobId)).setText("Job Id : " + mItem.getId());
             ((TextView) rootView.findViewById(R.id.jobType)).setText("Job Type : " + mItem.getJobType().toString());
             ((TextView) rootView.findViewById(R.id.jobStatus)).setText("Job Status : " + mItem.getJobStatus().toString());
             //((TextView) rootView.findViewById(R.id.customerName)).setText("Customer Name : " + mItem.getCustomerName());
             //((TextView) rootView.findViewById(R.id.customerMobileNumber)).setText("Customer Mobile : "+mItem.getCustomerMobileNumber());
             ((TextView) rootView.findViewById(R.id.serviceproviderName)).setText("Service Provider Name : "+mItem.getServiceProviderName());
             ((TextView) rootView.findViewById(R.id.serviceProviderMobileNumber)).setText("Service Provider Mobile : "+(mItem.getServiceProviderMobileNumber() != 0 ? mItem.getServiceProviderMobileNumber() : ""));
-            ((TextView) rootView.findViewById(R.id.pincode)).setText("Pincode : "+mItem.getPincode());
-            ((TextView) rootView.findViewById(R.id.dateinitiated)).setText("Date Initiated : "+ DateManipulation.dateFormatIST(mItem.getDateInitiated()));
-            ((TextView) rootView.findViewById(R.id.customer_preferred_date)).setText("Preferred Date : " + DateManipulation.dateFormatIST(mItem.getDatePreferred()));
+            //((TextView) rootView.findViewById(R.id.pincode)).setText("Pincode : "+mItem.getPincode());
+            //((TextView) rootView.findViewById(R.id.dateinitiated)).setText("Date Initiated : "+ DateManipulation.dateFormatIST(mItem.getDateInitiated()));
+            //((TextView) rootView.findViewById(R.id.customer_preferred_date)).setText("Preferred Date : " + DateManipulation.dateFormatIST(mItem.getDatePreferred()));
+            ((TextView) rootView.findViewById(R.id.customer_preferred_date)).setText("Preferred Date : " + mItem.getDatePreferred());
             ((TextView) rootView.findViewById(R.id.daySegment)).setText("Job day segment : "+mItem.getDaySegment().getDaySegment());
-            convertDatePerTimeZone(mItem.getDatePreferred());
+            //convertDatePerTimeZone(mItem.getDatePreferred());
 
-            if (mItem.getStartTime() == null) {
+            /*if (mItem.getStartTime() == null) {
                 ((TextView) rootView.findViewById(R.id.dateStarted)).setText("Date Started : Not started yet");
             } else {
                 ((TextView) rootView.findViewById(R.id.dateStarted)).setText("Date Started : "+ DateManipulation.dateTimeFormatIST(mItem.getStartTime()));
@@ -119,7 +119,7 @@ public class JobDetailFragment extends Fragment implements View.OnClickListener 
                 ((TextView) rootView.findViewById(R.id.dateDone)).setText("Date Done : In Progress");
             } else {
                 ((TextView) rootView.findViewById(R.id.dateDone)).setText("Date Done : "+ DateManipulation.dateTimeFormatIST(mItem.getDateDone()));
-            }
+            }*/
 
             ((TextView) rootView.findViewById(R.id.description)).setText(mItem.getDescription());
             cancel = (Button) rootView.findViewById(R.id.cancel_button);

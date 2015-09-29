@@ -39,6 +39,7 @@ public class PutJob {
     public Job cancelJob(Job job) throws IOException {
         StringBuffer stringBuffer = new StringBuffer();
         ObjectMapper objectMapper = new ObjectMapper();
+        //objectMapper.registerModule(new JodaModule());
         HttpClient client = new DefaultHttpClient();
         String cancel_job_url = this.domain+"/customers/cancelJob/jobId/"+job.getId()+"/mobileNumber/"+job.getCustomerMobileNumber();
         //String cancel_job_url = "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/customers/cancelJob/jobId/"+job.getId()+"/mobileNumber/"+job.getCustomerMobileNumber();
@@ -65,7 +66,7 @@ public class PutJob {
     public Job assignJob(long jobId, ServiceProvider sp) throws IOException {
         StringBuffer stringBuffer = new StringBuffer();
         ObjectMapper objectMapper = new ObjectMapper();
-
+        //objectMapper.registerModule(new JodaModule());
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String spJson = ow.writeValueAsString(sp);
         System.out.println("Hello your json object "+spJson);
@@ -95,7 +96,7 @@ public class PutJob {
     public Job startJob(long jobId, ServiceProvider sp) throws IOException {
         StringBuffer stringBuffer = new StringBuffer();
         ObjectMapper objectMapper = new ObjectMapper();
-
+        //objectMapper.registerModule(new JodaModule());
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String spJson = ow.writeValueAsString(sp);
         System.out.println("Hello your json object "+spJson);
@@ -125,7 +126,7 @@ public class PutJob {
     public Job closeJob(long jobId) throws IOException {
         StringBuffer stringBuffer = new StringBuffer();
         ObjectMapper objectMapper = new ObjectMapper();
-
+        //objectMapper.registerModule(new JodaModule());
         HttpClient client = new DefaultHttpClient();
         String close_job_url = this.domain+"/serviceProviders/closeJob/jobId/"+jobId;
         //String close_job_url = "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/serviceProviders/closeJob/jobId/"+jobId;
@@ -152,7 +153,7 @@ public class PutJob {
     public Job agreeJob(Job job) throws IOException {
         StringBuffer stringBuffer = new StringBuffer();
         ObjectMapper objectMapper = new ObjectMapper();
-
+        //objectMapper.registerModule(new JodaModule());
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String jobJson = ow.writeValueAsString(job);
         System.out.println("Hello your json object "+jobJson);
@@ -189,7 +190,7 @@ public class PutJob {
     public Job unassignJob(Job job) throws IOException {
         StringBuffer stringBuffer = new StringBuffer();
         ObjectMapper objectMapper = new ObjectMapper();
-
+        //objectMapper.registerModule(new JodaModule());
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String jobJson = ow.writeValueAsString(job);
         System.out.println("Hello your json object "+jobJson);

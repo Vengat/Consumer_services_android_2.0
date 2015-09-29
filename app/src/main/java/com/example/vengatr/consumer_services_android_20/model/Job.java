@@ -4,11 +4,16 @@ package com.example.vengatr.consumer_services_android_20.model;
  * Created by vengat.r on 6/11/2015.
  */
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.joda.ser.DateTimeSerializer;
+
+import org.joda.time.DateTime;
+
 import java.io.Serializable;
-import java.util.Date;
 import java.util.TimeZone;
 
-
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class Job implements Serializable {
 
     /**
@@ -23,7 +28,6 @@ public class Job implements Serializable {
     private JobStatus jobStatus;
 
     private DaySegment daySegment;
-
 
     private String customerName;
 
@@ -47,13 +51,25 @@ public class Job implements Serializable {
 
     private Invoice invoice;
 
-    private Date dateInitiated;
+    //@JsonDeserialize(using=DateTimeDeserializer.class)
+    //@JsonProperty(value = "dtInitiated")
+    @JsonSerialize(using = DateTimeSerializer.class)
+    private DateTime dateInitiated;
 
-    private Date datePreferred;
+    //@JsonDeserialize(using=DateTimeDeserializer.class)
+    //@JsonProperty(value = "dtPreferred")
+    @JsonSerialize(using = DateTimeSerializer.class)
+    private DateTime datePreferred;
 
-    private Date startTime;
+    //@JsonDeserialize(using=DateTimeDeserializer.class)
+    //@JsonProperty(value = "strtTime")
+    @JsonSerialize(using = DateTimeSerializer.class)
+    private DateTime startTime;
 
-    private Date dateDone;
+    //@JsonDeserialize(using=DateTimeDeserializer.class)
+    //@JsonProperty(value = "dtDone")
+    @JsonSerialize(using = DateTimeSerializer.class)
+    private DateTime dateDone;
 
     private String description;
 
@@ -62,7 +78,7 @@ public class Job implements Serializable {
     protected Job() {
     }
 
-    public Job(JobType jobType, JobStatus jobStatus, String customerName, String pincode, String description, long customerMobileNumber, long serviceProviderMobileNumber, String serviceProviderName, Date datePreferred, DaySegment daySegment) {
+    public Job(JobType jobType, JobStatus jobStatus, String customerName, String pincode, String description, long customerMobileNumber, long serviceProviderMobileNumber, String serviceProviderName, DateTime datePreferred, DaySegment daySegment) {
         //this.id = id;
         this.jobType = jobType;
         this.customerName = customerName;
@@ -72,7 +88,7 @@ public class Job implements Serializable {
         this.customerMobileNumber = customerMobileNumber;
         this.serviceProviderMobileNumber = serviceProviderMobileNumber;
         this.serviceProviderName = serviceProviderName;
-        this.dateInitiated = new Date();
+        this.dateInitiated = new DateTime();
         this.datePreferred = datePreferred;
         this.daySegment = daySegment;
     }
@@ -117,11 +133,11 @@ public class Job implements Serializable {
         this.pincode = pincode;
     }
 
-    public Date getDateDone() {
+    public DateTime getDateDone() {
         return dateDone;
     }
 
-    public void setDateDone(Date dateDone) {
+    public void setDateDone(DateTime dateDone) {
         this.dateDone = dateDone;
     }
 
@@ -129,11 +145,11 @@ public class Job implements Serializable {
         return id;
     }
 
-    public Date getDateInitiated() {
+    public DateTime getDateInitiated() {
         return dateInitiated;
     }
 
-    public void setDateInitiated(Date dateInitiated) {
+    public void setDateInitiated(DateTime dateInitiated) {
         this.dateInitiated = dateInitiated;
     }
 
@@ -169,11 +185,11 @@ public class Job implements Serializable {
         this.daySegment = daySegment;
     }
 
-    public Date getDatePreferred() {
+    public DateTime getDatePreferred() {
         return datePreferred;
     }
 
-    public void setDatePreferred(Date datePreferred) {
+    public void setDatePreferred(DateTime datePreferred) {
         this.datePreferred = datePreferred;
     }
 
@@ -185,11 +201,11 @@ public class Job implements Serializable {
         this.timeZone = timeZone;
     }
 
-    public Date getStartTime() {
+    public DateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(DateTime startTime) {
         this.startTime = startTime;
     }
 }

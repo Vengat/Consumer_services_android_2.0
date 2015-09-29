@@ -38,6 +38,8 @@ public class GetJob {
 
    // private static final String QUERY_URL_GET_JOBS_BY_MOBILE_NUMBER = "http://ec2-52-74-141-170.ap-southeast-1.compute.amazonaws.com:8080/customers/jobs/mobileNumber/";
 
+    private static final String TAG = "GETJob Rest Class";
+
     private Job job;
 
     private String domain;
@@ -75,6 +77,7 @@ public class GetJob {
     public List<Job> getJobs(String url) throws IOException {
         StringBuffer stringBuffer = new StringBuffer();
         ObjectMapper objectMapper = new ObjectMapper();
+        //objectMapper.registerModule(new JodaModule());
         HttpClient client = new DefaultHttpClient();
         HttpGet request = new HttpGet(url);
 
@@ -103,6 +106,7 @@ public class GetJob {
     public Job getNewJob() throws IOException {
         StringBuffer stringBuffer = new StringBuffer();
         ObjectMapper objectMapper = new ObjectMapper();
+        //objectMapper.registerModule(new JodaModule());
         HttpClient client = new DefaultHttpClient();
         HttpGet request = new HttpGet(newJobUrl);
         //HttpResponse response = client.execute(request);
@@ -111,7 +115,7 @@ public class GetJob {
         try {
             response = client.execute(request);
         } catch (ClientProtocolException cpe) {
-            Log.d("","Error occured while getting new job");
+            Log.d(TAG,"Error occured while getting new job");
         }
 
         BufferedReader rd = new BufferedReader
@@ -122,6 +126,7 @@ public class GetJob {
             stringBuffer.append(line);
         }
         String jsonResponse = stringBuffer.toString();
+        Log.i(TAG, jsonResponse);
         Job job = objectMapper.readValue(jsonResponse, Job.class);
         return job;
     }
@@ -129,6 +134,7 @@ public class GetJob {
     public Job getJobById(long id) throws IOException {
         StringBuffer stringBuffer = new StringBuffer();
         ObjectMapper objectMapper = new ObjectMapper();
+        //objectMapper.registerModule(new JodaModule());
         HttpClient client = new DefaultHttpClient();
         HttpGet request = new HttpGet(jobByIdUrl+id);
         //HttpResponse response = client.execute(request);

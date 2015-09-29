@@ -19,11 +19,11 @@
     <!--"@drawable/white_linen_paper_texture"-->
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical" android:layout_width="match_parent"
-        android:background="@color/white"
-        android:layout_height="match_parent"
-        android:weightSum="1">
+        android:background="@color/beige"
+        android:layout_height="match_parent">
+        <!--android:weightSum="1">-->
 
-        <TextView
+        <!--<TextView
             android:id="@+id/jobId"
             android:layout_width="match_parent"
             android:layout_height="20dp"
@@ -32,11 +32,11 @@
             android:layout_gravity="center|center"
             android:layout_margin="5dp"
             android:layout_marginBottom="2dp"
-            android:background="@color/white"
+            android:background="@color/beige"
             android:textSize="10dp"
             android:textStyle="normal"
             android:typeface="serif"
-            android:text="@string/job_id" />
+            android:text="@string/job_id" />-->
 
         <TextView
             android:id="@+id/jobType"
@@ -47,7 +47,7 @@
             android:layout_gravity="center|center"
             android:layout_margin="5dp"
             android:layout_marginBottom="2dp"
-            android:background="@color/white"
+            android:background="@color/beige"
             android:textSize="10dp"
             android:textStyle="normal"
             android:typeface="serif"
@@ -96,7 +96,7 @@
             android:layout_gravity="center|center"
             android:layout_margin="5dp"
             android:layout_marginBottom="2dp"
-            android:background="@color/white"
+            android:background="@color/beige"
             android:textSize="10dp"
             android:textStyle="normal"
             android:typeface="serif"
@@ -111,13 +111,13 @@
             android:layout_gravity="center|center"
             android:layout_margin="5dp"
             android:layout_marginBottom="2dp"
-            android:background="@color/white"
+            android:background="@color/beige"
             android:textSize="10dp"
             android:textStyle="normal"
             android:typeface="serif"
             android:text="@string/service_provider_phone" />
 
-        <TextView
+        <!--<TextView
             android:id="@+id/pincode"
             android:layout_width="match_parent"
             android:layout_height="20dp"
@@ -126,11 +126,11 @@
             android:layout_gravity="center|center"
             android:layout_margin="5dp"
             android:layout_marginBottom="2dp"
-            android:background="@color/white"
+            android:background="@color/beige"
             android:textSize="10dp"
             android:textStyle="normal"
             android:typeface="serif"
-            android:text="@string/pincode" />
+            android:text="@string/pincode" />-->
 
         <TextView
             android:id="@+id/customer_preferred_date"
@@ -141,7 +141,7 @@
             android:layout_gravity="center|center"
             android:layout_margin="5dp"
             android:layout_marginBottom="2dp"
-            android:background="@color/white"
+            android:background="@color/beige"
             android:textSize="10dp"
             android:textStyle="normal"
             android:typeface="serif"
@@ -156,7 +156,7 @@
             android:layout_gravity="center|center"
             android:layout_margin="5dp"
             android:layout_marginBottom="2dp"
-            android:background="@color/white"
+            android:background="@color/beige"
             android:textSize="10dp"
             android:textStyle="normal"
             android:typeface="serif"
@@ -171,13 +171,13 @@
             android:layout_gravity="center|center"
             android:layout_margin="5dp"
             android:layout_marginBottom="2dp"
-            android:background="@color/white"
+            android:background="@color/beige"
             android:textSize="10dp"
             android:textStyle="normal"
             android:typeface="serif"
             android:text="@string/date_initiated" />
 
-        <TextView
+        <!--<TextView
             android:id="@+id/dateStarted"
             android:layout_width="match_parent"
             android:layout_height="20dp"
@@ -186,7 +186,7 @@
             android:layout_gravity="center|center"
             android:layout_margin="5dp"
             android:layout_marginBottom="2dp"
-            android:background="@color/white"
+            android:background="@color/beige"
             android:textSize="10dp"
             android:textStyle="normal"
             android:typeface="serif"
@@ -201,11 +201,11 @@
             android:layout_gravity="center|center"
             android:layout_margin="5dp"
             android:layout_marginBottom="2dp"
-            android:background="@color/white"
+            android:background="@color/beige"
             android:textSize="10dp"
             android:textStyle="normal"
             android:typeface="serif"
-            android:text="@string/date_completed" />
+            android:text="@string/date_completed" />-->
 
         <TextView
             android:id="@+id/description"
@@ -216,7 +216,7 @@
             android:layout_gravity="center|center"
             android:layout_margin="5dp"
             android:layout_marginBottom="2dp"
-            android:background="@color/white"
+            android:background="@color/beige"
             android:textSize="10dp"
             android:textStyle="normal"
             android:typeface="serif"
@@ -232,7 +232,7 @@
             android:layout_margin="5dp"
             android:layout_marginBottom="2dp"
             android:layout_marginTop="10dp"
-            android:background="@color/white"
+            android:background="@color/beige"
             android:textSize="15dp"
             android:textStyle="normal"
             android:typeface="serif"

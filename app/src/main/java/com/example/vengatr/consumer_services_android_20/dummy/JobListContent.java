@@ -41,6 +41,7 @@ public class JobListContent {
 
     public void setJobs(List<Job> jobs) {
         for (Job job: jobs) {
+            if (job.getJobStatus().toString().equalsIgnoreCase("closed")) continue;
             addItem(job);
         }
     }

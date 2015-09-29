@@ -22,7 +22,7 @@ import java.io.InputStreamReader;
  */
 public class PostJob {
 
-
+    private static final String TAG = "Rest Class - PostJob";
 
     public static String POST(String url, Job job) throws JSONException, IOException {
         InputStream inputStream = null;
@@ -58,9 +58,10 @@ public class PostJob {
             */
             // ** Alternative way to convert Person object to JSON string usin Jackson Lib
             ObjectMapper mapper = new ObjectMapper();
+            //mapper.registerModule(new JodaModule());
             Log.i("Pref date", "POST "+job.getDatePreferred().toString());
             json = mapper.writeValueAsString(job);
-
+            Log.i(TAG, "The json is "+json);
             // 5. set json to StringEntity
             StringEntity se = new StringEntity(json);
 

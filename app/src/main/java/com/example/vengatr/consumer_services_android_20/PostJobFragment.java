@@ -38,12 +38,12 @@ import com.example.vengatr.consumer_services_android_20.util.CSProperties;
 import com.example.vengatr.consumer_services_android_20.util.DateManipulation;
 import com.example.vengatr.consumer_services_android_20.util.DaySegmentMapper;
 
+import org.joda.time.DateTime;
 import org.json.JSONException;
 
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.TimeZone;
 
 import static com.example.vengatr.consumer_services_android_20.rest_classes.PostJob.POST;
@@ -90,9 +90,9 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
     private String jobTypeSelected;
     private String jobDescription;
     private DaySegment selectedDaySegment;
-    private Date preferredDate;
-    private Date jobPreferredDate;
-    private Date dateInitiated;
+    private DateTime preferredDate;
+    private DateTime jobPreferredDate;
+    private DateTime dateInitiated;
     private View fragmentView;
     private Context context;
     private ImageView plumbingImageText, electricalImageText;
@@ -218,16 +218,16 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
         ArrayAdapter<CharSequence> adapter = null;
         String date = String.valueOf(year)+"-"+String.valueOf(month+1)+"-"+String.valueOf(day);
         Log.i("", "Date selected is " + date);
-        Date jobPreferredDate = null;
+        DateTime jobPreferredDate = null;
         try {
-            jobPreferredDate = DateManipulation.convertStringToDate(date);
+            jobPreferredDate = new DateTime(DateManipulation.convertStringToDate(date));
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
         if (preferredDate == null) preferredDate = jobPreferredDate;
 
-        String applicableDaySegments = DateManipulation.getApplicableDaySegment(preferredDate);
+        String applicableDaySegments = DateManipulation.getApplicableDaySegment(preferredDate.toDate());
 
         switch(applicableDaySegments) {
             case "future_date":
@@ -310,7 +310,7 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
                 .append(year).append(" "));
 
         try {
-            preferredDate = DateManipulation.convertStringToDate(String.valueOf(year)+"-"+String.valueOf(month+1)+"-"+String.valueOf(day));
+            preferredDate = new DateTime(DateManipulation.convertStringToDate(String.valueOf(year)+"-"+String.valueOf(month+1)+"-"+String.valueOf(day)));
         } catch (ParseException e) {
             preferredDate = null;
             e.printStackTrace();
@@ -363,7 +363,7 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
             // set selected date into datepicker also
             //datePicker.init(year, month, day, null);
             try {
-                preferredDate = DateManipulation.convertStringToDate(String.valueOf(year)+"-"+String.valueOf(month+1)+"-"+String.valueOf(day));
+                preferredDate = new DateTime(DateManipulation.convertStringToDate(String.valueOf(year)+"-"+String.valueOf(month+1)+"-"+String.valueOf(day)));
             } catch (ParseException e) {
                 preferredDate = null;
                 e.printStackTrace();
@@ -383,9 +383,9 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         jobDescription = jobDescriptionEditText.getText().toString();
         String date = String.valueOf(year)+"-"+String.valueOf(month+1)+"-"+String.valueOf(day);
-        Date jobPreferredDate = null;
+        DateTime jobPreferredDate = null;
         try {
-                jobPreferredDate = DateManipulation.convertStringToDate(date);
+                jobPreferredDate = new DateTime(DateManipulation.convertStringToDate(date));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -404,7 +404,7 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
             dateValidityTextView.setText("You have chosen an invalid time of day. We operate between 9-5");
             return;
         }
-        if (!DateManipulation.isDateEligibleForPosting(preferredDate, DaySegmentMapper.getDaySegment(daySegmentSpinnerSelectionValue))) {
+        if (!DateManipulation.isDateEligibleForPosting(preferredDate.toDate(), DaySegmentMapper.getDaySegment(daySegmentSpinnerSelectionValue))) {
             dateValidityTextView.setTextColor(Color.RED);
             dateValidityTextView.setText("You have chosen either an invalid date or time of day. We operate between 9-5");
             return;
