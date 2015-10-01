@@ -39,6 +39,7 @@ import com.example.vengatr.consumer_services_android_20.util.DateManipulation;
 import com.example.vengatr.consumer_services_android_20.util.DaySegmentMapper;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalTime;
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -439,10 +440,13 @@ public class PostJobFragment extends Fragment implements View.OnClickListener {
             job.setDescription(jobDescription);
             Log.d("", selectedDaySegment.toString());
             job.setDaySegment(selectedDaySegment);
+            Log.i(TAG, "Timezone selected " + TimeZone.getDefault());
             job.setTimeZone(TimeZone.getDefault());
             job.setDateInitiated(dateInitiated);
-            Log.i("Date Initiated", "*"+dateInitiated);
+            Log.i("Date Initiated", "*" + dateInitiated);
+            preferredDate = preferredDate.withTime(new LocalTime());
             job.setDatePreferred(preferredDate);
+            Log.i(TAG, "preferredDate time zone "+preferredDate.getZone());
             Log.d("Pref date", preferredDate.toString());
 
             String result = "";
